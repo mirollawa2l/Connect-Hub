@@ -14,6 +14,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import userdatabasemanagement.Login;
+import userdatabasemanagement.User;
 
 /**
  *
@@ -23,7 +25,8 @@ public class AddStoryWindow extends javax.swing.JDialog {
  private JLabel imageLabel;
 private String selectedImagePath;
 private Story s;
-private Json j=new Json();
+private Login l;
+private User  user;
 
     /**
      * Creates new form AddStoryWindow
@@ -33,6 +36,8 @@ private Json j=new Json();
         initComponents();
             this.setLocation(250, 300);
         setTitle("Create Story");
+        l=new Login();
+       user=l.sendUser();
     }
 
     /**
@@ -155,8 +160,9 @@ private Json j=new Json();
         s.setContent(inputText.getText());
         s.setTimestamp(LocalDateTime.now());
         s.setImagePath(selectedImagePath);
-         j.save("tesss", s);
+        s.setAuthorId(user.getId());
          JOptionPane.showMessageDialog(this, "Story created Successfully");
+         user.addContent(s);
         this.setVisible(false);
         
         }

@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import userdatabasemanagement.Login;
+import userdatabasemanagement.User;
 
 /**
  *
@@ -25,7 +27,8 @@ public class AddPostWindow extends javax.swing.JDialog {
     private JLabel imageLabel;
 private String selectedImagePath;
 private Post p;
-private Json j=new Json();
+private Login l;
+private User  user;
 
     public Post getP() {
         return p;
@@ -40,6 +43,8 @@ private Json j=new Json();
         setTitle("Create Post");
           imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
+            l=new Login();
+       user=l.sendUser();
     }
 
     /**
@@ -137,8 +142,9 @@ private Json j=new Json();
         p.setContent(inputText.getText());
         p.setTimestamp(LocalDateTime.now());
         p.setImagePath(selectedImagePath);
-         j.save("tesss", p);
+        p.setAuthorId(user.getId());
           JOptionPane.showMessageDialog(this, "Post created Successfully");
+            user.addContent(p);
         this.setVisible(false);
           }
         

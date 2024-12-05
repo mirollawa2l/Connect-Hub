@@ -63,7 +63,22 @@ public class User {
         return friends;
     }
 
-    
+    public void addContent(Content c)
+    {
+        this.contents.add(c);
+    }
+    public void removeContent(Content c)
+    {
+        this.contents.remove(c);
+    }
+    public ArrayList<Content> getContents()
+    {
+        return this.contents;
+    }
+    public void setContents(ArrayList<Content> contents)
+    {
+        this.contents=contents;
+    }
      
     
 }

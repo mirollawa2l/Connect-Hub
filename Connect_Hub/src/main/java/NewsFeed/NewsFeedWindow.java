@@ -252,7 +252,9 @@ private User user;
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.RemoveFriend(friend);
-                update();}}
+                update();
+            }
+        }
     }//GEN-LAST:event_RemoveActionPerformed
 
     private void BlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlockActionPerformed
