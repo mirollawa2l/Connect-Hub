@@ -3,8 +3,8 @@ package com.mycompany.friendmangement.FrontEnd;
 
 import com.mycompany.friendmangement.Backend.FriendRequest;
 import com.mycompany.friendmangement.Backend.ManageFriendRequests;
-import com.mycompany.friendmangement.Backend.User;
-import com.mycompany.friendmangement.Backend.UserAccountManagement;
+import userdatabasemanagement.UserDatabaseManagement;
+import userdatabasemanagement.User;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -17,7 +17,7 @@ private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private JList<String> list;
 private ManageFriendRequests requestManager;
-private UserAccountManagement accountManagement;
+private UserDatabaseManagement accountManagement;
 //connecting the account manager and friendManager to the windows
 
     public FriendRequestWindow() {
@@ -163,7 +163,7 @@ private UserAccountManagement accountManagement;
         String username = JOptionPane.showInputDialog("Search");
         for(User user:accountManagement.loadUsers())
             if(username.equals(user.getUsername()))
-               requestManager.sendRequest(user);
+               requestManager.sendRequest(requestManager.getThisUser(),user);
     }//GEN-LAST:event_sendFriendRequestActionPerformed
 
     

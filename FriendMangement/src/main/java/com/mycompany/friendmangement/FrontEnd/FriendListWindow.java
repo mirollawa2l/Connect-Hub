@@ -2,8 +2,8 @@
 package com.mycompany.friendmangement.FrontEnd;
 
 import com.mycompany.friendmangement.Backend.ManageFriends;
-import com.mycompany.friendmangement.Backend.UserAccountManagement;
-import com.mycompany.friendmangement.Backend.User;
+import userdatabasemanagement.UserDatabaseManagement;
+import userdatabasemanagement.User;
 import javax.swing.DefaultComboBoxModel;
 
 import javax.swing.DefaultListModel;
@@ -18,11 +18,8 @@ private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private JList<String> list;
 private ManageFriends friendManager;
-private UserAccountManagement accountManagement;   
+private UserDatabaseManagement accountManagement;   
 
-
-//access file to load friends' status 
-//user to add friend in both users 
 
     public FriendListWindow() {
         initComponents();
@@ -36,11 +33,13 @@ private UserAccountManagement accountManagement;
         model.removeAllElements();
         listModel.clear();
         for(User friend:friendManager.getFriends()){
-             model.addElement(friend.getUsername());
+            String username=friend.getUsername();
+            String status=friend.getStatus();
+            String displayedText=username + " (" + status + ")";
+             model.addElement(displayedText);
             listModel.addElement(friend.getUsername());}
     }
-        
-    
+       
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,7 +138,7 @@ private UserAccountManagement accountManagement;
 
     private void BlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlockActionPerformed
        String username = (String) SelectFriend.getSelectedItem();
-        if (username.equals("Search")) {
+        if (username.equals("Search by username")) {
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
             for(User friend:friendManager.getFriends())
@@ -151,7 +150,7 @@ private UserAccountManagement accountManagement;
 
     private void RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveActionPerformed
        String username = (String) SelectFriend.getSelectedItem();
-        if (username.equals("Search")) {
+        if (username.equals("Search by username")) {
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
             for(User friend:friendManager.getFriends())
