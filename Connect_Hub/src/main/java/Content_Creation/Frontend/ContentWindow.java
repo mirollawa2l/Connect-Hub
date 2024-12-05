@@ -6,6 +6,7 @@ package Content_Creation.Frontend;
 
 import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
+import profilemanagement.User;
 
 /**
  *
