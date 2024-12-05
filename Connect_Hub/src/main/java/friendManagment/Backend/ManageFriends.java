@@ -1,5 +1,5 @@
 
-package com.mycompany.friendmangement.Backend;
+package friendManagment.Backend;
 
 import userdatabasemanagement.User;
 import java.util.ArrayList;
