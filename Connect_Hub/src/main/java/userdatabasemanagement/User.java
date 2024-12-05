@@ -17,6 +17,8 @@ public class User {
     
     public User(){
         
+        
+        
     }
     
     public User(String id, String email, String username, String password, LocalDate dateOfBirth, String status) {
