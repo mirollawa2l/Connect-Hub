@@ -1,0 +1,16 @@
+[
+    {
+        "postId": "p001",
+        "authorId": "u001",
+        "content": "Hello world! This is my first post.",
+        "timestamp": "2024-12-01T10:00:00",
+        "imagePath": "images/post1.jpg"
+    },
+    {
+        "postId": "p002",
+        "authorId": "u001",
+        "content": "Just finished coding a new project!",
+        "timestamp": "2024-12-02T15:30:00",
+        "imagePath": "C:\\Users\\Public\\Pictures\\Sample Pictures\\Penguins.jpg"
+    }
+]
