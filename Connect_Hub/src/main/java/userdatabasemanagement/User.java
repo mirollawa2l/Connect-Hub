@@ -1,5 +1,6 @@
 
 package userdatabasemanagement;
+import Content_Creation.Backend.Content;
 import java.time.*; 
 import java.util.ArrayList;
 
@@ -12,8 +13,7 @@ public class User {
     private String dateOfBirth;
     private String status;
     private String[] friends;  
-   // private ArrayList<String> content;  //content bta3 mirolla
-    private static int noOfUsers;
+    private ArrayList<Content> contents;  //content bta3 mirolla
     
     public User(){
         
@@ -28,7 +28,7 @@ public class User {
         this.password = password;
         this.dateOfBirth = dateOfBirth.toString();
         this.status = status;
-        noOfUsers++;
+ 
     }
 
     public void setStatus(String status) {
@@ -63,9 +63,6 @@ public class User {
         return friends;
     }
 
-    public static int getNoOfUsers() {
-        return noOfUsers;
-    }
     
      
     

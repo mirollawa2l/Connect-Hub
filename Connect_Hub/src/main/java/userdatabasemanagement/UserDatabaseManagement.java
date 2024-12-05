@@ -87,6 +87,15 @@ public class UserDatabaseManagement {
         users.add(user);
         saveDatabase();   
     }
+    public User getUserByEmail(String email)
+    {
+        for(User u:users)
+        {
+            if(u.getEmail().equals(email))
+                return u;
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
        AccountManagment managmentFrame= new AccountManagment();

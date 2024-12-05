@@ -4,6 +4,8 @@
  */
 package NewsFeed;
 
+import Content_Creation.Frontend.AddPostWindow;
+import Content_Creation.Frontend.AddStoryWindow;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendRequestWindow;
 import friendManagment.FrontEnd.FriendSuggestionsWindow;
@@ -11,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 
@@ -24,11 +27,15 @@ private DefaultListModel<String> listModel ;
 private JList<String> list;
 private ManageFriends friendManager;
 private UserDatabaseManagement accountManagement;  
+private Login l;
+private User user;
     public NewsFeedWindow() {
         initComponents();
         model = new DefaultComboBoxModel<>();
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
+          l=new Login();
+         user=l.sendUser();
          update();
  
     }
@@ -78,8 +85,18 @@ private UserDatabaseManagement accountManagement;
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
 
         addPostBtn.setText("Add Post");
+        addPostBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPostBtnActionPerformed(evt);
+            }
+        });
 
         addStoryBtn.setText("Add Story");
+        addStoryBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStoryBtnActionPerformed(evt);
+            }
+        });
 
         friendSuggestion.setText("Friend Suggestion");
         friendSuggestion.addActionListener(new java.awt.event.ActionListener() {
@@ -267,6 +284,18 @@ private UserDatabaseManagement accountManagement;
        friendRequestWindow.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_friendRequestActionPerformed
+
+    private void addStoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStoryBtnActionPerformed
+        // TODO add your handling code here:
+        AddStoryWindow w=new AddStoryWindow(this,true);
+        w.setVisible(true);
+    }//GEN-LAST:event_addStoryBtnActionPerformed
+
+    private void addPostBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPostBtnActionPerformed
+        // TODO add your handling code here:
+        AddPostWindow w=new AddPostWindow(this,true);
+        w.setVisible(true);
+    }//GEN-LAST:event_addPostBtnActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,6 +1,7 @@
 
 package userdatabasemanagement;
 
+import NewsFeed.NewsFeedWindow;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,12 +12,13 @@ import javax.swing.JOptionPane;
  * @author Yara
  */
 public class Login extends javax.swing.JFrame {
-
+private User user;
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        user=new User();
     }
      UserDatabaseManagement accountManagment= new UserDatabaseManagement();
 
@@ -169,7 +171,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_backBtn2ActionPerformed
 
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
-         SignUp2 signup= new SignUp2();
+         SignUp signup= new SignUp();
        signup.setVisible(true);
        signup.setLocationRelativeTo(null );
        this.dispose();
@@ -189,11 +191,15 @@ public class Login extends javax.swing.JFrame {
                 
             }
             else{
-                JOptionPane.showMessageDialog(this, "Loggedin Failed, User not found");
+                JOptionPane.showMessageDialog(this, "Logged in Failed, User not found");
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
+        NewsFeedWindow w=new NewsFeedWindow();
+        w.setVisible(true);
+        this.setVisible(false);
+        user=accountManagment.getUserByEmail(email);
 //        else try {
 //            if(!(accountManagment.isUser(email, encryptedPassword.encryptPassword(password)))){
 //                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
@@ -217,7 +223,10 @@ public class Login extends javax.swing.JFrame {
         
     }//GEN-LAST:event_loginBtnActionPerformed
 
-  
+  public User sendUser()
+  {
+      return user;
+  }
     /**
      * @param args the command line arguments
      */

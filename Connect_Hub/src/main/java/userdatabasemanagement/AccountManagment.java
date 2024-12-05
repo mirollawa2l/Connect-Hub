@@ -123,7 +123,7 @@ public class AccountManagment extends javax.swing.JFrame {
 
     private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpBtnActionPerformed
         // TODO add your handling code here:
-        SignUp2 signup= new SignUp2();
+        SignUp signup= new SignUp();
        signup.setVisible(true);
        signup.setLocationRelativeTo(null );
        this.dispose();

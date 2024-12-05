@@ -149,11 +149,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Post"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addPostBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="addStoryBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Story"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addStoryBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="friendSuggestion">
           <Properties>
