@@ -21,6 +21,9 @@ public class UserDatabaseManagement {
    private static final String USERS_FILE= "users.json";
       private ArrayList<User> users;
       private ObjectMapper objectMapper;
+
+      private int idCount=0;
+
     
     public UserDatabaseManagement(){
         objectMapper = new ObjectMapper();
@@ -66,6 +69,16 @@ public class UserDatabaseManagement {
     }
     return null; // User not found
 }
+
+    public User getUserByEmail(String email) {
+    for (User user : users) {
+        if (user.getEmail().equals(email)) {
+            return user; // Return the user
+        }
+    }
+    return null; // User not found
+}
+
     public ArrayList<User> listUsers() {
     return users; 
 }
@@ -87,6 +100,21 @@ public class UserDatabaseManagement {
         users.add(user);
         saveDatabase();   
     }
+
+    public void updateStatus(String email, String newStatus){
+       
+        for(User user: users){
+            if(user.getEmail().equals(email)){
+                user.setStatus(newStatus);
+                saveDatabase();
+                System.out.println("hello from update status");
+                break;
+            }
+        }
+        
+    }
+     
+
 
     public static void main(String[] args) {
        AccountManagment managmentFrame= new AccountManagment();

@@ -15,6 +15,7 @@ public class AccountManagment extends javax.swing.JFrame {
      */
     public AccountManagment() {
         initComponents();
+
     }
 
    

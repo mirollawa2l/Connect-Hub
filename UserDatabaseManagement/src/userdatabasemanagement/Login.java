@@ -185,6 +185,7 @@ public class Login extends javax.swing.JFrame {
         }
         else try {
             if(accountManagment.isUser(email, encryptedPassword.encryptPassword(password))){
+                accountManagment.updateStatus(email,"online");
                 JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
                 
             }
