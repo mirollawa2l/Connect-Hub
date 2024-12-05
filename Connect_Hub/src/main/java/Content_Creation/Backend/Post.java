@@ -20,7 +20,7 @@ public class Post extends Content{
     }
     
     public Post(String authorId, String content, String imagePath, LocalDateTime timestamp) {
-        super(authorId, content, imagePath, timestamp);
+        super(authorId, content, imagePath, valueOf(timestamp));
         this.contentId="P"+valueOf(++postCount);
     }
     

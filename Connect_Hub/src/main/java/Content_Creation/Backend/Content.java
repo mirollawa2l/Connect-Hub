@@ -4,6 +4,7 @@
  */
 package Content_Creation.Backend;
 
+import static java.lang.String.valueOf;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +16,7 @@ protected String contentId;
 protected String authorId;
 protected String content;
 protected String imagePath;
-protected LocalDateTime timestamp;
+protected String timestamp;
 protected boolean isStory;
 
 public Content()
@@ -23,11 +24,11 @@ public Content()
     
 }
 
-    public Content(String authorId, String content, String imagePath, LocalDateTime timestamp) {
+    public Content(String authorId, String content, String imagePath,String timestamp) {
         this.authorId = authorId;
         this.content = content;
         this.imagePath = imagePath;
-        this.timestamp = timestamp;
+        this.timestamp = (timestamp);
         this.isStory=false;
     }
 
@@ -64,16 +65,16 @@ public Content()
     }
 
     public LocalDateTime getTimestamp() {
-        return timestamp;
+        return LocalDateTime.parse(timestamp);
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp = valueOf(timestamp);
     }
     
        public boolean isExpired() {
            if(isStory)
-        return timestamp.plusHours(24).isBefore(LocalDateTime.now());
+        return getTimestamp().plusHours(24).isBefore(LocalDateTime.now());
            else return false;
     }
 

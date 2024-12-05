@@ -127,12 +127,20 @@ private Json j=new Json();
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         // TODO add your handling code here:
-        p=new Post();
+          if(inputText.getText().isEmpty()&&selectedImagePath==null)
+        {
+         JOptionPane.showMessageDialog(this, "No image or text added!");    
+        }
+        
+          else{
+                p=new Post();
         p.setContent(inputText.getText());
         p.setTimestamp(LocalDateTime.now());
         p.setImagePath(selectedImagePath);
          j.save("tesss", p);
+          JOptionPane.showMessageDialog(this, "Post created Successfully");
         this.setVisible(false);
+          }
         
     }//GEN-LAST:event_createActionPerformed
 
