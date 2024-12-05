@@ -4,11 +4,26 @@
  */
 package Content_Creation.Frontend;
 
+import Common.Json;
+import Content_Creation.Backend.Story;
+import java.awt.Image;
+import java.io.File;
+import java.time.LocalDateTime;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author mirol
  */
 public class AddStoryWindow extends javax.swing.JDialog {
+ private JLabel imageLabel;
+private String selectedImagePath;
+private Story s;
+private Json j=new Json();
 
     /**
      * Creates new form AddStoryWindow
@@ -45,8 +60,18 @@ public class AddStoryWindow extends javax.swing.JDialog {
         Image.setText("Image");
 
         create.setText("Create Story");
+        create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createActionPerformed(evt);
+            }
+        });
 
         inputImage.setText("Upload Image");
+        inputImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputImageActionPerformed(evt);
+            }
+        });
 
         text.setText("Text");
 
@@ -92,6 +117,51 @@ public class AddStoryWindow extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void inputImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputImageActionPerformed
+        // TODO add your handling code here:
+          // Create File Chooser
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg", "gif");
+        fileChooser.setFileFilter(filter);
+
+        // Show Open Dialog
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+           selectedImagePath = selectedFile.getAbsolutePath();
+
+            // Display Image
+            ImageIcon imageIcon = new ImageIcon(selectedImagePath);
+            Image scaledImage = imageIcon.getImage().getScaledInstance(400, 300, java.awt.Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledImage));
+            imageLabel.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "No image selected!");
+        }
+        
+       
+    }//GEN-LAST:event_inputImageActionPerformed
+
+    private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
+        // TODO add your handling code here:
+        if(inputText.getText().isEmpty()&&selectedImagePath==null)
+        {
+         JOptionPane.showMessageDialog(this, "No image or text added!");    
+        }
+        else{
+             s=new Story();
+        s.setContent(inputText.getText());
+        s.setTimestamp(LocalDateTime.now());
+        s.setImagePath(selectedImagePath);
+         j.save("tesss", s);
+         JOptionPane.showMessageDialog(this, "Story created Successfully");
+        this.setVisible(false);
+        
+        }
+       
+    }//GEN-LAST:event_createActionPerformed
 
     /**
      * @param args the command line arguments

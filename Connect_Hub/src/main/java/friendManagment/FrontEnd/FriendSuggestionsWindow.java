@@ -1,43 +1,48 @@
 
 package com.mycompany.friendmangement.FrontEnd;
 
-import com.mycompany.friendmangement.Backend.FriendRequest;
-import com.mycompany.friendmangement.Backend.ManageFriendRequests;
-import userdatabasemanagement.UserDatabaseManagement;
-import userdatabasemanagement.User;
-
+import com.mycompany.friendmangement.Backend.FriendSuggestion;
+import com.mycompany.friendmangement.Backend.FriendSuggestionManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-public class FriendRequestWindow extends javax.swing.JFrame {
+
+public class FriendSuggestionsWindow extends javax.swing.JFrame {
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private JList<String> list;
-private ManageFriendRequests requestManager;
-private UserDatabaseManagement accountManagement;
-//connecting the account manager and friendManager to the windows
+private FriendSuggestionManager suggestionManager;
 
-    public FriendRequestWindow() {
+ 
+    public FriendSuggestionsWindow() {
         initComponents();
         model = new DefaultComboBoxModel<>();
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
          
+         model.removeAllElements();
+        listModel.clear();
          JComboBox<String> comboBox = new JComboBox<>(model);
-         update();}
+         for(FriendSuggestion suggestion:suggestionManager.generateSuggestions()){
+             model.addElement(suggestion.getSuggested().getUsername());
+             listModel.addElement(suggestion.getSuggested().getUsername());}
+         
+        
+    }
+    
     public void update(){
         model.removeAllElements();
         listModel.clear();
-        for(FriendRequest request:requestManager.getRequests()){
-             model.addElement(request.getReceiver().getUsername());
-             listModel.addElement(request.getReceiver().getUsername());}
-         
-    }
         
-   
+        model.addElement("Choose Suggestion");
+        for(FriendSuggestion suggestion:suggestionManager.getListOfSuggestions()){
+             model.addElement(suggestion.getSuggested().getUsername());
+             listModel.addElement(suggestion.getSuggested().getUsername());}
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -48,7 +53,6 @@ private UserDatabaseManagement accountManagement;
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        sendFriendRequest = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,27 +86,21 @@ private UserDatabaseManagement accountManagement;
 
         jLabel1.setText("Friend Suggestions");
 
-        sendFriendRequest.setText("Send Friend Request");
-        sendFriendRequest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendFriendRequestActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addComponent(Decline)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Accept))
-                    .addComponent(sendFriendRequest))
-                .addGap(32, 32, 32)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -111,62 +109,54 @@ private UserDatabaseManagement accountManagement;
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Decline)
-                            .addComponent(Accept))
-                        .addGap(3, 3, 3)
-                        .addComponent(sendFriendRequest))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(5, 5, 5)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Decline)
+                    .addComponent(Accept))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SelectUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectUserActionPerformed
-
-    }//GEN-LAST:event_SelectUserActionPerformed
-
     private void DeclineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeclineActionPerformed
-        String username = (String) SelectUser.getSelectedItem();
-        if (username.equals("Choose Request")) {
+       String username = (String) SelectUser.getSelectedItem();
+        if (username.equals("Choose Suggestion")) {
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
-            FriendRequest requestToDecline=requestManager.getRequest(username);
-            requestManager.acceptRequest(requestToDecline);
-            update();
-
+            FriendSuggestion suggestionToDecline=suggestionManager.getSuggestion(username);
+             suggestionManager.acceptFriendSuggestion(suggestionToDecline);
+             update();
+        
         }
     }//GEN-LAST:event_DeclineActionPerformed
 
+    private void SelectUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectUserActionPerformed
+        
+    }//GEN-LAST:event_SelectUserActionPerformed
+
     private void AcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptActionPerformed
         String username = (String) SelectUser.getSelectedItem();
-        if (username.equals("Choose Request")) {
-            JOptionPane.showMessageDialog(this, "Please select a request first.");
+        if (username.equals("Choose Suggestion")) {
+            JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
-            FriendRequest requestToAccept=requestManager.getRequest(username);
-            requestManager.acceptRequest(requestToAccept);
-            update();}
-
+            FriendSuggestion suggestionToAccept=suggestionManager.getSuggestion(username);
+             suggestionManager.acceptFriendSuggestion(suggestionToAccept);
+             update();}
+        
     }//GEN-LAST:event_AcceptActionPerformed
 
-    private void sendFriendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFriendRequestActionPerformed
-        String username = JOptionPane.showInputDialog("Search");
-        for(User user:accountManagement.loadUsers())
-            if(username.equals(user.getUsername()))
-               requestManager.sendRequest(requestManager.getThisUser(),user);
-    }//GEN-LAST:event_sendFriendRequestActionPerformed
-
-    
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -181,20 +171,20 @@ private UserDatabaseManagement accountManagement;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FriendRequestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FriendSuggestionsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FriendRequestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FriendSuggestionsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FriendRequestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FriendSuggestionsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FriendRequestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FriendSuggestionsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FriendRequestWindow().setVisible(true);
+                new FriendSuggestionsWindow().setVisible(true);
             }
         });
     }
@@ -206,6 +196,5 @@ private UserDatabaseManagement accountManagement;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton sendFriendRequest;
     // End of variables declaration//GEN-END:variables
 }
