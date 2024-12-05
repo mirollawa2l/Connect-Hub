@@ -1,8 +1,9 @@
 
-package com.mycompany.friendmangement.FrontEnd;
+package friendManagment.FrontEnd;
 
-import com.mycompany.friendmangement.Backend.FriendRequest;
-import com.mycompany.friendmangement.Backend.ManageFriendRequests;
+
+import friendManagment.Backend.FriendRequest;
+import friendManagment.Backend.ManageFriendRequests;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;
 

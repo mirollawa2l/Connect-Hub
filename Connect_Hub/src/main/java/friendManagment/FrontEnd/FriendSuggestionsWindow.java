@@ -1,8 +1,9 @@
 
-package com.mycompany.friendmangement.FrontEnd;
+package friendManagment.FrontEnd;
 
-import com.mycompany.friendmangement.Backend.FriendSuggestion;
-import com.mycompany.friendmangement.Backend.FriendSuggestionManager;
+
+import friendManagment.Backend.FriendSuggestion;
+import friendManagment.Backend.FriendSuggestionManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;

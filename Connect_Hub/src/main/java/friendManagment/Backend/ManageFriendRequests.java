@@ -1,5 +1,5 @@
 
-package com.mycompany.friendmangement.Backend;
+package friendManagment.Backend;
 import com.fasterxml.jackson.databind.JsonNode;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;

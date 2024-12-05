@@ -1,7 +1,7 @@
 
-package com.mycompany.friendmangement.FrontEnd;
+package friendManagment.FrontEnd;
 
-import com.mycompany.friendmangement.Backend.ManageFriends;
+import friendManagment.Backend.ManageFriends;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;
 import javax.swing.DefaultComboBoxModel;
