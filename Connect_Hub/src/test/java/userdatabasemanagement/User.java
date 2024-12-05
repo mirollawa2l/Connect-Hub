@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 
 public class User {
-    private static String id;
+
+    private String id;
+
     private String email;
     private String username;
     private String password;

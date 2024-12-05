@@ -4,11 +4,13 @@
  */
 package userdatabasemanagement;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.security.NoSuchAlgorithmException;
@@ -21,12 +23,15 @@ import javax.swing.JOptionPane;
  * @author Yara
  */
 public class SignUp2 extends javax.swing.JFrame {
+
      private static int  idCount=0;
+
 
     /**
      * Creates new form SignUp2
      */
     public SignUp2() {
+
          
         initComponents();
        loadIdCount();
@@ -51,6 +56,9 @@ public class SignUp2 extends javax.swing.JFrame {
         } catch (IOException e) {
             System.out.println("Error saving idCount: " + e.getMessage());
         }
+
+       
+
     }
 
    UserDatabaseManagement accountManagment= new UserDatabaseManagement();
@@ -59,6 +67,7 @@ public class SignUp2 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+
         emailField = new javax.swing.JTextField();
         usernameField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -154,10 +163,24 @@ public class SignUp2 extends javax.swing.JFrame {
                                         .addComponent(usernameField)
                                         .addComponent(passwordField)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
+
                                     .addGap(26, 26, 26)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(34, 34, 34)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(26, 26, 26)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(IdField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
+
                             .addGap(37, 37, 37)))
                     .addGap(95, 95, 95)))
         );
@@ -173,7 +196,14 @@ public class SignUp2 extends javax.swing.JFrame {
                 .addGap(77, 77, 77))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
+
                     .addGap(46, 46, 46)
+
+                    .addGap(9, 9, 9)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(IdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(18, 18, 18)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -219,8 +249,9 @@ public class SignUp2 extends javax.swing.JFrame {
 
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
 
-       
         String id= "user"+ Integer.toString(++idCount);
+
+
 
         String email= emailField.getText();
         String username= usernameField.getText();
@@ -249,7 +280,7 @@ public class SignUp2 extends javax.swing.JFrame {
                 accountManagment.saveUser(newUser);
                 System.out.println("in sign up "+idCount);
                 saveIdCount();
-                
+
                 
             } catch (NoSuchAlgorithmException ex) {
                 java.util.logging.Logger.getLogger(SignUp2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -315,10 +346,12 @@ public class SignUp2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField emailField;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
