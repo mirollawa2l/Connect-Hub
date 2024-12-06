@@ -4,7 +4,6 @@
  */
 package Content_Creation.Frontend;
 
-import Common.Json;
 import Content_Creation.Backend.Post;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -25,24 +24,26 @@ import userdatabasemanagement.User;
  * @author mirol
  */
 public class AddPostWindow extends javax.swing.JDialog {
+
     private JLabel imageLabel;
-private String selectedImagePath;
-private Post p;
-private Login l;
-private User  user;
+    private String selectedImagePath;
+    private Post p;
+    private Login l;
+    private User user;
 
     public Post getP() {
         return p;
     }
+
     /**
      * Creates new form AddContentWindow
      */
     public AddPostWindow(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-            this.setLocation(250, 300);
+        this.setLocation(250, 300);
         setTitle("Create Post");
-          imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
+        imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
         user = CurrentUser.getInstance().getCurrentUser();
     }
@@ -132,27 +133,23 @@ private User  user;
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         // TODO add your handling code here:
-          if(inputText.getText().isEmpty()&&selectedImagePath==null)
-        {
-         JOptionPane.showMessageDialog(this, "No image or text added!");    
+        if (inputText.getText().isEmpty() && selectedImagePath == null) {
+            JOptionPane.showMessageDialog(this, "No image or text added!");
+        } else {
+            p = new Post();
+            p.setContent(inputText.getText());
+            p.setTimestamp(LocalDateTime.now());
+            p.setImagePath(selectedImagePath);
+            p.setAuthorId(user.getId());
+            JOptionPane.showMessageDialog(this, "Post created Successfully");
+            this.setVisible(false);
         }
-        
-          else{
-                p=new Post();
-        p.setContent(inputText.getText());
-        p.setTimestamp(LocalDateTime.now());
-        p.setImagePath(selectedImagePath);
-        p.setAuthorId(user.getId());
-          JOptionPane.showMessageDialog(this, "Post created Successfully");
-            user.addContent(p);
-        this.setVisible(false);
-          }
-        
+
     }//GEN-LAST:event_createActionPerformed
 
     private void inputImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputImageActionPerformed
         // TODO add your handling code here:
-          // Create File Chooser
+        // Create File Chooser
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg", "gif");
         fileChooser.setFileFilter(filter);
@@ -162,7 +159,7 @@ private User  user;
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-           selectedImagePath = selectedFile.getAbsolutePath();
+            selectedImagePath = selectedFile.getAbsolutePath();
 
             // Display Image
             ImageIcon imageIcon = new ImageIcon(selectedImagePath);
@@ -172,9 +169,8 @@ private User  user;
         } else {
             JOptionPane.showMessageDialog(this, "No image selected!");
         }
-        
-       
-        
+
+
     }//GEN-LAST:event_inputImageActionPerformed
 
     /**
