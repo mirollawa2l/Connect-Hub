@@ -162,7 +162,7 @@ private User  user;
         s.setImagePath(selectedImagePath);
         s.setAuthorId(user.getId());
          JOptionPane.showMessageDialog(this, "Story created Successfully");
-         user.addContent(s);
+        
         this.setVisible(false);
         
         }

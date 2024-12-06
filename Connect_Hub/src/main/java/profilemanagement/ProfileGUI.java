@@ -12,17 +12,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import userdatabasemanagement.User;
 /**
  *
  * @author HP
  */
-
-
-
-
-
-
-
 
 public class ProfileGUI extends JFrame {
     private final ProfileManager profileManager;
@@ -30,12 +24,12 @@ public class ProfileGUI extends JFrame {
     private JLabel profilePictureLabel;
     private JLabel coverPictureLabel;
 
-    public ProfileGUI(ProfileManager profileManager, String userId) {
+    public ProfileGUI(ProfileManager profileManager, User user) {
         this.profileManager = profileManager;
 
         try {
             // Load the current user from ProfileManager
-            currentUser = profileManager.getUserProfile(userId);
+            currentUser = user;
             initComponents();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -47,7 +41,7 @@ public class ProfileGUI extends JFrame {
     // Frame settings
     setTitle("Profile Management");
     setSize(900, 700);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     setLayout(new BorderLayout());
 
     
@@ -93,8 +87,11 @@ public class ProfileGUI extends JFrame {
     detailsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     detailsPanel.add(new JLabel("Username:"));
     detailsPanel.add(new JLabel(currentUser.getUsername()));
+        System.out.println(currentUser.toString());
+        System.out.println(currentUser.getUsername());
     detailsPanel.add(new JLabel("Email:"));
     detailsPanel.add(new JLabel(currentUser.getEmail()));
+          System.out.println(currentUser.getEmail());
     detailsPanel.add(new JLabel("Bio:"));
     JTextField bioField = new JTextField(currentUser.getBio());
     detailsPanel.add(bioField);
@@ -118,13 +115,13 @@ public class ProfileGUI extends JFrame {
                         return;
                     }
                     try {
-                        profileManager.updatePassword(currentUser.getUserId(), password);
+                        profileManager.updatePassword(currentUser.getId(), password);
                     } catch (Exception ex) {
                         Logger.getLogger(ProfileGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
-                profileManager.updateBio(currentUser.getUserId(), bioField.getText());
+                profileManager.updateBio(currentUser.getId(), bioField.getText());
                 JOptionPane.showMessageDialog(this, "Profile updated successfully!");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error saving changes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -172,7 +169,7 @@ private void openPostsFrame() {
 
     JPanel postsPanel = new JPanel();
     postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
-    List<Post> posts = profileManager.getUserPosts(currentUser.getUserId());
+    List<Post> posts = profileManager.getUserPosts(currentUser.getId());
 
     if (posts.isEmpty()) {
         postsPanel.add(new JLabel("No posts to display."));
@@ -211,7 +208,7 @@ private void openFriendsFrame() {
     JPanel friendsPanel = new JPanel();
     friendsPanel.setLayout(new BoxLayout(friendsPanel, BoxLayout.Y_AXIS)); // Vertical layout
 
-    List<User> friends = profileManager.getFriends(currentUser.getUserId());
+    List<User> friends = profileManager.getFriends(currentUser.getId());
     if (friends.isEmpty()) {
         friendsPanel.add(new JLabel("You have no friends."));
     } else {
@@ -259,8 +256,8 @@ private void uploadProfilePhoto() {
     String filePath = uploadFile();
     if (filePath != null) {
         try {
-            profileManager.updateProfilePhoto(currentUser.getUserId(), filePath);
-            currentUser = profileManager.getUserProfile(currentUser.getUserId());
+            profileManager.updateProfilePhoto(currentUser.getId(), filePath);
+            currentUser = (User) profileManager.getUserProfile(currentUser.getId());
 
             // Set the image and remove placeholder text
             profilePictureLabel.setIcon(resizeImageIcon(filePath, 150, 150));
@@ -275,8 +272,8 @@ private void uploadProfilePhoto() {
     String filePath = uploadFile();
     if (filePath != null) {
         try {
-            profileManager.updateCoverPhoto(currentUser.getUserId(), filePath);
-            currentUser = profileManager.getUserProfile(currentUser.getUserId());
+            profileManager.updateCoverPhoto(currentUser.getId(), filePath);
+            currentUser = (User) profileManager.getUserProfile(currentUser.getId());
 
             // Set the image and remove placeholder text
             coverPictureLabel.setIcon(resizeImageIcon(filePath, 900, 250));
@@ -324,6 +321,5 @@ if (returnValue == JFileChooser.APPROVE_OPTION) {
        PostRepository postRepository = new PostRepository();
         ProfileManager profileManager = new ProfileManager(userRepository , postRepository );
 
-        new ProfileGUI(profileManager, "u001");
     }
 }
