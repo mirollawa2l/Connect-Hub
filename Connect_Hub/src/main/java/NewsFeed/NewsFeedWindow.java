@@ -73,7 +73,7 @@ private User user;
         add(scrollPane, BorderLayout.CENTER);
         add(refreshButton, BorderLayout.SOUTH);
 
-<<<<<<< Updated upstream
+
         updateFriends();
         displayContents();
         
@@ -83,20 +83,24 @@ private User user;
 
 
      
-     public void updateFriends()
-=======
-        update();
- 
-    }
-
-     public void updateNewsfeed()
->>>>>>> Stashed changes
+   
+        public void updateFriends()
      {
       for (User u:friendManager.getFriends())
       {
           friendsContent.add(contentManager.getContent(u.getId()));
       }
      }
+
+     public void updateNewsfeed()
+
+     {
+      for (User u:friendManager.getFriends())
+      {
+          friendsContent.add(contentManager.getContent(u.getId()));
+      }
+     }
+     
      void displayContents()
      {
           postsPanel.removeAll(); // Clear previous content
