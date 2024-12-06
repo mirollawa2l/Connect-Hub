@@ -28,6 +28,7 @@ public class SignUp extends javax.swing.JFrame {
      */
     public SignUp() {
         initComponents();
+        saveIdCount();
            loadIdCount();
     }
     
@@ -62,7 +63,6 @@ public class SignUp extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
         usernameField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -77,8 +77,6 @@ public class SignUp extends javax.swing.JFrame {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("ID:");
 
         usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,13 +158,8 @@ public class SignUp extends javax.swing.JFrame {
                                         .addComponent(usernameField)
                                         .addComponent(passwordField)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(34, 34, 34)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(26, 26, 26)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(26, 26, 26)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(37, 37, 37)))
@@ -184,9 +177,7 @@ public class SignUp extends javax.swing.JFrame {
                 .addGap(77, 77, 77))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(12, 12, 12)
-                    .addComponent(jLabel1)
-                    .addGap(18, 18, 18)
+                    .addGap(46, 46, 46)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -329,7 +320,6 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JTextField emailField;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

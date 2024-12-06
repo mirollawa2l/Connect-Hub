@@ -2,16 +2,31 @@
 package NewsFeed;
 
 
+import javax.swing.*;
+import java.awt.*;
+import Content_Creation.Backend.Content;
+import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendRequestWindow;
 import friendManagment.FrontEnd.FriendSuggestionsWindow;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
@@ -21,11 +36,17 @@ import userdatabasemanagement.UserDatabaseManagement;
  * @author mirol
  */
 public class NewsFeedWindow extends javax.swing.JFrame {
+     private JPanel postsPanel;
+      private JScrollPane scrollPane;
+        private JButton refreshButton;
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private JList<String> list;
 private ManageFriends friendManager;
 private UserDatabaseManagement  accountManagement;
+private ContentManagement contentManager;
+private ArrayList<Content> friendsContent;
+
 private Login l;
 private User user;
     public NewsFeedWindow() {
@@ -37,20 +58,109 @@ private User user;
          user=l.sendUser();
         accountManagement=new UserDatabaseManagement() ;
         friendManager=new ManageFriends();
-         update();
+        contentManager=new ContentManagement();
+        friendsContent=new ArrayList<>();
+         // Initialize components
+        postsPanel = new JPanel();
+        postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
+        scrollPane = new JScrollPane(postsPanel);
+        refreshButton = new JButton("Refresh");
+
+      //  refreshButton.addActionListener(e -> refreshNewsFeed());
+
+        // Add components to the frame
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+        add(refreshButton, BorderLayout.SOUTH);
+
+        // update();
  
     }
 
-     public void update(){
-        model.removeAllElements();
-        listModel.clear();
-        for(User friend:friendManager.getFriends()){
-            String username=friend.getUsername();
-            String status=friend.getStatus();
-            String displayedText=username + " (" + status + ")";
-             model.addElement(displayedText);
-            listModel.addElement(friend.getUsername());}
+//     public void update(){
+//        model.removeAllElements();
+//        listModel.clear();
+//        for(User friend:friendManager.getFriends()){
+//            String username=friend.getUsername();
+//            String status=friend.getStatus();
+//            String displayedText=username + " (" + status + ")";
+//             model.addElement(displayedText);
+//            listModel.addElement(friend.getUsername());}
+//    }
+     
+     public void updateNewsfeed()
+     {
+      for (User u:friendManager.getFriends())
+      {
+          friendsContent.add(contentManager.getContent(u.getId()));
+      }
+     }
+     void displayContents()
+     {
+          postsPanel.removeAll(); // Clear previous content
+
+        for (Content content : friendsContent) {
+            if (content.isStory() && content.isExpired()) {
+                continue; // Skip expired stories
+            }
+
+            // Create a panel for each post or story
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            contentPanel.setBackground(Color.LIGHT_GRAY);
+
+            // Add the author's name
+            JLabel authorLabel = new JLabel("Author: " + content.getAuthorId());
+            authorLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            contentPanel.add(authorLabel, BorderLayout.NORTH);
+
+            // Center content (text and/or image)
+            JPanel centerPanel = new JPanel();
+            centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+            centerPanel.setBackground(Color.WHITE);
+
+            // Display text if present
+            if (content.getContent() != null && !content.getContent().isEmpty()) {
+                JTextArea contentArea = new JTextArea(content.getContent());
+                contentArea.setLineWrap(true);
+                contentArea.setWrapStyleWord(true);
+                contentArea.setEditable(false);
+                contentArea.setFont(new Font("Arial", Font.PLAIN, 14));
+                contentArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                centerPanel.add(contentArea);
+            }
+
+            // Display image if present
+            if (content.getImagePath() != null && !content.getImagePath().isEmpty()) {
+                ImageIcon imageIcon = new ImageIcon(content.getImagePath());
+                Image scaledImage = imageIcon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH); // Resize image
+                JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+                imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                centerPanel.add(imageLabel);
+            }
+
+            contentPanel.add(centerPanel, BorderLayout.CENTER);
+
+            // Add timestamp
+            JLabel timestampLabel = new JLabel("Timestamp: " + content.getTimestamp());
+            timestampLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+            contentPanel.add(timestampLabel, BorderLayout.SOUTH);
+
+            // Add the content panel to the main panel
+            postsPanel.add(contentPanel);
+            postsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between contents
+        }
+
+        postsPanel.revalidate();
+        postsPanel.repaint();
+     }
+     
+      private void refreshNewsFeed() {
+        // For simplicity, just re-display the contents. In a real application, fetch updates.
+        displayContents();
     }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -253,7 +363,7 @@ private User user;
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.RemoveFriend(friend);
-                update();
+                updateNewsfeed();
             }
         }
     }//GEN-LAST:event_RemoveActionPerformed
@@ -266,7 +376,9 @@ private User user;
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.BlockFriend(friend);
-                update();}}
+               updateNewsfeed();
+            
+            }}
     }//GEN-LAST:event_BlockActionPerformed
 
     private void addFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendActionPerformed

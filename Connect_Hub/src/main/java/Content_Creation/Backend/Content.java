@@ -77,6 +77,10 @@ public Content()
         return getTimestamp().plusHours(24).isBefore(LocalDateTime.now());
            else return false;
     }
+       public boolean isStory()
+       {
+           return this.isStory;
+       }
 
 
 

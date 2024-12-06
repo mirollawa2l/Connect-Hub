@@ -17,10 +17,12 @@ public class ContentManagement {
      private  final String fileName = "contentDatabase";
      private ArrayList<Content> contents;
      private Json j;
-     
      public ContentManagement()
      {
+          j=new Json();
+          save();
          load();
+        
      }
      
      public void save()
