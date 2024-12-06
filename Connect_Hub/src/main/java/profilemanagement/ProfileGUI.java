@@ -17,13 +17,6 @@ import java.util.logging.Logger;
  * @author HP
  */
 
-
-
-
-
-
-
-
 public class ProfileGUI extends JFrame {
     private final ProfileManager profileManager;
     private User currentUser;
