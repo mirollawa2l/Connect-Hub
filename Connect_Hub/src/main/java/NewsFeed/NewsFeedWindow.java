@@ -500,3 +500,6 @@ private User user;
     private javax.swing.JButton logoutBtn;
     // End of variables declaration//GEN-END:variables
 }
+
+
+
