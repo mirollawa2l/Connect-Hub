@@ -8,7 +8,6 @@ import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
-import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendRequestWindow;
 import friendManagment.FrontEnd.FriendSuggestionsWindow;
@@ -51,11 +50,13 @@ private Login l;
 private User user;
     public NewsFeedWindow() {
         initComponents();
+        
         model = new DefaultComboBoxModel<>();
+        SelectFriend.setModel(model);
         listModel = new DefaultListModel<>();
-        list = new JList<>(listModel);
-          l=new Login();
-         user=l.sendUser();
+        friendList = new JList<>(listModel);
+        
+     
         accountManagement=new UserDatabaseManagement() ;
         friendManager=new ManageFriends();
         contentManager=new ContentManagement();
@@ -74,10 +75,11 @@ private User user;
         add(refreshButton, BorderLayout.SOUTH);
 
 
+          update();
         updateFriends();
         displayContents();
         
-         update();
+       
  
     }
 
@@ -85,7 +87,9 @@ private User user;
      
    
         public void updateFriends()
-     { if(friendManager.getFriends()!=null){
+     { 
+         
+         if(friendManager.getFriends()!=null){
       for (User u:friendManager.getFriends())
       {
           friendsContent.add(contentManager.getContent(u.getId()));
@@ -95,7 +99,8 @@ private User user;
 
      public void updateNewsfeed()
 
-     { if(friendManager.getFriends()!=null){
+     { 
+         if(friendManager.getFriends()!=null){
       for (User u:friendManager.getFriends())
       {
           friendsContent.add(contentManager.getContent(u.getId()));
@@ -168,16 +173,22 @@ private User user;
      public void update(){
         model.removeAllElements();
         listModel.clear();
-        if(friendManager.getFriends()!=null){
-        for(User friend:friendManager.getFriends()){
+           friendList.revalidate();
+          friendList.repaint();
+        ArrayList<User> friends=friendManager.getFriends();
+        if(friends!=null){
+        for(User friend:friends){
             String username=friend.getUsername();
             String status=friend.getStatus();
             String displayedText=username + " (" + status + ")";
              model.addElement(displayedText);
-            listModel.addElement(friend.getUsername());}}
+            listModel.addElement(friend.getUsername());
         
-         revalidate();
-         repaint();
+        }
+        }
+        
+         friendList.revalidate();
+          friendList.repaint();
         
     }
      
