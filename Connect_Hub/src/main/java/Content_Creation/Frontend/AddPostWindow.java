@@ -4,6 +4,7 @@
  */
 package Content_Creation.Frontend;
 
+import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Backend.Post;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -30,7 +31,7 @@ public class AddPostWindow extends javax.swing.JDialog {
     private Post p;
     private Login l;
     private User user;
-
+   private ContentManagement contentManager;
     public Post getP() {
         return p;
     }
@@ -46,6 +47,7 @@ public class AddPostWindow extends javax.swing.JDialog {
         imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
         user = CurrentUser.getInstance().getCurrentUser();
+        contentManager =new ContentManagement();
     }
 
     /**
@@ -137,10 +139,13 @@ public class AddPostWindow extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "No image or text added!");
         } else {
             p = new Post();
+            System.out.println("new post added");
             p.setContent(inputText.getText());
             p.setTimestamp(LocalDateTime.now());
             p.setImagePath(selectedImagePath);
             p.setAuthorId(user.getId());
+               contentManager.addContent(p);
+            contentManager.save();
             JOptionPane.showMessageDialog(this, "Post created Successfully");
             this.setVisible(false);
         }

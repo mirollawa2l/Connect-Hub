@@ -11,8 +11,10 @@ import java.time.LocalDateTime;
  *
  * @author mirol
  */
+  
 public class Post extends Content{
     private int postCount=0;
+  
     
     public Post()
     {
@@ -20,7 +22,9 @@ public class Post extends Content{
     }
     
     public Post(String authorId, String content, String imagePath, LocalDateTime timestamp) {
-        super(authorId, content, imagePath, valueOf(timestamp));
+      
+        
+        super(authorId, content, imagePath, timestamp);
         this.contentId="P"+valueOf(++postCount);
     }
     

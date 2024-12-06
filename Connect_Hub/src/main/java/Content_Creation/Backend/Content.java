@@ -5,7 +5,9 @@
 package Content_Creation.Backend;
 
 import static java.lang.String.valueOf;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -24,13 +26,14 @@ public Content()
     
 }
 
-    public Content(String authorId, String content, String imagePath,String timestamp) {
+    public Content(String authorId, String content, String imagePath,LocalDateTime timestamp) {
         this.authorId = authorId;
         this.content = content;
         this.imagePath = imagePath;
-        this.timestamp = (timestamp);
+        this.timestamp = (timestamp).toString();
         this.isStory=false;
     }
+      private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // Define your format
 
     public String getContentId() {
         return contentId;
@@ -64,8 +67,8 @@ public Content()
         this.imagePath = imagePath;
     }
 
-    public LocalDateTime getTimestamp() {
-        return LocalDateTime.parse(timestamp);
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
@@ -73,8 +76,11 @@ public Content()
     }
     
        public boolean isExpired() {
-           if(isStory)
-        return getTimestamp().plusHours(24).isBefore(LocalDateTime.now());
+           if(isStory){
+               
+               LocalDateTime timestampParsed = LocalDateTime.parse(getTimestamp(), FORMATTER);
+            return timestampParsed.plusHours(24).isBefore(LocalDateTime.now());
+           }
            else return false;
     }
        public boolean isStory()

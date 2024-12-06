@@ -121,7 +121,9 @@ public class NewsFeedWindow extends javax.swing.JFrame {
             JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new BorderLayout());
             contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            contentPanel.setBackground(Color.LIGHT_GRAY);
+           // contentPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+
+            contentPanel.setBackground(Color.BLUE);
 
             // Add the author's name
             JLabel authorLabel = new JLabel("Author: " + content.getAuthorId());

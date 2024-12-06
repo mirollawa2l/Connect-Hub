@@ -5,6 +5,7 @@
 package Content_Creation.Frontend;
 
 import Common.Json;
+import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Backend.Story;
 import java.awt.Image;
 import java.io.File;
@@ -26,8 +27,9 @@ public class AddStoryWindow extends javax.swing.JDialog {
  private JLabel imageLabel;
 private String selectedImagePath;
 private Story s;
-private Login l;
 private User  user;
+   private ContentManagement contentManager;
+
 
     /**
      * Creates new form AddStoryWindow
@@ -38,6 +40,8 @@ private User  user;
             this.setLocation(250, 300);
         setTitle("Create Story");
         user = CurrentUser.getInstance().getCurrentUser();
+                contentManager =new ContentManagement();
+
     }
 
     /**
@@ -156,11 +160,14 @@ private User  user;
          JOptionPane.showMessageDialog(this, "No image or text added!");    
         }
         else{
-             s=new Story();
+        s=new Story();
         s.setContent(inputText.getText());
         s.setTimestamp(LocalDateTime.now());
         s.setImagePath(selectedImagePath);
         s.setAuthorId(user.getId());
+        contentManager.addContent(s);
+                    contentManager.save();
+
          JOptionPane.showMessageDialog(this, "Story created Successfully");
         
         this.setVisible(false);
