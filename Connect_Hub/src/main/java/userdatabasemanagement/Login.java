@@ -194,6 +194,7 @@ private User user;
             }
             else{
                 JOptionPane.showMessageDialog(this, "Logged in Failed, User not found");
+                System.out.println("try again");
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
