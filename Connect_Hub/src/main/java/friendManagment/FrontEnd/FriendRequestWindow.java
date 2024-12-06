@@ -4,6 +4,7 @@ package friendManagment.FrontEnd;
 
 import friendManagment.Backend.FriendRequest;
 import friendManagment.Backend.ManageFriendRequests;
+import friendManagment.Backend.ManageFriends;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;
 
@@ -17,8 +18,9 @@ public class FriendRequestWindow extends javax.swing.JFrame {
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private JList<String> list;
-private ManageFriendRequests requestManager;
-private UserDatabaseManagement accountManagement;
+private ManageFriendRequests requestManager=new  ManageFriendRequests();
+private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
+
 //connecting the account manager and friendManager to the windows
 
     public FriendRequestWindow() {
@@ -26,6 +28,7 @@ private UserDatabaseManagement accountManagement;
         model = new DefaultComboBoxModel<>();
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
+         
          
          JComboBox<String> comboBox = new JComboBox<>(model);
          update();}

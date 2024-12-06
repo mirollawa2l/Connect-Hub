@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package NewsFeed;
+
 
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
+import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendRequestWindow;
 import friendManagment.FrontEnd.FriendSuggestionsWindow;
@@ -26,7 +25,7 @@ private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private JList<String> list;
 private ManageFriends friendManager;
-private UserDatabaseManagement accountManagement;  
+private UserDatabaseManagement  accountManagement;
 private Login l;
 private User user;
     public NewsFeedWindow() {
@@ -36,6 +35,8 @@ private User user;
         list = new JList<>(listModel);
           l=new Login();
          user=l.sendUser();
+        accountManagement=new UserDatabaseManagement() ;
+        friendManager=new ManageFriends();
          update();
  
     }

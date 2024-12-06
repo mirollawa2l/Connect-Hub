@@ -16,16 +16,12 @@ import java.io.IOException;
 public class ManageFriendRequests {
     
    private FriendRequest friendRequest;
-   private ManageFriends friendsManager;
+   private ManageFriends friendsManager=new ManageFriends();;
    private ArrayList <FriendRequest> listOfRequests=new ArrayList<>() ;
-   private UserDatabaseManagement accountManager ;
-   private User thisUser;
+   private UserDatabaseManagement accountManager=new UserDatabaseManagement();
+   private User thisUser=new User();
    
-   public ManageFriendRequests(UserDatabaseManagement accountManager,ManageFriends friendsManager,User thisUser){
-    this.accountManager=accountManager;
-    this.friendsManager=friendsManager;
-    this.thisUser=thisUser;
-}
+
     public FriendRequest sendRequest(User receiver,User sender){
         friendRequest=new FriendRequest(receiver,sender,"pending");
          listOfRequests.add(friendRequest);

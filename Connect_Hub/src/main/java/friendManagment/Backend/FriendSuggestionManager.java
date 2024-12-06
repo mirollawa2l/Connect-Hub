@@ -8,14 +8,12 @@ import java.util.ArrayList;
 public class FriendSuggestionManager {
     private FriendSuggestion suggestion;
     private ArrayList< FriendSuggestion >ListOfSuggestions=new ArrayList<>();
-    private ManageFriends friendsManager;
-    private UserDatabaseManagement accountManager ;
+    private ManageFriends friendsManager=new ManageFriends();
+    private UserDatabaseManagement accountManager =new UserDatabaseManagement();
     private User thisUser;
     
-   public FriendSuggestionManager(UserDatabaseManagement accountManager,ManageFriends friendsManager,User thisUser){
-    this.accountManager=accountManager;
-    this.friendsManager=friendsManager;
-    this.thisUser=thisUser;
+   public FriendSuggestionManager(){
+   generateSuggestions();
 }
    
     public ArrayList<FriendSuggestion> generateSuggestions(){

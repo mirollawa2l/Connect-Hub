@@ -14,18 +14,17 @@ public class ManageFriends {
      private ArrayList< User >friendList;
      private ArrayList< User >blockList;
      private ManageFriends friendsManager;
-     private UserDatabaseManagement accountManager ;
+     private UserDatabaseManagement accountManager;
      private User thisUser;
-    
-    
-   public ManageFriends(UserDatabaseManagement accountManager,ManageFriends friendsManager,User thisUser){
-      friendList=new ArrayList<>();
-      loadFriends();
-    this.accountManager=accountManager;
-    this.friendsManager=friendsManager;
-    this.thisUser=thisUser;
-    
+      
+   public  ManageFriends(){
+
+   accountManager=new UserDatabaseManagement();
+   loadFriends(thisUser.getId());
+
+   
    }
+      
       public void AddFriend(User friend){
            if(!friendList.contains(friend))
               friendList.add(friend);
@@ -42,8 +41,8 @@ public class ManageFriends {
                     thisUserFriends.add(friend.getId());
                 }
              ArrayNode friendFriends = (ArrayNode) friendNode.get("friends");
-              if (!friendFriends.has(friend.getId())) {
-                    friendFriends.add(friend.getId());
+              if (!friendFriends.has(thisUser.getId())) {
+                    friendFriends.add(thisUser.getId());
                 }
                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("users.json"), rootNode);
                 System.out.println("Friend added successfully!");
@@ -96,11 +95,13 @@ public class ManageFriends {
           return friendList;
       }
      
-    public ArrayList<User>loadFriends(){
+    public ArrayList<User>loadFriends(String userId){
     ObjectMapper objectMapper = new ObjectMapper();
 
         try {
              JsonNode rootNode = objectMapper.readTree(new File("users.json"));
+             for (JsonNode userNode : rootNode) {
+            if (userNode.has("userId") && userNode.get("userId").asText().equals(userId)) {
              JsonNode friendsNode = rootNode.get("friends");
 
             if (friendsNode != null && friendsNode.isArray()) {
@@ -109,8 +110,8 @@ public class ManageFriends {
                     friendList.add(user);
                 }
             } else {
-                System.out.println("Cannot load users");
-            }
+                System.out.println("Cannot load users");}
+            }}
            
         } catch (IOException e) {
             e.printStackTrace();
