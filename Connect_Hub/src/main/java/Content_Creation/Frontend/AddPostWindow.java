@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 
@@ -43,8 +44,7 @@ private User  user;
         setTitle("Create Post");
           imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
-            l=new Login();
-       user=l.sendUser();
+        user = CurrentUser.getInstance().getCurrentUser();
     }
 
     /**

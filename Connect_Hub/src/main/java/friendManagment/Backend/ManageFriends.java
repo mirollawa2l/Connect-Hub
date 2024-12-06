@@ -8,18 +8,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.File;
 import java.io.IOException;
+import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.UserDatabaseManagement;
 
 public class ManageFriends {
      private ArrayList< User >friendList;
      private ArrayList< User >blockList;
-     private ManageFriends friendsManager;
      private UserDatabaseManagement accountManager;
      private User thisUser;
       
    public  ManageFriends(){
 
    accountManager=new UserDatabaseManagement();
+   User thisUser = CurrentUser.getInstance().getCurrentUser();
    loadFriends(thisUser.getId());
 
    

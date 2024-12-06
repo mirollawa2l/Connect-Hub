@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package userdatabasemanagement;
 
 /**
@@ -132,6 +129,8 @@ public class AccountManagment extends javax.swing.JFrame {
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
        Login login= new Login();
+     User loggedInUser = login.sendUser(); 
+     CurrentUser.getInstance().setCurrentUser(loggedInUser);
        login.setVisible(true);
        this.dispose();
        login.setLocationRelativeTo(null );

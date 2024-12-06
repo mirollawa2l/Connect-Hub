@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 
@@ -36,8 +37,7 @@ private User  user;
         initComponents();
             this.setLocation(250, 300);
         setTitle("Create Story");
-        l=new Login();
-       user=l.sendUser();
+        user = CurrentUser.getInstance().getCurrentUser();
     }
 
     /**

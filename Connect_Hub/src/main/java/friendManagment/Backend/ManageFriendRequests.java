@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.io.IOException;
+import userdatabasemanagement.CurrentUser;
 
 
 //ensure thisUser is the senser not the receiver
@@ -19,7 +20,7 @@ public class ManageFriendRequests {
    private ManageFriends friendsManager=new ManageFriends();;
    private ArrayList <FriendRequest> listOfRequests=new ArrayList<>() ;
    private UserDatabaseManagement accountManager=new UserDatabaseManagement();
-   private User thisUser=new User();
+   private User thisUser= CurrentUser.getInstance().getCurrentUser();;
    
 
     public FriendRequest sendRequest(User receiver,User sender){

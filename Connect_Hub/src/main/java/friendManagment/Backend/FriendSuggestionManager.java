@@ -3,6 +3,7 @@ package friendManagment.Backend;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 import java.util.ArrayList;
+import userdatabasemanagement.CurrentUser;
 
 
 public class FriendSuggestionManager {
@@ -10,7 +11,7 @@ public class FriendSuggestionManager {
     private ArrayList< FriendSuggestion >ListOfSuggestions=new ArrayList<>();
     private ManageFriends friendsManager=new ManageFriends();
     private UserDatabaseManagement accountManager =new UserDatabaseManagement();
-    private User thisUser;
+    private User thisUser= CurrentUser.getInstance().getCurrentUser();;
     
    public FriendSuggestionManager(){
    generateSuggestions();
