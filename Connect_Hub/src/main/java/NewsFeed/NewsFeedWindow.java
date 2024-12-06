@@ -159,6 +159,25 @@ private User user;
       private void refreshNewsFeed() {
         // For simplicity, just re-display the contents. In a real application, fetch updates.
         displayContents();
+      }
+
+     public void update(){
+        model.removeAllElements();
+        listModel.clear();
+        if(friendManager.getFriends()!=null){
+        for(User friend:friendManager.getFriends()){
+            String username=friend.getUsername();
+            String status=friend.getStatus();
+            String displayedText=username + " (" + status + ")";
+             model.addElement(displayedText);
+            listModel.addElement(friend.getUsername());}}
+        else JOptionPane.showMessageDialog(null, 
+            ("no friends feed is empty"), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+         revalidate();
+         repaint();
+        
     }
      
     @SuppressWarnings("unchecked")

@@ -17,7 +17,7 @@ import userdatabasemanagement.CurrentUser;
 public class ManageFriendRequests {
     
    private FriendRequest friendRequest;
-   private ManageFriends friendsManager=new ManageFriends();;
+   private ManageFriends friendsManager=new ManageFriends();
    private ArrayList <FriendRequest> listOfRequests=new ArrayList<>() ;
    private UserDatabaseManagement accountManager=new UserDatabaseManagement();
    private User thisUser= CurrentUser.getInstance().getCurrentUser();;

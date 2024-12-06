@@ -1,1 +1,2 @@
-[{"id":"user1","email":"mm@","username":"m","password":"81dc9bdb52d04dc20036dbd8313ed055","dateOfBirth":"2024-12-02","status":"offline","friends":null,"contents":null}]
+  "status" : "online",
+[{"id":"user1","email":"mina@gmail.com","username":"mina ","password":"202cb962ac59075b964b07152d234b70","dateOfBirth":"2024-12-02","status":"offline","friends":null,"contents":null}]

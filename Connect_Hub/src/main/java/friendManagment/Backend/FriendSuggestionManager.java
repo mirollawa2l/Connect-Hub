@@ -8,13 +8,17 @@ import userdatabasemanagement.CurrentUser;
 
 public class FriendSuggestionManager {
     private FriendSuggestion suggestion;
-    private ArrayList< FriendSuggestion >ListOfSuggestions=new ArrayList<>();
-    private ManageFriends friendsManager=new ManageFriends();
-    private UserDatabaseManagement accountManager =new UserDatabaseManagement();
-    private User thisUser= CurrentUser.getInstance().getCurrentUser();;
+    private ArrayList< FriendSuggestion >ListOfSuggestions;
+    private ManageFriends friendsManager;
+    private UserDatabaseManagement accountManager;
+    private User thisUser;
     
    public FriendSuggestionManager(){
-   generateSuggestions();
+      ListOfSuggestions=new ArrayList<>(); 
+      friendsManager=new ManageFriends();
+      accountManager =new UserDatabaseManagement();
+      thisUser= CurrentUser.getInstance().getCurrentUser();
+      generateSuggestions();
 }
    
     public ArrayList<FriendSuggestion> generateSuggestions(){
