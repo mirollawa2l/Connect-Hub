@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import userdatabasemanagement.User;
 
 public class UserRepository {
     private static final String USER_FILE = "users.json";
@@ -53,7 +54,7 @@ public class UserRepository {
     // Find user by ID
     public Optional<User> findById(String userId) {
         return users.stream()
-                .filter(user -> user.getUserId().equals(userId)) // filter users by user id
+                .filter(user -> user.getId().equals(userId)) // filter users by user id
                 .findFirst(); // return first user that matches with the user id
     }
     public void updateProfilePhoto(String userId, String profilePhotoPath) throws IOException {
@@ -70,7 +71,7 @@ public void updateCoverPhoto(String userId, String coverPhotoPath) throws IOExce
 
     // Save or update user
     public void saveUser(User updatedUser) throws IOException {
-        users.removeIf(user -> user.getUserId().equals(updatedUser.getUserId()));
+        users.removeIf(user -> user.getId().equals(updatedUser.getId()));
         users.add(updatedUser);
         saveUsers();
     }
@@ -91,7 +92,7 @@ public void updateCoverPhoto(String userId, String coverPhotoPath) throws IOExce
     // Update user password
     public void updatePassword(String userId, String hashedPassword) throws IOException {
         User user = findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
-        user.setHashedPassword(hashedPassword);
+        user.setPassword(hashedPassword);
         saveUser(user);
     }
 

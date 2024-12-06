@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import userdatabasemanagement.Encryptor;
+import userdatabasemanagement.User;
 
 /**
  *
@@ -24,7 +26,7 @@ public class ProfileManager {
         this.postRepository=postRepository;
     }
 
-    public User getUserProfile(String userId) throws IllegalArgumentException {
+    public Object getUserProfile(String userId) throws IllegalArgumentException {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
@@ -51,7 +53,10 @@ public void updateCoverPhoto(String userId, String coverPhotoPath) throws IOExce
 }
 
     public void updatePassword(String userId, String newPassword) throws IOException, Exception {
-    String hashedPassword = PasswordUtil.hashPassword(newPassword); // Hash the password
+    String hashedPassword; // Hash the password
+     Encryptor encryptedPassword= new Encryptor();
+     hashedPassword= encryptedPassword.encryptPassword(newPassword);
+
     userRepository.updatePassword(userId, hashedPassword);
 }
    

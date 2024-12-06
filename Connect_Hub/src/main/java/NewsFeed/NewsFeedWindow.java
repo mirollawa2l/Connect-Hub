@@ -31,6 +31,8 @@ import profilemanagement.PostRepository;
 import profilemanagement.ProfileGUI;
 import profilemanagement.ProfileManager;
 import profilemanagement.UserRepository;
+import userdatabasemanagement.AccountManagment;
+import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
@@ -58,6 +60,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     public NewsFeedWindow() throws IOException {
         initComponents();
 
+    user = CurrentUser.getInstance().getCurrentUser();
         model = new DefaultComboBoxModel<>();
         SelectFriend.setModel(model);
         listModel = new DefaultListModel<>();
@@ -109,10 +112,16 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         postsPanel.removeAll(); // Clear previous content
         friendsContent.add(contentManager.getContent(user.getId()));
         for (Content content : friendsContent) {
-            if (content.isStory() && content.isExpired()) {
+            if(content==null)
+            {
+                continue;
+            }
+            else if (content.isStory() && content.isExpired()) {
                 continue; // Skip expired stories
             }
 
+            else 
+            {
             // Create a panel for each post or story
             JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new BorderLayout());
@@ -148,6 +157,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
                 imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                 centerPanel.add(imageLabel);
             }
+            
 
             contentPanel.add(centerPanel, BorderLayout.CENTER);
 
@@ -155,15 +165,18 @@ public class NewsFeedWindow extends javax.swing.JFrame {
             JLabel timestampLabel = new JLabel("Timestamp: " + content.getTimestamp());
             timestampLabel.setFont(new Font("Arial", Font.ITALIC, 12));
             contentPanel.add(timestampLabel, BorderLayout.SOUTH);
-
+            
             // Add the content panel to the main panel
             postsPanel.add(contentPanel);
             postsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between contents
+            }
         }
+            
         friendsContent.remove(contentManager.getContent(user.getId()));
         postsPanel.revalidate();
         postsPanel.repaint();
     }
+        
 
     public void update() {
         model.removeAllElements();
@@ -286,6 +299,11 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         });
 
         logoutBtn.setText("Logout");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
 
         updateProfile.setText("Update Profile");
         updateProfile.addActionListener(new java.awt.event.ActionListener() {
@@ -471,9 +489,17 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
     private void updateProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfileActionPerformed
         // TODO add your handling code here:
-        ProfileGUI w = new ProfileGUI(profileManager, user.getId());
+        ProfileGUI w = new ProfileGUI(profileManager, user);
+        w.setVisible(true);
 
     }//GEN-LAST:event_updateProfileActionPerformed
+
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        // TODO add your handling code here:
+        AccountManagment w=new AccountManagment();
+        w.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
      * @param args the command line arguments

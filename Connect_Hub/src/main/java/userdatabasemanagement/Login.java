@@ -2,6 +2,7 @@
 package userdatabasemanagement;
 
 import NewsFeed.NewsFeedWindow;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,12 +14,14 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 private User user;
-    /**
+private UserDatabaseManagement userData;
+/**
      * Creates new form Login
      */
     public Login() {
         initComponents();
         user=new User();
+        userData=new UserDatabaseManagement();
     }
      UserDatabaseManagement accountManagment= new UserDatabaseManagement();
 
@@ -198,7 +201,10 @@ private User user;
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
+        user=userData.getUserByEmail(email);
        
 //        else try {
 //            if(!(accountManagment.isUser(email, encryptedPassword.encryptPassword(password)))){
