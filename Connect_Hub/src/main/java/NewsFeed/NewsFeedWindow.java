@@ -44,12 +44,20 @@ private User user;
      public void update(){
         model.removeAllElements();
         listModel.clear();
+        if(friendManager.getFriends()!=null){
         for(User friend:friendManager.getFriends()){
             String username=friend.getUsername();
             String status=friend.getStatus();
             String displayedText=username + " (" + status + ")";
              model.addElement(displayedText);
-            listModel.addElement(friend.getUsername());}
+            listModel.addElement(friend.getUsername());}}
+        else JOptionPane.showMessageDialog(null, 
+            ("no friends feed is empty"), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+         revalidate();
+         repaint();
+            
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
