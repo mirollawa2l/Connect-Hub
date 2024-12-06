@@ -19,16 +19,16 @@ public class ManageFriends {
      private User thisUser;
       
    public  ManageFriends(){
-
+   friendList=new ArrayList<>();
+   blockList=new ArrayList<>();
    accountManager=new UserDatabaseManagement();
    User thisUser = CurrentUser.getInstance().getCurrentUser();
    loadFriends(thisUser.getId());
 
-   
    }
       
       public void AddFriend(User friend){
-           if(!friendList.contains(friend))
+           if(!friendList.contains(friend)||friendList==null)
               friendList.add(friend);
            
            ObjectMapper objectMapper = new ObjectMapper();
@@ -36,16 +36,18 @@ public class ManageFriends {
              JsonNode rootNode = objectMapper.readTree(new File("users.json"));
              JsonNode thisUserNode = findUserById(rootNode, thisUser.getId());
             JsonNode friendNode = findUserById(rootNode, friend.getId());
-
+            
             if (friendNode != null && thisUserNode!= null) {
                 ArrayNode thisUserFriends = (ArrayNode)thisUserNode.get("friends");
             if (!thisUserFriends.has(friend.getId())) {
                     thisUserFriends.add(friend.getId());
                 }
+              
              ArrayNode friendFriends = (ArrayNode) friendNode.get("friends");
               if (!friendFriends.has(thisUser.getId())) {
                     friendFriends.add(thisUser.getId());
                 }
+               
                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("users.json"), rootNode);
                 JOptionPane.showMessageDialog(null,"Friend added successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -57,7 +59,8 @@ public class ManageFriends {
         }}
       
       public void RemoveFriend (User friend){
-          if(friendList.contains(friend))
+          
+          if(friendList.contains(friend)||friendList==null)
               friendList.remove(friend);
                  ObjectMapper objectMapper = new ObjectMapper();
            try {
@@ -110,6 +113,7 @@ public class ManageFriends {
                   for (JsonNode friendNode : friendsNode) {
                     User user = objectMapper.treeToValue(friendNode, User.class);
                     friendList.add(user);
+                    System.out.print(user);
                 }
             } else {
                  JOptionPane.showMessageDialog(null,"Cannot load friends!","Error",JOptionPane.INFORMATION_MESSAGE);

@@ -29,13 +29,12 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
         listModel = new DefaultListModel<>();
          jList1.setModel(listModel);
         jList1 = new JList<>(listModel);
-         
-         
-         JComboBox<String> comboBox = new JComboBox<>(model);
+        
          update();}
     public void update(){
         model.removeAllElements();
         listModel.clear();
+        model.addElement("Choose Request");
         for(FriendRequest request:requestManager.getRequests()){
              model.addElement(request.getReceiver().getUsername());
              listModel.addElement(request.getReceiver().getUsername());}
@@ -79,7 +78,7 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
 
         jScrollPane1.setViewportView(jList1);
 
-        jLabel1.setText("Friend Suggestions");
+        jLabel1.setText("Friend Requests");
 
         sendFriendRequest.setText("Send Friend Request");
         sendFriendRequest.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +140,7 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
             FriendRequest requestToDecline=requestManager.getRequest(username);
-            requestManager.acceptRequest(requestToDecline);
+            requestManager.declineRequest(requestToDecline);
             update();
 
         }

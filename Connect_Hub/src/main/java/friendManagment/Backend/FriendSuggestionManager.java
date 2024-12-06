@@ -24,11 +24,13 @@ public class FriendSuggestionManager {
    
     public ArrayList<FriendSuggestion> generateSuggestions(){
         ArrayList <User> Suggested= new ArrayList<>();
+         ListOfSuggestions.clear();
    if(friendsManager.getFriends()!=null){
         for (User user:accountManager.loadUsers()){
+            Suggested.add(user);
            for(User friend:friendsManager.getFriends()){
-               if (user.equals(friend));
-                   Suggested.add(user);
+               if (user.equals(friend))
+                   Suggested.remove(user);
            }}}
    else { for (User user:accountManager.loadUsers()){
         Suggested.add(user);
@@ -42,6 +44,14 @@ public class FriendSuggestionManager {
     }
     
     public FriendSuggestion sendSuggestion(User suggested){
+           for (FriendSuggestion s : ListOfSuggestions) {
+        if (s.getSuggested().equals(suggested)) {
+            JOptionPane.showMessageDialog(null, "Suggestion already sent!", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+        
+        
         suggestion=new FriendSuggestion(suggested,thisUser);
         ListOfSuggestions.add(suggestion);
          JOptionPane.showMessageDialog(null,"Friend Request ent successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
@@ -56,7 +66,7 @@ public class FriendSuggestionManager {
        public void declineFriendSuggestion(FriendSuggestion suggestion){
         ListOfSuggestions.remove(suggestion);
         JOptionPane.showMessageDialog(null,"Friend Request declined successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
-
+        
     } 
        public ArrayList< FriendSuggestion >getListOfSuggestions(){
        return ListOfSuggestions;

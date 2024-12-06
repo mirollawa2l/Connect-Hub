@@ -6,7 +6,7 @@ import friendManagment.Backend.FriendSuggestion;
 import friendManagment.Backend.FriendSuggestionManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JComboBox;
+
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -22,13 +22,15 @@ private FriendSuggestionManager suggestionManager;
         initComponents();
         model = new DefaultComboBoxModel<>();
         listModel = new DefaultListModel<>();
+         suggestionManager=new FriendSuggestionManager();
          SelectUser.setModel(model);
          jList1.setModel(listModel);
         jList1 = new JList<>(listModel);
-         suggestionManager=new FriendSuggestionManager();
+       
          model.removeAllElements();
         listModel.clear();
-         JComboBox<String> comboBox = new JComboBox<>(model);
+        model.addElement("Choose Suggestion");
+         
          for(FriendSuggestion suggestion:suggestionManager.generateSuggestions()){
              model.addElement(suggestion.getSuggested().getUsername());
              listModel.addElement(suggestion.getSuggested().getUsername());}
@@ -130,7 +132,7 @@ private FriendSuggestionManager suggestionManager;
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
             FriendSuggestion suggestionToDecline=suggestionManager.getSuggestion(username);
-             suggestionManager.acceptFriendSuggestion(suggestionToDecline);
+             suggestionManager.declineFriendSuggestion(suggestionToDecline);
              update();
         
         }

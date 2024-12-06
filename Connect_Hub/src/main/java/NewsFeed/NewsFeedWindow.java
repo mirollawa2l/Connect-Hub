@@ -52,6 +52,7 @@ private User user;
         
         model = new DefaultComboBoxModel<>();
         SelectFriend.setModel(model);
+        
         listModel = new DefaultListModel<>();
         friendList.setModel(listModel);
         friendList = new JList<>(listModel);
@@ -71,19 +72,13 @@ private User user;
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         add(refreshButton, BorderLayout.SOUTH);
-
-
           update();
         updateFriends();
         displayContents();
         
-       
  
     }
 
-
-     
-   
         public void updateFriends()
      { 
          
@@ -173,6 +168,7 @@ private User user;
         listModel.clear();
            friendList.revalidate();
           friendList.repaint();
+          model.addElement("Search");
         ArrayList<User> friends=friendManager.getFriends();
         if(friends!=null){
         for(User friend:friends){
@@ -181,7 +177,6 @@ private User user;
             String displayedText=username + " (" + status + ")";
              model.addElement(displayedText);
             listModel.addElement(friend.getUsername());
-        
         }
         }
         
@@ -393,11 +388,18 @@ private User user;
     }// </editor-fold>//GEN-END:initComponents
 
     private void addFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendActionPerformed
+        boolean found=false;
         String username = JOptionPane.showInputDialog("Search");
-        for(User user:accountManagement.loadUsers())
-        if(username.equals(user.getUsername()))
+        for(User user:accountManagement.loadUsers()){
+            System.out.println(user.getUsername());
+        if(username.equals(user.getUsername())){
         friendManager.AddFriend(user);
         update();
+        updateFriends();
+        System.out.println("found");
+        found=true;}}
+        if(!found)
+         JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_addFriendActionPerformed
 
     private void SelectFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectFriendActionPerformed
@@ -405,17 +407,22 @@ private User user;
     }//GEN-LAST:event_SelectFriendActionPerformed
 
     private void RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveActionPerformed
+         boolean found=false;
         String username = (String) SelectFriend.getSelectedItem();
-        if (username.equals("Search by username")) {
+        if (username.equals("Search")) {
             JOptionPane.showMessageDialog(this, "Please select a user first.");
-        } else {
+        } else { if(friendManager.getFriends()!=null){
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.RemoveFriend(friend);
-                updateFriends();
                 update();
-            }
+                 updateFriends();
+            found=true;}}
+        else
+         JOptionPane.showMessageDialog(null,"User has no friends!","Error",JOptionPane.INFORMATION_MESSAGE);
         }
+        if(!found)
+           JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);  
     }//GEN-LAST:event_RemoveActionPerformed
 
     private void addPostBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPostBtnActionPerformed
@@ -443,17 +450,23 @@ private User user;
     }//GEN-LAST:event_friendRequestActionPerformed
 
     private void BlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlockActionPerformed
+        boolean found=false;
         String username = (String) SelectFriend.getSelectedItem();
-        if (username.equals("Search by username")) {
+        if (username.equals("Search")) {
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
+            if(friendManager.getFriends()!=null){
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.BlockFriend(friend);
+                 update();
                 updateFriends();
-                update();
-
+                 found=true;
+                
             }}
+            else JOptionPane.showMessageDialog(null,"User has no friends!","Error",JOptionPane.INFORMATION_MESSAGE);
+                if(!found)
+           JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);  }
     }//GEN-LAST:event_BlockActionPerformed
 
     /**
