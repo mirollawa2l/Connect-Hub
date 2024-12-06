@@ -26,11 +26,11 @@ public Content()
     
 }
 
-    public Content(String authorId, String content, String imagePath,LocalDateTime timestamp) {
+    public Content(String authorId, String content, String imagePath,String timestamp) {
         this.authorId = authorId;
         this.content = content;
         this.imagePath = imagePath;
-        this.timestamp = (timestamp).toString();
+        this.timestamp = (timestamp);
         this.isStory=false;
     }
       private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // Define your format

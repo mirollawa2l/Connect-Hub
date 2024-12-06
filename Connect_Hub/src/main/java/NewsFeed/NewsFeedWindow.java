@@ -76,6 +76,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         profileManager = new ProfileManager(userRepository, postRepository);
         // Initialize components
         postsPanel = new JPanel();
+        
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
         scrollPane = new JScrollPane(postsPanel);
         refreshButton = new JButton("Refresh");
@@ -96,7 +97,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
         if (friendManager.getFriends() != null) {
             for (User u : friendManager.getFriends()) {
-                friendsContent.add(contentManager.getContent(u.getId()));
+                friendsContent.addAll(contentManager.getcontentByAuthorId(u.getId()));
             }
         }
     }
@@ -104,74 +105,44 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
 
     void displayContents() {
-        postsPanel.removeAll(); // Clear previous content
-        friendsContent.add(contentManager.getContent(user.getId()));
-        for (Content content : friendsContent) {
-            if(content==null)
-            {
-                continue;
-            }
-            else if (content.isStory() && content.isExpired()) {
-                continue; // Skip expired stories
-            }
-
-            else 
-            {
-            // Create a panel for each post or story
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new BorderLayout());
-            contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-           // contentPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
-
-            contentPanel.setBackground(Color.BLUE);
-
-            // Add the author's name
-            JLabel authorLabel = new JLabel("Author: " + content.getAuthorId());
-            authorLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            contentPanel.add(authorLabel, BorderLayout.NORTH);
-
-            // Center content (text and/or image)
-            JPanel centerPanel = new JPanel();
-            centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-            centerPanel.setBackground(Color.WHITE);
-
-            // Display text if present
-            if (content.getContent() != null && !content.getContent().isEmpty()) {
-                JTextArea contentArea = new JTextArea(content.getContent());
-                contentArea.setLineWrap(true);
-                contentArea.setWrapStyleWord(true);
-                contentArea.setEditable(false);
-                contentArea.setFont(new Font("Arial", Font.PLAIN, 14));
-                contentArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                centerPanel.add(contentArea);
-            }
-
-            // Display image if present
-            if (content.getImagePath() != null && !content.getImagePath().isEmpty()) {
-                ImageIcon imageIcon = new ImageIcon(content.getImagePath());
-                Image scaledImage = imageIcon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH); // Resize image
-                JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
-                imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                centerPanel.add(imageLabel);
-            }
-            
-
-            contentPanel.add(centerPanel, BorderLayout.CENTER);
-
-            // Add timestamp
-            JLabel timestampLabel = new JLabel("Timestamp: " + content.getTimestamp());
-            timestampLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-            contentPanel.add(timestampLabel, BorderLayout.SOUTH);
-            
-            // Add the content panel to the main panel
-            postsPanel.add(contentPanel);
-            postsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between contents
-            }
+         postsPanel.removeAll(); // Clear previous content
+    friendsContent.addAll(contentManager.getcontentByAuthorId(user.getId()));
+    Content c= new Content("100", "hello from friends", null, "12-2020");
+    friendsContent.add(c);
+        System.out.println("friendsContent: "  + friendsContent.size());
+    for (Content content : friendsContent) {
+        
+        if (content == null) {
+            System.out.println("Null content found, skipping...");
+            continue;
         }
-            
-        friendsContent.remove(contentManager.getContent(user.getId()));
-        postsPanel.revalidate();
-        postsPanel.repaint();
+
+        if (content.isStory() && content.isExpired()) {
+            System.out.println("Expired story found, skipping...");
+            continue;
+        }
+
+        System.out.println("Displaying content: " + content);
+
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBackground(Color.BLUE);
+
+        JLabel authorLabel = new JLabel("Author: " + content.getAuthorId());
+        contentPanel.add(authorLabel, BorderLayout.NORTH);
+
+        if (content.getContent() != null && !content.getContent().isEmpty()) {
+            JTextArea contentArea = new JTextArea(content.getContent());
+            contentPanel.add(contentArea, BorderLayout.CENTER);
+        }
+
+        postsPanel.add(contentPanel);
+        
+        System.out.println("content in display: "+ content.getContent());
+    }
+
+    postsPanel.revalidate();
+    postsPanel.repaint();
     }
         
 
@@ -208,6 +179,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         SelectFriend = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        displayPanel = new javax.swing.JPanel();
         Remove = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         addPostBtn = new javax.swing.JButton();
@@ -219,6 +191,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         Block = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("News Feed Form");
 
         addFriend.setText("Add Friend");
         addFriend.addActionListener(new java.awt.event.ActionListener() {
@@ -247,15 +220,32 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Friend List ");
 
+        javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
+        displayPanel.setLayout(displayPanelLayout);
+        displayPanelLayout.setHorizontalGroup(
+            displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 571, Short.MAX_VALUE)
+        );
+        displayPanelLayout.setVerticalGroup(
+            displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 299, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 657, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Remove.setText("Remove");
@@ -326,7 +316,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
                 .addComponent(updateProfile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(logoutBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,14 +344,15 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -370,9 +361,8 @@ public class NewsFeedWindow extends javax.swing.JFrame {
                                 .addComponent(Block))
                             .addComponent(addFriend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(SelectFriend, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(SelectFriend, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -462,6 +452,8 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         AddPostWindow w = new AddPostWindow(this, true);
         w.setVisible(true);
+        
+        
     }//GEN-LAST:event_addPostBtnActionPerformed
 
     private void addStoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStoryBtnActionPerformed
@@ -564,6 +556,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     private javax.swing.JButton addFriend;
     private javax.swing.JButton addPostBtn;
     private javax.swing.JButton addStoryBtn;
+    private javax.swing.JPanel displayPanel;
     private javax.swing.JList<String> friendList;
     private javax.swing.JButton friendRequest;
     private javax.swing.JButton friendSuggestion;

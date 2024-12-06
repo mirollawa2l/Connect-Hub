@@ -7,10 +7,11 @@ package userdatabasemanagement;
  */
 public class CurrentUser {
      private static CurrentUser instance;
-    private User currentUser;
+    private static User currentUser;
 
 
 private CurrentUser(){
+    
 }
  public static synchronized CurrentUser getInstance() {
         if (instance == null) {

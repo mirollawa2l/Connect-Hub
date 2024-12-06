@@ -19,7 +19,7 @@ public class Story extends Content{
         this.isStory=true;
         this.contentId="S"+valueOf(++storyCount);
     }
-    public Story(String authorId, String content, String imagePath, LocalDateTime timestamp) {
+    public Story(String authorId, String content, String imagePath, String timestamp) {
         super(authorId, content, imagePath,timestamp);
         this.isStory=true;
         this.contentId="S"+valueOf(++storyCount);

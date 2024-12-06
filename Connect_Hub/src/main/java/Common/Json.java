@@ -26,6 +26,7 @@ public class Json {
        
         // Write JSON to file
         try {
+            
             mapper.writeValue(new File(filename+".json"), obj);
             System.out.println("JSON file created successfully!");
         } catch (IOException e) {
@@ -49,6 +50,7 @@ public void load(String filename, ArrayList<Content> list) {
 
         // Load the contents of the file into the list
         Content[] contents = mapper.readValue(file, Content[].class);
+        System.out.println("content length in load: "+ contents.length);
         for (Content c : contents) {
             list.add(c);
         }

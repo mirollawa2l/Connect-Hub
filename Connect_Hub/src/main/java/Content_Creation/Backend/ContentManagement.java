@@ -22,17 +22,16 @@ public class ContentManagement {
      {
           j=new Json();
          contents=new ArrayList<>();
+         load();
            save();
-           load();
+           
         
      }
      
      public void save()
-     {
-         for(Content c:contents)
-         {
-           j.save(fileName,c);
-         }
+     {  
+           j.save(fileName,contents );
+         
      }
      public void load()
      {
@@ -44,10 +43,12 @@ public class ContentManagement {
            if(c!=null)
          {
              contents.add(c);
+             System.out.println("addContent length: "+ contents.size());
              save();
          }
          else
              System.out.println("Content to add is null!");
+          
      }
      
      public void deleteContent(Content c)
@@ -71,6 +72,15 @@ public class ContentManagement {
          }
          System.out.println("Content with this id doesn't exist!");
          return null;
+     }
+     public ArrayList<Content> getcontentByAuthorId(String Id){
+         ArrayList<Content> allContent= new ArrayList<Content>() ;
+          for(Content c:contents){
+              if(c.getAuthorId().equals(Id))
+                 allContent.add(c);
+          }
+          return allContent;
+         
      }
      
        public void deleteExpiredStories() {

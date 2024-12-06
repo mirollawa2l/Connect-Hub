@@ -21,7 +21,7 @@ public class Post extends Content{
          this.contentId="P"+valueOf(++postCount);
     }
     
-    public Post(String authorId, String content, String imagePath, LocalDateTime timestamp) {
+    public Post(String authorId, String content, String imagePath, String timestamp) {
       
         
         super(authorId, content, imagePath, timestamp);

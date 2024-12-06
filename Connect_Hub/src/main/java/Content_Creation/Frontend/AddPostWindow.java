@@ -144,8 +144,10 @@ public class AddPostWindow extends javax.swing.JDialog {
             p.setTimestamp(LocalDateTime.now());
             p.setImagePath(selectedImagePath);
             p.setAuthorId(user.getId());
-               contentManager.addContent(p);
+            contentManager.addContent(p);
             contentManager.save();
+            
+            
             JOptionPane.showMessageDialog(this, "Post created Successfully");
             this.setVisible(false);
         }

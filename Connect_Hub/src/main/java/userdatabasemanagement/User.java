@@ -98,5 +98,6 @@ public class User {
     public ArrayList<String> getFriends() {
         return friends;
     }
+    
 
 }
