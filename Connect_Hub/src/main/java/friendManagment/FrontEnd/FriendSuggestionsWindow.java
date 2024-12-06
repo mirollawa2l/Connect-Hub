@@ -23,7 +23,7 @@ private FriendSuggestionManager suggestionManager;
         model = new DefaultComboBoxModel<>();
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
-         
+         suggestionManager=new FriendSuggestionManager();
          model.removeAllElements();
         listModel.clear();
          JComboBox<String> comboBox = new JComboBox<>(model);

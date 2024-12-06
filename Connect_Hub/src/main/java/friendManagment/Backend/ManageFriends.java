@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.UserDatabaseManagement;
 
@@ -46,9 +47,9 @@ public class ManageFriends {
                     friendFriends.add(thisUser.getId());
                 }
                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("users.json"), rootNode);
-                System.out.println("Friend added successfully!");
+                JOptionPane.showMessageDialog(null,"Friend added successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("User not found.");
+                JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);
             }    
             }
             catch (IOException e) {
@@ -75,9 +76,9 @@ public class ManageFriends {
                     friendFriends.remove(i);
                     break;}}
            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("users.json"), rootNode);
-           System.out.println("Friend added successfully!");}
+          JOptionPane.showMessageDialog(null,"Friend removed successfully!","Success",JOptionPane.INFORMATION_MESSAGE);}
              else {
-                System.out.println("User not found.");
+                JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);
             }    
          } catch (IOException e) {
             e.printStackTrace();
@@ -111,10 +112,11 @@ public class ManageFriends {
                     friendList.add(user);
                 }
             } else {
-                System.out.println("Cannot load users");}
+                 JOptionPane.showMessageDialog(null,"Cannot load friends!","Error",JOptionPane.INFORMATION_MESSAGE);
+            }    }
             }}
            
-        } catch (IOException e) {
+         catch (IOException e) {
             e.printStackTrace();
         }
       return friendList;
