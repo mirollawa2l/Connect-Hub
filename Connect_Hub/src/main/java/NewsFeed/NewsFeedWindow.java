@@ -40,7 +40,6 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         private JButton refreshButton;
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
-private JList<String> list;
 private ManageFriends friendManager;
 private UserDatabaseManagement  accountManagement;
 private ContentManagement contentManager;
@@ -54,9 +53,8 @@ private User user;
         model = new DefaultComboBoxModel<>();
         SelectFriend.setModel(model);
         listModel = new DefaultListModel<>();
+        friendList.setModel(listModel);
         friendList = new JList<>(listModel);
-        
-     
         accountManagement=new UserDatabaseManagement() ;
         friendManager=new ManageFriends();
         contentManager=new ContentManagement();

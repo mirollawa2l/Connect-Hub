@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class FriendSuggestionsWindow extends javax.swing.JFrame {
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
-private JList<String> list;
+
 private FriendSuggestionManager suggestionManager;
 
  
@@ -22,7 +22,9 @@ private FriendSuggestionManager suggestionManager;
         initComponents();
         model = new DefaultComboBoxModel<>();
         listModel = new DefaultListModel<>();
-        list = new JList<>(listModel);
+         SelectUser.setModel(model);
+         jList1.setModel(listModel);
+        jList1 = new JList<>(listModel);
          suggestionManager=new FriendSuggestionManager();
          model.removeAllElements();
         listModel.clear();

@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 public class FriendRequestWindow extends javax.swing.JFrame {
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
-private JList<String> list;
 private ManageFriendRequests requestManager=new  ManageFriendRequests();
 private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
 
@@ -26,8 +25,10 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
     public FriendRequestWindow() {
         initComponents();
         model = new DefaultComboBoxModel<>();
+         SelectUser.setModel(model);
         listModel = new DefaultListModel<>();
-        list = new JList<>(listModel);
+         jList1.setModel(listModel);
+        jList1 = new JList<>(listModel);
          
          
          JComboBox<String> comboBox = new JComboBox<>(model);
