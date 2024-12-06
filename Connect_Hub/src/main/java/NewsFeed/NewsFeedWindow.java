@@ -73,22 +73,16 @@ private User user;
         add(scrollPane, BorderLayout.CENTER);
         add(refreshButton, BorderLayout.SOUTH);
 
+        updateFriends();
+        displayContents();
+        
         // update();
  
     }
 
-//     public void update(){
-//        model.removeAllElements();
-//        listModel.clear();
-//        for(User friend:friendManager.getFriends()){
-//            String username=friend.getUsername();
-//            String status=friend.getStatus();
-//            String displayedText=username + " (" + status + ")";
-//             model.addElement(displayedText);
-//            listModel.addElement(friend.getUsername());}
-//    }
+
      
-     public void updateNewsfeed()
+     public void updateFriends()
      {
       for (User u:friendManager.getFriends())
       {
@@ -156,11 +150,7 @@ private User user;
         postsPanel.repaint();
      }
      
-      private void refreshNewsFeed() {
-        // For simplicity, just re-display the contents. In a real application, fetch updates.
-        displayContents();
-      }
-
+ 
      public void update(){
         model.removeAllElements();
         listModel.clear();
@@ -209,7 +199,7 @@ private User user;
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 413, Short.MAX_VALUE)
+            .addGap(0, 452, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
@@ -382,7 +372,8 @@ private User user;
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.RemoveFriend(friend);
-                updateNewsfeed();
+                updateFriends();
+                update();
             }
         }
     }//GEN-LAST:event_RemoveActionPerformed
@@ -395,7 +386,8 @@ private User user;
             for(User friend:friendManager.getFriends())
             if(username.equals(friend.getUsername())){
                 friendManager.BlockFriend(friend);
-               updateNewsfeed();
+              updateFriends();
+              update();
             
             }}
     }//GEN-LAST:event_BlockActionPerformed

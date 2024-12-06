@@ -187,8 +187,10 @@ private User user;
         }
         else try {
             if(accountManagment.isUser(email, encryptedPassword.encryptPassword(password))){
-                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
-                
+                JOptionPane.showMessageDialog(this, "Logged in sucsessfuly, Welcome to Connect Hub");
+             NewsFeedWindow w=new NewsFeedWindow();
+           w.setVisible(true);
+        this.setVisible(false);                
             }
             else{
                 JOptionPane.showMessageDialog(this, "Logged in Failed, User not found");
@@ -196,10 +198,7 @@ private User user;
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        NewsFeedWindow w=new NewsFeedWindow();
-        w.setVisible(true);
-        this.setVisible(false);
-        user=accountManagment.getUserByEmail(email);
+       
 //        else try {
 //            if(!(accountManagment.isUser(email, encryptedPassword.encryptPassword(password)))){
 //                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");

@@ -13,6 +13,7 @@ package Common;
 import Content_Creation.Backend.Content;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 public class Json {
@@ -32,16 +33,29 @@ public class Json {
         }
     }
 
-    public void load(String filename, ArrayList<Content> list) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Content c = mapper.readValue(new File(filename + ".json"), Content.class);
-            list.add(c);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    } 
+public void load(String filename, ArrayList<Content> list) {
+    ObjectMapper mapper = new ObjectMapper();
+    File file = new File(filename + ".json");
 
+    try {
+        // Check if the file exists
+        if (!file.exists()) {
+            // Create the file and write an empty JSON array
+            file.createNewFile();
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write("[]"); // Write an empty JSON array
+            }
+        }
+
+        // Load the contents of the file into the list
+        Content[] contents = mapper.readValue(file, Content[].class);
+        for (Content c : contents) {
+            list.add(c);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
     
 }
     

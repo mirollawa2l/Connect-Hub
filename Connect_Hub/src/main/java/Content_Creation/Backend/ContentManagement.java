@@ -5,6 +5,7 @@
 package Content_Creation.Backend;
 
 import Common.Json;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,8 +21,9 @@ public class ContentManagement {
      public ContentManagement()
      {
           j=new Json();
-          save();
-         load();
+         contents=new ArrayList<>();
+           save();
+           load();
         
      }
      

@@ -255,6 +255,9 @@ public class SignUp extends javax.swing.JFrame {
                 java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
                 JOptionPane.showMessageDialog(this, "Welcome to Connect Hub!");
+                Login w=new Login();
+                w.setVisible(true);
+                this.setVisible(false);
 
             }
 
