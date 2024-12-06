@@ -194,7 +194,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         friendList.repaint();
 
     }
-
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -416,16 +416,19 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     private void addFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendActionPerformed
         boolean found=false;
         String username = JOptionPane.showInputDialog("Search");
-<
-        for (User user : accountManagement.loadUsers()) {
-            if (username.equals(user.getUsername())) {
-                friendManager.AddFriend(user);
-            }
-        }
+
+        for (User u : accountManagement.loadUsers()) {
+            if (username.equals(u.getUsername())) {
+                friendManager.AddFriend(u);
+            
+        
         update();
         updateFriends();
         System.out.println("found");
-        found=true;}}
+        found=true;
+            }
+        }
+
         if(!found)
          JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_addFriendActionPerformed
