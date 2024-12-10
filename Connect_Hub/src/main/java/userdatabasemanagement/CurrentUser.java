@@ -1,10 +1,7 @@
 
 package userdatabasemanagement;
 
-/**
- *
- * @author sherrygirguis
- */
+
 public class CurrentUser {
      private static CurrentUser instance;
     private static User currentUser;
@@ -20,11 +17,11 @@ private CurrentUser(){
         return instance;
     }
 
-    public User getCurrentUser() {
+    public synchronized User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
+    public synchronized void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
  

@@ -12,16 +12,19 @@ package Common;
 
 import Content_Creation.Backend.Content;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 public class Json {
  
   public void save(String filename,Object obj)
 
   {
       ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
 
        
         // Write JSON to file
@@ -36,26 +39,34 @@ public class Json {
 
 public void load(String filename, ArrayList<Content> list) {
     ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule()); // Register JavaTimeModule for deserialization
+
     File file = new File(filename + ".json");
 
     try {
-        // Check if the file exists
+        // Create the file if it doesn't exist and initialize it with an empty array
         if (!file.exists()) {
-            // Create the file and write an empty JSON array
-            file.createNewFile();
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("[]"); // Write an empty JSON array
+            if (file.createNewFile()) { // Ensure file is created successfully
+                try (FileWriter writer = new FileWriter(file)) {
+                    writer.write("[]"); // Write an empty JSON array
+                }
+            } else {
+                throw new IOException("Failed to create new file: " + file.getAbsolutePath());
             }
         }
 
         // Load the contents of the file into the list
         Content[] contents = mapper.readValue(file, Content[].class);
-        System.out.println("content length in load: "+ contents.length);
-        for (Content c : contents) {
-            list.add(c);
+
+        System.out.println("Content length in load: " + (contents != null ? contents.length : 0));
+
+        if (contents != null) {
+            list.clear(); // Clear the list to avoid duplicates
+            list.addAll(Arrays.asList(contents));
         }
     } catch (IOException e) {
-        e.printStackTrace();
+        System.err.println("Error while loading content from file: " + e.getMessage());
+        e.printStackTrace(); // Replace with a logger in production
     }
 }
     

@@ -4,6 +4,8 @@
  */
 package profilemanagement;
 
+
+import java.time.format.DateTimeFormatter;
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import userdatabasemanagement.User;
+import Content_Creation.Backend.Post;
+import static java.lang.String.valueOf;
 /**
  *
  * @author HP
@@ -105,7 +109,8 @@ public class ProfileGUI extends JFrame {
     saveButton.setBackground(new Color(46, 139, 87));
     saveButton.setForeground(Color.WHITE);
     saveButton.addActionListener(e -> {
-            try {
+            try { String bio= new String(bioField.getText());
+                  profileManager.updateBio(currentUser.getId(), bio);
                 String password = new String(passwordField.getPassword());
                 String confirmPassword = new String(confirmPasswordField.getPassword());
 
@@ -169,15 +174,17 @@ private void openPostsFrame() {
 
     JPanel postsPanel = new JPanel();
     postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
-    List<Post> posts = profileManager.getUserPosts(currentUser.getId());
-
+    List<Post> posts =profileManager.getUserPosts(currentUser.getId());
+   
     if (posts.isEmpty()) {
         postsPanel.add(new JLabel("No posts to display."));
     } else {
         for (Post post : posts) {
             JPanel postPanel = new JPanel(new BorderLayout());
             JLabel contentLabel = new JLabel(post.getContent());
-            JLabel timestampLabel = new JLabel(post.getTimestamp());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+JLabel timestampLabel = new JLabel(post.getTimestamp().format(formatter));
             timestampLabel.setFont(new Font("Arial", Font.ITALIC, 12));
 
             if (post.getImagePath() != null) {
@@ -195,8 +202,8 @@ private void openPostsFrame() {
 
     postsFrame.add(new JScrollPane(postsPanel));
     postsFrame.setVisible(true);
-}
 
+}
 
 private void openFriendsFrame() {
     

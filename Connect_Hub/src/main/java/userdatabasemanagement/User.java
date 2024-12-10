@@ -2,6 +2,7 @@ package userdatabasemanagement;
 
 import java.time.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -15,6 +16,8 @@ public class User {
     private String dateOfBirth;
     private String status;
     private ArrayList<String> friends;
+    private ArrayList<String> friendRequests;
+    private ArrayList<String> sentFriendRequests;
 
     public User() {
     }
@@ -30,6 +33,25 @@ public class User {
 
     }
 
+    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.profilePhotoPath = profilePhotoPath;
+        this.coverPhotoPath = coverPhotoPath;
+        this.bio = bio;
+        this.friendRequests=friendRequests;
+        this.status = status;
+        this.friends = friends;
+        this.dateOfBirth = dateOfBirth;
+        this.sentFriendRequests=sentFriendRequests;
+    }
+    
+// Factory Method
+   public static User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests) {
+        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests);
+    }
     
     public String getProfilePhotoPath() {
         return profilePhotoPath;
@@ -97,6 +119,14 @@ public class User {
 
     public ArrayList<String> getFriends() {
         return friends;
+    }
+
+    public ArrayList<String> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public ArrayList<String> getSentFriendRequests() {
+        return sentFriendRequests;
     }
     
 

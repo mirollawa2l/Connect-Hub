@@ -48,6 +48,7 @@ public class AddPostWindow extends javax.swing.JDialog {
         imageLabel.setPreferredSize(new Dimension(400, 300));
         user = CurrentUser.getInstance().getCurrentUser();
         contentManager =new ContentManagement();
+         
     }
 
     /**
@@ -146,6 +147,7 @@ public class AddPostWindow extends javax.swing.JDialog {
             p.setAuthorId(user.getId());
             contentManager.addContent(p);
             contentManager.save();
+            contentManager.load();
             
             
             JOptionPane.showMessageDialog(this, "Post created Successfully");

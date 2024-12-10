@@ -7,6 +7,7 @@ package Content_Creation.Frontend;
 import Common.Json;
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Backend.Story;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.Login;
@@ -39,6 +41,8 @@ private User  user;
         initComponents();
             this.setLocation(250, 300);
         setTitle("Create Story");
+        imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
+        imageLabel.setPreferredSize(new Dimension(400, 300));
         user = CurrentUser.getInstance().getCurrentUser();
                 contentManager =new ContentManagement();
 
@@ -129,7 +133,7 @@ private User  user;
 
     private void inputImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputImageActionPerformed
         // TODO add your handling code here:
-          // Create File Chooser
+     // Create File Chooser
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg", "gif");
         fileChooser.setFileFilter(filter);
@@ -139,7 +143,7 @@ private User  user;
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-           selectedImagePath = selectedFile.getAbsolutePath();
+            selectedImagePath = selectedFile.getAbsolutePath();
 
             // Display Image
             ImageIcon imageIcon = new ImageIcon(selectedImagePath);
@@ -149,7 +153,8 @@ private User  user;
         } else {
             JOptionPane.showMessageDialog(this, "No image selected!");
         }
-        
+
+
        
     }//GEN-LAST:event_inputImageActionPerformed
 
@@ -167,6 +172,7 @@ private User  user;
         s.setAuthorId(user.getId());
         contentManager.addContent(s);
                     contentManager.save();
+                     contentManager.load();
 
          JOptionPane.showMessageDialog(this, "Story created Successfully");
         

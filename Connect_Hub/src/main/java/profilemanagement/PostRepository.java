@@ -15,29 +15,40 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import Content_Creation.Backend.Post;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+public class PostRepository { 
+    private static final String POST_FILE = "postsDatabase.json"; // Merge content file name
+    private final ObjectMapper objectMapper = new ObjectMapper(); 
+    private List<Post> posts;  
+ 
+    public PostRepository() throws IOException { 
+        loadFromFile(); 
+    } 
+ 
+   
+    public void loadFromFile() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class PostRepository {
-    private static final String POST_FILE = "posts.json";
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private List<Post> posts;
-
-    public PostRepository() throws IOException {
-        loadPosts();
-    }
-
-    private void loadPosts() throws IOException {
         File file = new File(POST_FILE);
-        if (file.exists()) {
-            posts = objectMapper.readValue(file, new TypeReference<List<Post>>() {});
-        } else {
-            posts = new ArrayList<>();
+        List<Post> posts = new ArrayList<>();
+
+        try {
+            if (file.exists() && file.length() > 0) {
+                posts = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Post.class));
+                System.out.println("Posts loaded successfully from: " +POST_FILE );
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        this.posts=posts;
     }
 
-    public List<Post> findPostsByUserId(String userId) {
+    // Fetch posts by user ID
+ public List<Post> findPostsByUserId(String userId) {
         return posts.stream().filter(post -> post.getAuthorId().equals(userId)).collect(Collectors.toList());
-    }
+ }
+ 
 }

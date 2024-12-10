@@ -1,1 +1,40 @@
-[{"id":"user1","email":"mm@","username":"mm","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-02","status":"offline","friends":null},{"id":"user2","email":"yara@","username":"yara","password":"15de21c670ae7c3f6f3f1f37029303c9","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-15","status":"offline","friends":null}]
+[ {
+  "id" : "user1",
+  "email" : "m@",
+  "username" : "m",
+  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : null,
+  "bio" : null,
+  "dateOfBirth" : "2024-12-01",
+  "status" : "offline",
+  "friends" : [ "user2" ],
+  "friendRequests" : [ ],
+  "sentFriendRequests" : [ ]
+}, {
+  "id" : "user2",
+  "email" : "n@",
+  "username" : "n",
+  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : null,
+  "bio" : null,
+  "dateOfBirth" : "2024-12-01",
+  "status" : "offline",
+  "friends" : [ "user1" ],
+  "friendRequests" : [ ],
+  "sentFriendRequests" : [ ]
+}, {
+  "id" : "user3",
+  "email" : "b@",
+  "username" : "b",
+  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : null,
+  "bio" : null,
+  "dateOfBirth" : "2024-12-01",
+  "status" : "offline",
+  "friends" : null,
+  "friendRequests" : [ ],
+  "sentFriendRequests" : null
+} ]

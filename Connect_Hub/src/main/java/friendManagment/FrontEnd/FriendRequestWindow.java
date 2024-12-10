@@ -13,35 +13,40 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import userdatabasemanagement.CurrentUser;
 
 public class FriendRequestWindow extends javax.swing.JFrame {
 private  DefaultComboBoxModel<String> model ;
 private DefaultListModel<String> listModel ;
 private ManageFriendRequests requestManager=new  ManageFriendRequests();
 private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
+ private User thisUser= CurrentUser.getInstance().getCurrentUser();
+boolean close=false;
 
 //connecting the account manager and friendManager to the windows
 
     public FriendRequestWindow() {
         initComponents();
+        setDefaultCloseOperation( FriendRequestWindow.DISPOSE_ON_CLOSE);
+        
         model = new DefaultComboBoxModel<>();
          SelectUser.setModel(model);
         listModel = new DefaultListModel<>();
          jList1.setModel(listModel);
         jList1 = new JList<>(listModel);
-        
-         update();}
+         update();
+    }
     public void update(){
+       
         model.removeAllElements();
         listModel.clear();
         model.addElement("Choose Request");
-        for(FriendRequest request:requestManager.getRequests()){
+        for(FriendRequest request:requestManager.loadFriendRequests(thisUser.getId())){
              model.addElement(request.getReceiver().getUsername());
              listModel.addElement(request.getReceiver().getUsername());}
-         
+
     }
         
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -94,30 +99,30 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sendFriendRequest)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Decline)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Accept))
-                    .addComponent(sendFriendRequest))
-                .addGap(32, 32, 32)
+                    .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Decline)
                             .addComponent(Accept))
-                        .addGap(3, 3, 3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sendFriendRequest))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
@@ -139,11 +144,11 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
         if (username.equals("Choose Request")) {
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
+            if(requestManager.getRequest(username)!=null){
             FriendRequest requestToDecline=requestManager.getRequest(username);
             requestManager.declineRequest(requestToDecline);
-            update();
-
-        }
+            update(); }
+            else JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE); }   
     }//GEN-LAST:event_DeclineActionPerformed
 
     private void AcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptActionPerformed
@@ -151,18 +156,34 @@ private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
         if (username.equals("Choose Request")) {
             JOptionPane.showMessageDialog(this, "Please select a request first.");
         } else {
+            if(requestManager.getRequest(username)!=null){
             FriendRequest requestToAccept=requestManager.getRequest(username);
             requestManager.acceptRequest(requestToAccept);
             update();}
+            else JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE); }   
+
 
     }//GEN-LAST:event_AcceptActionPerformed
 
     private void sendFriendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFriendRequestActionPerformed
+                boolean found=false;
         String username = JOptionPane.showInputDialog("Search");
-        for(User user:accountManagement.loadUsers())
-            if(username.equals(user.getUsername()))
-               requestManager.sendRequest(requestManager.getThisUser(),user);
+           if (username == null || username.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter a username to search.");
+        return;}
+          for(User user:accountManagement.loadUsers()){
+            
+            if(username.equals(user.getUsername())){
+               requestManager.sendRequest(thisUser,user);
+                found=true;
+               System.out. print("found");
+            break;
+            }
+          }
+         if(!found)
+           JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);  
     }//GEN-LAST:event_sendFriendRequestActionPerformed
+
 
     
     public static void main(String args[]) {
