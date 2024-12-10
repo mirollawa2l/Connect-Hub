@@ -195,17 +195,21 @@ private UserDatabaseManagement userData;
                 CurrentUser.getInstance().setCurrentUser(x);
                 
                 JOptionPane.showMessageDialog(this, "Logged in sucsessfuly, Welcome to Connect Hub");
-             NewsFeedWindow w=new NewsFeedWindow();
-           w.setVisible(true);
-        this.setVisible(false);                
+             NewsFeedWindow w;
+                try {
+                    w = new NewsFeedWindow();
+                     w.setVisible(true);
+                     this.setVisible(false); 
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                         
             }
             else{
                 JOptionPane.showMessageDialog(this, "Logged in Failed, User not found");
                 System.out.println("try again");
             }
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
         user=userData.getUserByEmail(email);

@@ -12,7 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import userdatabasemanagement.Encryptor;
 import userdatabasemanagement.User;
-
+import Content_Creation.Backend.Post;
+import userdatabasemanagement.CurrentUser;
 /**
  *
  * @author HP
@@ -30,9 +31,16 @@ public class ProfileManager {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
-   public List<Post> getUserPosts(String userId){
-        return postRepository.findPostsByUserId(userId);
+   // Fetch user posts by ID
+    public List<Post> getUserPosts(String userId) {
+        // Make sure postRepository is properly fetching posts
+        List<Post> posts = postRepository.findPostsByUserId(userId);
+        if (posts == null) {
+            System.out.println("No posts found for user: " + userId);
+        }
+        return posts;
     }
+
     public List <User> getFriends(String UserId){
         return userRepository.getFriends(UserId);
     }

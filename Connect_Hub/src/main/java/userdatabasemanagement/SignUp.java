@@ -21,15 +21,14 @@ import javax.swing.JOptionPane;
  * @author Yara
  */
 public class SignUp extends javax.swing.JFrame {
-     private static int  idCount=0;
+     private int idCount;
 
     /**
      * Creates new form SignUp2
      */
     public SignUp() {
         initComponents();
-        saveIdCount();
-           loadIdCount();
+        loadIdCount();
     }
     
     

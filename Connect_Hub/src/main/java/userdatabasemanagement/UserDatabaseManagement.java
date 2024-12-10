@@ -22,10 +22,14 @@ public class UserDatabaseManagement {
       private ArrayList<User> users;
       private ObjectMapper objectMapper;
     
-    public UserDatabaseManagement(){
-        objectMapper = new ObjectMapper();
-        users = loadUsers();
+    public UserDatabaseManagement() {
+    objectMapper = new ObjectMapper();
+    users = loadUsers();
+
+    if (users == null) { 
+        users = new ArrayList<>(); // Initialize an empty list if the file is empty
     }
+}
     
     public ArrayList<User> loadUsers(){
         
@@ -71,22 +75,29 @@ public class UserDatabaseManagement {
 }
     
  private void saveDatabase() {
-        try {
-            objectMapper.writeValue(new File(USERS_FILE), users);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    try {
+        System.out.println("Saving users to file: " + users);
+        objectMapper.writeValue(new File(USERS_FILE), users);
+    } catch (IOException e) {
+        System.out.println("Error saving users: " + e.getMessage());
     }
+}
 
     public void saveUser(User user) {
-      
-        if (isUserIdFound(user.getId())) { //user already exist
-            System.out.println("user already exists");
-            return;
-        }
-        users.add(user);
-        saveDatabase();   
+    users = loadUsers(); // Ensure the latest data is loaded before adding
+
+    if (users == null) { 
+        users = new ArrayList<>(); // Initialize if users list is null
     }
+
+    if (isUserIdFound(user.getId())) { // Check if user already exists
+        System.out.println("User already exists");
+        return;
+    }
+
+    users.add(user); // Add new user to the list
+    saveDatabase();  // Save the updated list back to the file
+}
     public User getUserByEmail(String email)
     {
         for(User u:users)

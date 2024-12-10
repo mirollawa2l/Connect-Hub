@@ -7,7 +7,16 @@ public class FriendRequest {
 private User receiver ;
 private User sender;
 private String state ;
- 
+private static FriendRequest fr;
+
+ // singleton for single instance
+private FriendRequest(){}
+public static synchronized FriendRequest getInstance(){
+    if(fr==null){
+        fr= new FriendRequest();
+    }
+    return fr;
+}
 public FriendRequest(User receiver,User sender,String state){
     this.receiver=receiver;
     this.sender=sender;
