@@ -1,5 +1,6 @@
 package Content_Creation.Backend;
 
+import static Constants.FileNames.POST_FILE;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,7 +20,6 @@ import java.util.List;
 public class Post extends Content {
 
     private static int postCount = 0; // Shared across all instances
-    private final static String filename = "postsDatabase.json";
 
     // Default constructor to initialize a post with a unique ID
     public Post() {
@@ -47,7 +47,7 @@ public void saveToFile(ArrayList<Post> posts) {
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty printing JSON
 
-    File file = new File(filename);
+    File file = new File(POST_FILE);
 
     try {
         // Ensure the file exists or create a new one
@@ -57,7 +57,7 @@ public void saveToFile(ArrayList<Post> posts) {
 
         // Overwrite the file with the new list of posts
         objectMapper.writeValue(file, posts);
-        System.out.println("Posts successfully saved to: " + filename);
+        System.out.println("Posts successfully saved to: " + POST_FILE);
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -66,13 +66,13 @@ public void saveToFile(ArrayList<Post> posts) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        File file = new File(filename);
+        File file = new File(POST_FILE);
         List<Post> posts = new ArrayList<>();
 
         try {
             if (file.exists() && file.length() > 0) {
                 posts = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Post.class));
-                System.out.println("Posts loaded successfully from: " + filename);
+                System.out.println("Posts loaded successfully from: " + POST_FILE);
             }
         } catch (IOException e) {
             e.printStackTrace();
