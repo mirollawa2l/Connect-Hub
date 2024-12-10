@@ -4,6 +4,7 @@
  */
 package userdatabasemanagement;
 
+import static Constants.FileNames.USERS_FILE;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -18,7 +19,6 @@ import java.util.ArrayList;
  */
 public class UserDatabaseManagement {
 
-   private static final String USERS_FILE= "users.json";
       private ArrayList<User> users;
       private ObjectMapper objectMapper;
     
