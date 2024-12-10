@@ -4,6 +4,7 @@
  */
 package Content_Creation.Backend;
 
+import Common.Json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
@@ -24,9 +25,10 @@ public class ContentManagement {
     private Post p;
     private Story s;
 
-   
+    private Json j;
 
     public ContentManagement() {
+        j = new Json();
         posts = new ArrayList<>();
         stories = new ArrayList<>();
         s = new Story();

@@ -8,7 +8,6 @@ package profilemanagement;
  *
  * @author HP
  */
-import static Constants.FileNames.USERS_FILE;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,6 +27,7 @@ import java.util.stream.Collectors;
 import userdatabasemanagement.User;
 
 public class UserRepository {
+    private static final String USER_FILE = "users.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<User> users;
 
@@ -37,7 +37,7 @@ public class UserRepository {
 
     // Load users from JSON file
     private void loadUsers() throws IOException {
-        File file = new File(USERS_FILE);
+        File file = new File(USER_FILE);
         if (file.exists()) {
             users = objectMapper.readValue(file, new TypeReference<List<User>>() {}); // read json to java object // TypeReference<List<User>>() {} -> Specifies the type of data being read
         } else {
@@ -48,7 +48,7 @@ public class UserRepository {
 
     // Save users to JSON file
     private void saveUsers() throws IOException {
-        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(USERS_FILE), users);// writing java object into json
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(USER_FILE), users);// writing java object into json
     }
 
     // Find user by ID
