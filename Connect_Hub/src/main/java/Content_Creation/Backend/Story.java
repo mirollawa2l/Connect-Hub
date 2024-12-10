@@ -4,6 +4,7 @@
  */
 package Content_Creation.Backend;
 
+import static Constants.FileNames.STORY_FILE;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -22,7 +23,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Story extends Content {
     private static int storyCount = 0;
-    private final static String filename = "storiesDatabase.json";
 
     // Default constructor to initialize a story with a unique ID
     public Story() {
@@ -62,7 +62,7 @@ public class Story extends Content {
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty printing JSON
 
-    File file = new File(filename);
+    File file = new File(STORY_FILE);
 
     try {
         // Ensure the file exists or create a new one
@@ -72,7 +72,7 @@ public class Story extends Content {
 
         // Overwrite the file with the new list of posts
         objectMapper.writeValue(file, stories);
-        System.out.println("Posts successfully saved to: " + filename);
+        System.out.println("Posts successfully saved to: " + STORY_FILE);
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -82,7 +82,7 @@ public class Story extends Content {
     public ArrayList<Story> loadFromFile() {
         ObjectMapper objectMapper = getObjectMapper(); // Use configured ObjectMapper
         ArrayList<Story> stories = new ArrayList<>();
-        File file = new File(filename);
+        File file = new File(STORY_FILE);
 
         try {
             // Check if the file exists and has content
@@ -104,7 +104,7 @@ public class Story extends Content {
                     file,
                     objectMapper.getTypeFactory().constructCollectionType(List.class, Story.class)
                 );
-                System.out.println("Data loaded from file: " + filename);
+                System.out.println("Data loaded from file: " + STORY_FILE);
             }
 
         } catch (IOException e) {

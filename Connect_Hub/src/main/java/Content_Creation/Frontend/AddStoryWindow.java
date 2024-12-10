@@ -4,7 +4,6 @@
  */
 package Content_Creation.Frontend;
 
-import Common.Json;
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Backend.Story;
 import java.awt.Dimension;
