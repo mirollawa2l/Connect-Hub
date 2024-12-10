@@ -1,12 +1,10 @@
 package userdatabasemanagement;
 
-import Content_Creation.Backend.Post;
-import Groups_Backend.Group;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public  class User implements UserInterface {
+public class User {
 
     private String id;
     private String email;
@@ -131,9 +129,5 @@ public  class User implements UserInterface {
         return sentFriendRequests;
     }
     
-    public void postContent (Post post){
-    
-    }
-    public void leaveGroup(Group group){}
-    
-    public void requestToJoinGroup(Group group){}}
+
+}
