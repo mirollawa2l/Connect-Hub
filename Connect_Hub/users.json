@@ -1,7 +1,7 @@
 [ {
   "id" : "user1",
-  "email" : "m@",
-  "username" : "m",
+  "email" : "a@",
+  "username" : "a",
   "password" : "81dc9bdb52d04dc20036dbd8313ed055",
   "profilePhotoPath" : null,
   "coverPhotoPath" : null,
@@ -9,23 +9,10 @@
   "dateOfBirth" : "2024-12-01",
   "status" : "offline",
   "friends" : [ "user2" ],
-  "friendRequests" : [ "user4" ],
-  "sentFriendRequests" : [ ]
+  "friendRequests" : [ ],
+  "sentFriendRequests" : [ "user2" ]
 }, {
   "id" : "user2",
-  "email" : "n@",
-  "username" : "n",
-  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
-  "profilePhotoPath" : null,
-  "coverPhotoPath" : null,
-  "bio" : null,
-  "dateOfBirth" : "2024-12-01",
-  "status" : "offline",
-  "friends" : [ "user1" ],
-  "friendRequests" : [ ],
-  "sentFriendRequests" : [ ]
-}, {
-  "id" : "user3",
   "email" : "b@",
   "username" : "b",
   "password" : "81dc9bdb52d04dc20036dbd8313ed055",
@@ -34,20 +21,33 @@
   "bio" : null,
   "dateOfBirth" : "2024-12-01",
   "status" : "offline",
-  "friends" : null,
-  "friendRequests" : [ ],
-  "sentFriendRequests" : null
+  "friends" : [ "user1" ],
+  "friendRequests" : [ "user1" ],
+  "sentFriendRequests" : [ ]
 }, {
-  "id" : "user4",
-  "email" : "wael@gmail.com",
-  "username" : "wael",
+  "id" : "user3",
+  "email" : "c@",
+  "username" : "c",
   "password" : "81dc9bdb52d04dc20036dbd8313ed055",
   "profilePhotoPath" : null,
-  "coverPhotoPath" : "C:\\Users\\mirol\\Downloads\\WhatsApp Image 2024-12-09 at 14.05.54_9a186f8d.jpg",
-  "bio" : "",
+  "coverPhotoPath" : null,
+  "bio" : null,
   "dateOfBirth" : "2024-12-01",
   "status" : "offline",
   "friends" : null,
   "friendRequests" : null,
-  "sentFriendRequests" : [ "user1" ]
+  "sentFriendRequests" : null
+}, {
+  "id" : "user4",
+  "email" : "d@",
+  "username" : "d",
+  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : null,
+  "bio" : null,
+  "dateOfBirth" : "2024-12-01",
+  "status" : "offline",
+  "friends" : null,
+  "friendRequests" : null,
+  "sentFriendRequests" : null
 } ]
