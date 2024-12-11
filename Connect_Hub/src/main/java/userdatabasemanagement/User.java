@@ -131,9 +131,4 @@ public  class User implements UserInterface {
         return sentFriendRequests;
     }
     
-    public void postContent (Post post){
-    
     }
-    public void leaveGroup(Group group){}
-    
-    public void requestToJoinGroup(Group group){}}
