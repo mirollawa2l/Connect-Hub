@@ -4,6 +4,7 @@
  */
 package Groups_Backend;
 
+import Content_Creation.Backend.Post;
 import java.util.ArrayList;
 import userdatabasemanagement.User;
 
@@ -12,6 +13,16 @@ import userdatabasemanagement.User;
  * @author mirol
  */
 public interface GroupInterface {
+
+    public abstract ArrayList<User> getRequestedMembers();
+
+    public abstract void setRequestedMembers(ArrayList<User> requestedMembers);
+
+    public abstract void setPosts(ArrayList<Post> posts);
+
+    public abstract ArrayList<Post> getPosts();
+
+    public abstract String getGroupId();
 
     public abstract Admin getAdmin();
 
@@ -24,10 +35,6 @@ public interface GroupInterface {
     public abstract ArrayList<User> getMembers();
 
     public abstract void setMembers(ArrayList<User> members);
-
-    public abstract ArrayList<User> getAllMembers();
-
-    public abstract void setAllMembers(ArrayList<User> allMembers);
 
     public abstract String getName();
 

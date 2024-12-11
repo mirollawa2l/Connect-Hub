@@ -13,36 +13,61 @@ import userdatabasemanagement.User;
  *
  * @author mirol
  */
-public class SubAdmin extends User{
-  
- private ArrayList <Group> groupsToManage;
- 
+public class SubAdmin extends User {
+
+    protected String groupId;
+    protected GroupManager manager;
 
     public SubAdmin() {
+
     }
 
-    public SubAdmin(ArrayList<Group> groupsToManage, String id, String email, String username, String password, LocalDate dateOfBirth, String status) {
+    public SubAdmin(String groupId, String id, String email, String username, String password, LocalDate dateOfBirth, String status) {
         super(id, email, username, password, dateOfBirth, status);
-        this.groupsToManage = groupsToManage;
+        this.groupId = groupId;
     }
 
-    public SubAdmin(ArrayList<Group> groupsToManage, String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends, ArrayList<String> friendRequests, ArrayList<String> sentFriendRequests) {
-        super(id, email, username, password, profilePhotoPath, coverPhotoPath, bio, dateOfBirth, status, friends, friendRequests, sentFriendRequests);
-        this.groupsToManage = groupsToManage;
+    public String getGroupId() {
+        return groupId;
     }
-    
-    public void approveNewMember(User user){}
 
-    public void declineNewMember(){}
-    
-    public void removeUser(){}
-    
-    public void editPosts(Post post){}
-    
-    public void deletePost(Post post){}
-    
-  // cannot change the primary admin (exclude the user from the editing,deleting,removing admin)
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public void approveNewMember(User user) {
+        manager.getGroup(groupId).getRequestedMembers().remove(user);
+        manager.getGroup(groupId).getMembers().add(user);
+    }
+
+    public void declineNewMember(User user) {
+        manager.getGroup(groupId).getRequestedMembers().remove(user);
+    }
+
+    public void removeUser(User user) {
+        if (user == manager.getGroup(groupId).getAdmin()) {
+            System.out.println("SubAdmin Can't remove primary Admin");
+        } else if (manager.isSubAdmin(user, manager.getGroup(groupId))) {
+            System.out.println("SubAdmin Can't remove another subAdmin");
+        } else if (manager.isMember(user, manager.getGroup(groupId))) {
+            manager.getGroup(groupId).getMembers().remove(user);
+
+        }
+    }
+
+    public void editPosts(Post post) {
+
+    }
+
+    public void deletePost(Post post) {
+        manager.getGroup(groupId).getPosts().remove(post);
+    }
+
+    public void addPost(Post post) {
+        manager.getGroup(groupId).getPosts().add(post);
+
+    }
+
+    // cannot change the primary admin (exclude the user from the editing,deleting,removing admin)
     // cannot add,delete,edit,remove other admins 
-    
-    
 }

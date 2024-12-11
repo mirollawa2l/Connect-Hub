@@ -9,7 +9,7 @@
   "dateOfBirth" : "2024-12-01",
   "status" : "offline",
   "friends" : [ "user2" ],
-  "friendRequests" : [ ],
+  "friendRequests" : [ "user4" ],
   "sentFriendRequests" : [ ]
 }, {
   "id" : "user2",
@@ -37,4 +37,17 @@
   "friends" : null,
   "friendRequests" : [ ],
   "sentFriendRequests" : null
+}, {
+  "id" : "user4",
+  "email" : "wael@gmail.com",
+  "username" : "wael",
+  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : "C:\\Users\\mirol\\Downloads\\WhatsApp Image 2024-12-09 at 14.05.54_9a186f8d.jpg",
+  "bio" : "",
+  "dateOfBirth" : "2024-12-01",
+  "status" : "offline",
+  "friends" : null,
+  "friendRequests" : null,
+  "sentFriendRequests" : [ "user1" ]
 } ]

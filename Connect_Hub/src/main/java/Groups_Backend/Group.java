@@ -4,6 +4,7 @@
  */
 package Groups_Backend;
 
+import Content_Creation.Backend.Post;
 import java.util.ArrayList;
 import userdatabasemanagement.User;
 
@@ -11,17 +12,43 @@ import userdatabasemanagement.User;
  *
  * @author mirol
  */
-public class Group implements GroupInterface{
-    private  Admin admin;
+public class Group implements GroupInterface {
+
+    private String groupId;
+    private Admin admin;
     private ArrayList<SubAdmin> subAdmins;
     private ArrayList<User> members;
-    private ArrayList<User> allMembers;  
+    private ArrayList<User> requestedMembers;
+    private ArrayList<Post> posts;
     private String name;
     private String description;
     private String groupPhotoPath;
-    
-   
-    
+
+    @Override
+    public ArrayList<User> getRequestedMembers() {
+        return requestedMembers;
+    }
+
+    @Override
+    public void setRequestedMembers(ArrayList<User> requestedMembers) {
+        this.requestedMembers = requestedMembers;
+    }
+
+    @Override
+    public ArrayList<Post> getPosts() {
+        return posts;
+    }
+
+    @Override
+    public void setPosts(ArrayList<Post> posts) {
+        this.posts = posts;
+    }
+
+    @Override
+    public String getGroupId() {
+        return groupId;
+    }
+
     @Override
     public Admin getAdmin() {
         return admin;
@@ -44,22 +71,12 @@ public class Group implements GroupInterface{
 
     @Override
     public ArrayList<User> getMembers() {
-        return members;
+        return this.members;
     }
 
     @Override
     public void setMembers(ArrayList<User> members) {
         this.members = members;
-    }
-
-    @Override
-    public ArrayList<User> getAllMembers() {
-        return allMembers;
-    }
-
-    @Override
-    public void setAllMembers(ArrayList<User> allMembers) {
-        this.allMembers = allMembers;
     }
 
     @Override
@@ -91,8 +108,5 @@ public class Group implements GroupInterface{
     public void setGroupPhotoPath(String groupPhotoPath) {
         this.groupPhotoPath = groupPhotoPath;
     }
-    
-    
-    
-    
+
 }
