@@ -6,7 +6,6 @@ package Search;
 
 import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
-import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;

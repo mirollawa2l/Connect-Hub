@@ -5,15 +5,12 @@
 package profilemanagement;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import userdatabasemanagement.Encryptor;
 import userdatabasemanagement.User;
 import Content_Creation.Backend.Post;
-import userdatabasemanagement.CurrentUser;
 /**
  *
  * @author HP

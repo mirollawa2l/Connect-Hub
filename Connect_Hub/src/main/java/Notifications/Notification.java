@@ -8,7 +8,6 @@ package Notifications;
  *
  * @author HP
  */
-import java.time.LocalDateTime;
 import userdatabasemanagement.User;
 
 public class Notification {

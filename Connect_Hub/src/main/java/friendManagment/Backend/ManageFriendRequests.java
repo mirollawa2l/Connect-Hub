@@ -1,5 +1,6 @@
-
 package friendManagment.Backend;
+
+
 import Notifications.NotificationManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import userdatabasemanagement.UserDatabaseManagement;
@@ -8,12 +9,10 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import friendManagment.Backend.FriendRequest;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
-import Notifications.*;
 
 //ensure thisUser is the senser not the receiver
 

@@ -4,7 +4,6 @@
  */
 package Content_Creation.Frontend;
 
-import Common.Json;
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Backend.Story;
 import java.awt.Dimension;
@@ -18,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import userdatabasemanagement.CurrentUser;
-import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 
 /**

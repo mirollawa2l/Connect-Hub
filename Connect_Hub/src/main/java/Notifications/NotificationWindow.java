@@ -12,14 +12,7 @@ import friendManagment.Backend.FriendRequest;
 import friendManagment.Backend.ManageFriendRequests;
 import java.awt.BorderLayout;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
-
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 

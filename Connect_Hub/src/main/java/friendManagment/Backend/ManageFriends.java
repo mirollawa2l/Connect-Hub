@@ -1,8 +1,6 @@
-
 package friendManagment.Backend;
 
-import static Constants.FileNames.USERS_FILE;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import userdatabasemanagement.User;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;

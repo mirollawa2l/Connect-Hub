@@ -5,13 +5,10 @@ package friendManagment.FrontEnd;
 import Notifications.NotificationWindow;
 import friendManagment.Backend.FriendRequest;
 import friendManagment.Backend.ManageFriendRequests;
-import friendManagment.Backend.ManageFriends;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;

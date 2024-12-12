@@ -4,11 +4,7 @@
  */
 package Content_Creation.Backend;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+
 import java.util.ArrayList;
 
 /**
@@ -17,7 +13,7 @@ import java.util.ArrayList;
  */
 public class ContentManagement {
 
-    private String fileName;
+   
     private ArrayList<Post> posts;
     private ArrayList<Story> stories;
     private Post p;
