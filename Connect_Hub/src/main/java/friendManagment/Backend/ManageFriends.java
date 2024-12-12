@@ -35,6 +35,7 @@ public class ManageFriends {
     }
    }
        public void AddFriend(User friend){
+
        ArrayList<User> friends = loadFriends(thisUser.getId());
     if (friends != null) {
          if(friend.getId().equals(thisUser.getId())){
@@ -72,6 +73,7 @@ public class ManageFriends {
             }
             catch (IOException e) {
             e.printStackTrace();
+
         }}}
       public void RemoveFriend (User friend){
           

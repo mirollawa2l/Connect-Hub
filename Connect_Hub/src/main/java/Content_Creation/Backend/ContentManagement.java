@@ -4,9 +4,12 @@
  */
 package Content_Creation.Backend;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
-
 
 /**
  *
@@ -20,9 +23,10 @@ public class ContentManagement {
     private Post p;
     private Story s;
 
-   
+    private Json j;
 
     public ContentManagement() {
+        j = new Json();
         posts = new ArrayList<>();
         stories = new ArrayList<>();
         s = new Story();

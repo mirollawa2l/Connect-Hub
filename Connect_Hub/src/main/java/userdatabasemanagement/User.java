@@ -1,12 +1,10 @@
 package userdatabasemanagement;
 
-import Content_Creation.Backend.Post;
-import Groups_Backend.Group;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public  class User implements UserInterface {
+public class User {
 
     private String id;
     private String email;
@@ -142,3 +140,12 @@ public  class User implements UserInterface {
     }
     
     }
+
+    
+    @Override
+    public String toString() {
+        return "User{id='" + id + "', status='" + status + "'}";
+    }
+
+}
+

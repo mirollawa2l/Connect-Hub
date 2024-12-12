@@ -168,18 +168,22 @@ boolean close=false;
     private void sendFriendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFriendRequestActionPerformed
                 boolean found=false;
         String username = JOptionPane.showInputDialog("Search");
+
            if (username == null || username.trim().isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please enter a username to search.");
         return;}
           for(User user:accountManagement.loadUsers()){
+
             
             if(username.equals(user.getUsername())){
                requestManager.sendRequest(thisUser,user);
                 found=true;
+
                System.out. print("found");
             break;
             }
           }
+
          if(!found)
            JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);  
     }//GEN-LAST:event_sendFriendRequestActionPerformed
