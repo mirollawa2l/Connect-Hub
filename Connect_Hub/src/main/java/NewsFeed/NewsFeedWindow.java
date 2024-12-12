@@ -13,6 +13,7 @@ import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import Search.SearchUserWindow;
+import Groups_FrontEnd.ViewGroups;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendListWindow;
 import friendManagment.FrontEnd.FriendRequestWindow;
@@ -234,6 +235,8 @@ void displayContents() {
         updateProfile = new javax.swing.JButton();
         friendList = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
+        viewGroups = new javax.swing.JButton();
+        groupSuggestions = new javax.swing.JButton();
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -330,6 +333,14 @@ void displayContents() {
 
         jButton2.setText("Search Group");
 
+        viewGroups.setText("View groups");
+        viewGroups.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewGroupsActionPerformed(evt);
+            }
+        });
+
+        groupSuggestions.setText("Group Suggestions");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -344,8 +355,9 @@ void displayContents() {
                 .addComponent(addPostBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
 
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addStoryBtn)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(friendSuggestion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(friendRequest)
@@ -363,12 +375,20 @@ void displayContents() {
                 .addGap(18, 18, 18)
 
                 .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(friendRequest)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refresh)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(viewGroups)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(groupSuggestions, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(updateProfile)
 
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -393,6 +413,9 @@ void displayContents() {
                     .addComponent(refresh)
                     .addComponent(friendList))
 
+                    .addComponent(friendList)
+                    .addComponent(viewGroups)
+                    .addComponent(groupSuggestions))
                 .addGap(15, 15, 15))
         );
 
@@ -409,13 +432,14 @@ void displayContents() {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
 
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,6 +520,12 @@ void displayContents() {
         sw.setVisible(true);
         sw.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
+    private void viewGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewGroupsActionPerformed
+        // TODO add your handling code here
+        ViewGroups viewGroups= new ViewGroups();
+        viewGroups.setVisible(true);
+        
+    }//GEN-LAST:event_viewGroupsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -547,10 +577,12 @@ void displayContents() {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
 
+    private javax.swing.JButton groupSuggestions;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JButton refresh;
     private javax.swing.JButton updateProfile;
+    private javax.swing.JButton viewGroups;
     // End of variables declaration//GEN-END:variables
 }

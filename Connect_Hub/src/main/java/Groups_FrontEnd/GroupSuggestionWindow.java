@@ -8,16 +8,12 @@ package Groups_FrontEnd;
  *
  * @author sherrygirguis
  */
-public class MemberWindow extends javax.swing.JFrame {
+public class GroupSuggestionWindow extends javax.swing.JFrame {
 
-    
-    
     /**
-     * Creates new form MemberwINDOW
+     * Creates new form GroupSuggestionWindow
      */
-    
- 
-    public MemberWindow() {
+    public GroupSuggestionWindow() {
         initComponents();
     }
 
@@ -63,21 +59,20 @@ public class MemberWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MemberWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GroupSuggestionWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MemberWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GroupSuggestionWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MemberWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GroupSuggestionWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MemberWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GroupSuggestionWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MemberWindow().setVisible(true);
+                new GroupSuggestionWindow().setVisible(true);
             }
         });
     }
