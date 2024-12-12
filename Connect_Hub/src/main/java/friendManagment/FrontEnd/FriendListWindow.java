@@ -158,24 +158,23 @@ private DefaultComboBoxModel<String> model;
             JOptionPane.showMessageDialog(this, "Please select a user first.");
         } else {
 
-            if (friendManager.getFriends() != null) {
-                for (User friend : friendManager.getFriends()) {
-                    if (username.equals(friend.getUsername())) {
-                        friendManager.BlockFriend(friend);
+            if (accountManagement.loadUsers() != null) {
+                for (User user : accountManagement.loadUsers()) {
+                    if (username.equals(user.getUsername())) {
+                        friendManager.BlockFriend(user);
                         update();
                         found = true;
-                        JOptionPane.showMessageDialog(null, "friend blocked sucessfully!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "user blocked sucessfully!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "User has no friends!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Id not found!", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
             if (!found) {
                 JOptionPane.showMessageDialog(null, "No user found!", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
 
-                    update();
     }//GEN-LAST:event_BlockActionPerformed
 
     private void RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveActionPerformed

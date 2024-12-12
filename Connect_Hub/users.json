@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+[{"id":"user1","email":"a@","username":"a","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-11","status":"offline","friends":[],"friendRequests":[],"sentFriendRequests":[],"blockList":null},{"id":"user2","email":"n@","username":"n","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-18","status":"offline","friends":[],"friendRequests":null,"sentFriendRequests":[],"blockList":null},{"id":"user3","email":"c@","username":"c","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-01","status":"offline","friends":[],"friendRequests":[],"sentFriendRequests":[],"blockList":null},{"id":"user4","email":"d@","username":"d","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-01","status":"offline","friends":null,"friendRequests":[],"sentFriendRequests":null,"blockList":null}]
+=======
 
 [ {
   "id" : "user1",
@@ -40,3 +43,4 @@
   "sentFriendRequests" : null
 } ]
 
+>>>>>>> main

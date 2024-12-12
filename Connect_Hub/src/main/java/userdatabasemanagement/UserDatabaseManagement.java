@@ -85,7 +85,7 @@ public class UserDatabaseManagement {
     return users; 
 }
     
- private void saveDatabase() {
+ public void saveDatabase() {
     try {
         System.out.println("Saving users to file: " + users);
         objectMapper.writeValue(new File(USERS_FILE), users);

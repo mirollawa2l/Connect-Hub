@@ -42,8 +42,8 @@ boolean close=false;
         listModel.clear();
         model.addElement("Choose Request");
         for(FriendRequest request:requestManager.loadFriendRequests(thisUser.getId())){
-             model.addElement(request.getReceiver().getUsername());
-             listModel.addElement(request.getReceiver().getUsername());}
+             model.addElement(request.getSender().getUsername());
+             listModel.addElement(request.getSender().getUsername());}
 
     }
         

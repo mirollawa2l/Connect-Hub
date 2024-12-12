@@ -10,8 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
-import Content_Creation.Backend.Post;
-import Content_Creation.Backend.Story;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import Search.SearchUserWindow;
@@ -27,7 +25,6 @@ import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -107,20 +104,20 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
     // Call update methods
  
-    updateFriends();
+    updateFriendsContent();
     displayContents();
 
     // Revalidate and repaint the main frame
     this.revalidate();
     this.repaint();
 
-        updateFriends();
+        updateFriendsContent();
         displayContents();
         revalidate();
         repaint();
     }
 
-    public void updateFriends() {
+    public void updateFriendsContent() {
         if (friendManager.loadFriends(user.getId()) != null) {
             for (User u : friendManager.getFriends()) {
                 friendsContent.addAll(contentManager.getcontentByAuthorId(u.getId()));
@@ -132,24 +129,9 @@ void displayContents() {
     contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty
-
-
-    postsPanel.revalidate();
-    postsPanel.repaint();
-
-    // Retrieve unique content
-    Set<String> uniqueIds = new HashSet<>();
-    ArrayList<Content> deduplicatedContent = new ArrayList<>();
-    for (Content content : contentManager.getcontentByAuthorId(user.getId())) {
-        if (uniqueIds.add(content.getContentId())) { // Add only unique items
-            deduplicatedContent.add(content);
-        }
-    }
-    friendsContent.addAll(deduplicatedContent);
-
-    System.out.println("friendsContent size: " + friendsContent.size());
-
-
+    updateFriendsContent();
+    
+    
     postsPanel.revalidate();
     postsPanel.repaint();
 
