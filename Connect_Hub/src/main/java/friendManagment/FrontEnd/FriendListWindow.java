@@ -164,7 +164,7 @@ private DefaultComboBoxModel<String> model;
                         friendManager.BlockFriend(user);
                         update();
                         found = true;
-                        JOptionPane.showMessageDialog(null, "friend blocked sucessfully!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "user blocked sucessfully!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             } else {

@@ -4,8 +4,6 @@
  */
 package Groups_Backend;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import userdatabasemanagement.User;
 
 /**

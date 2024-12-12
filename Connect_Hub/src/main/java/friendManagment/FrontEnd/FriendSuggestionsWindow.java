@@ -6,7 +6,6 @@ import friendManagment.Backend.FriendSuggestion;
 import friendManagment.Backend.FriendSuggestionManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 

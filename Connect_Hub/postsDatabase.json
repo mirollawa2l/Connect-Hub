@@ -1,9 +1,9 @@
 [ {
   "contentId" : "P3",
-  "authorId" : "user4",
-  "content" : "Hello guys this is my first post",
-  "imagePath" : null,
-  "timestamp" : [ 2024, 12, 11, 1, 55, 4, 581878700 ],
+  "authorId" : "user1",
+  "content" : "",
+  "imagePath" : "C:\\Users\\mirol\\Documents\\GitHub\\Connect-Hub\\Connect_Hub\\Pictures\\WhatsApp Image 2024-12-09 at 14.05.51_7a75c94b.jpg",
+  "timestamp" : [ 2024, 12, 11, 23, 17, 17, 963110400 ],
   "expired" : false,
   "story" : false
 } ]

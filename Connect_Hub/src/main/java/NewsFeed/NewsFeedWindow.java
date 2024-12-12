@@ -10,8 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
-import Content_Creation.Backend.Post;
-import Content_Creation.Backend.Story;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import friendManagment.Backend.ManageFriends;
@@ -26,7 +24,6 @@ import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -104,20 +101,20 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
     // Call update methods
  
-    updateFriends();
+    updateFriendsContent();
     displayContents();
 
     // Revalidate and repaint the main frame
     this.revalidate();
     this.repaint();
 
-        updateFriends();
+        updateFriendsContent();
         displayContents();
         revalidate();
         repaint();
     }
 
-    public void updateFriends() {
+    public void updateFriendsContent() {
         if (friendManager.loadFriends(user.getId()) != null) {
             for (User u : friendManager.getFriends()) {
                 friendsContent.addAll(contentManager.getcontentByAuthorId(u.getId()));
@@ -129,7 +126,9 @@ void displayContents() {
     contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty
-
+    updateFriendsContent();
+    
+    
     postsPanel.revalidate();
     postsPanel.repaint();
 
