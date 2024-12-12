@@ -447,15 +447,13 @@ void displayContents() {
     private void friendSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendSuggestionActionPerformed
         FriendSuggestionsWindow friendSuggestionWindow = new FriendSuggestionsWindow();
         friendSuggestionWindow.setVisible(true);
-
-
+        
     }//GEN-LAST:event_friendSuggestionActionPerformed
 
     private void friendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendRequestActionPerformed
         FriendRequestWindow friendRequestWindow = new FriendRequestWindow();
         friendRequestWindow.setVisible(true);
-
-
+        
     }//GEN-LAST:event_friendRequestActionPerformed
 
     private void updateProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfileActionPerformed
