@@ -4,6 +4,7 @@
  */
 package Groups_Backend;
 
+import Content_Creation.Backend.Post;
 import java.util.ArrayList;
 import userdatabasemanagement.User;
 
@@ -12,6 +13,8 @@ import userdatabasemanagement.User;
  * @author mirol
  */
 public interface GroupManagerInterface {
+
+    public abstract void addPost(Post p,Group g);
 
     public abstract ArrayList<Group> getGroups();
 

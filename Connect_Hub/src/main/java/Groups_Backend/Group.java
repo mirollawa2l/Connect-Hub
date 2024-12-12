@@ -5,6 +5,7 @@
 package Groups_Backend;
 
 import Content_Creation.Backend.Post;
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import userdatabasemanagement.User;
 
@@ -24,6 +25,14 @@ public class Group implements GroupInterface {
     private String description;
     private String groupPhotoPath;
 
+    
+    private static int GroupCount = 0;
+
+    public Group() {
+        this.groupId="G"+valueOf(++GroupCount);
+    }
+    
+    
     @Override
     public ArrayList<User> getRequestedMembers() {
         return requestedMembers;
@@ -42,6 +51,12 @@ public class Group implements GroupInterface {
     @Override
     public void setPosts(ArrayList<Post> posts) {
         this.posts = posts;
+    }
+    
+    @Override
+    public void addPost(Post p)
+    {
+        this.posts.add(p);
     }
 
     @Override

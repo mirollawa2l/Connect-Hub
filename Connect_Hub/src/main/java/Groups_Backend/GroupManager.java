@@ -5,6 +5,7 @@
 package Groups_Backend;
 
 import static Constants.FileNames.GROUPS_FILE;
+import Content_Creation.Backend.Post;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,6 +23,15 @@ public class GroupManager implements GroupManagerInterface {
 
     private ArrayList<Group> groups;
 
+
+    public GroupManager() {
+        this.groups=loadFromFile();
+    }    
+    
+    
+    public void addPost (Post p,Group g){
+        g.addPost(p);
+    } 
     @Override
     public ArrayList<Group> getGroups() {
         return groups;
@@ -132,4 +142,5 @@ public class GroupManager implements GroupManagerInterface {
     public boolean isSAdmin(User user, Group g) {
       return user==g.getAdmin();
     }
+
 }
