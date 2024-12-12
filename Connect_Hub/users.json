@@ -1,3 +1,4 @@
+
 [ {
   "id" : "user1",
   "email" : "m@",
@@ -38,3 +39,4 @@
   "friendRequests" : [ ],
   "sentFriendRequests" : null
 } ]
+

@@ -84,6 +84,7 @@ private FriendSuggestionManager suggestionManager;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -105,7 +106,11 @@ private FriendSuggestionManager suggestionManager;
                         .addGap(30, 30, 30)
                         .addComponent(SelectUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Accept))
+
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Accept)
+                            .addComponent(Decline)))
+
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(5, 5, 5)
@@ -114,7 +119,8 @@ private FriendSuggestionManager suggestionManager;
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-
+  3fold>//GEN-END:initComponents
 
     private void SelectUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectUserActionPerformed
         
@@ -131,6 +137,10 @@ private FriendSuggestionManager suggestionManager;
         
     }//GEN-LAST:event_AcceptActionPerformed
 
+    public boolean exit()
+    {
+        return close;
+ }
 
   
     public static void main(String args[]) {

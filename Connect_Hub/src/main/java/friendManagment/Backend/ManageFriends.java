@@ -33,6 +33,7 @@ public class ManageFriends {
     }
    }
        public void AddFriend(User friend){
+
        ArrayList<User> friends = loadFriends(thisUser.getId());
     if (friends != null) {
          if(friend.getId().equals(thisUser.getId())){
@@ -42,7 +43,7 @@ public class ManageFriends {
               if(user.getId().equals(friend.getId())){
                    JOptionPane.showMessageDialog(null,"Friend already added found!","Error",JOptionPane.INFORMATION_MESSAGE);
                    return;}}
-   
+
            
            ObjectMapper objectMapper = new ObjectMapper();
            try {
@@ -66,6 +67,7 @@ public class ManageFriends {
             }
             catch (IOException e) {
             e.printStackTrace();
+
         }}}
       public void RemoveFriend (User friend){
           

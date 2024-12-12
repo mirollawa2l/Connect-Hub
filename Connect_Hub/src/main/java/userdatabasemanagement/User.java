@@ -129,5 +129,9 @@ public class User {
         return sentFriendRequests;
     }
     
+    @Override
+    public String toString() {
+        return "User{id='" + id + "', status='" + status + "'}";
+    }
 
 }

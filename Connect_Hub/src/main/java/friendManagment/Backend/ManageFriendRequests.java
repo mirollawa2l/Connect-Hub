@@ -25,6 +25,7 @@ public class ManageFriendRequests {
    private User thisUser= CurrentUser.getInstance().getCurrentUser();
       
 
+
     public FriendRequest sendRequest(User sender,User receiver){
         boolean isFriend=false;
         if(receiver.getId().equals(thisUser.getId())){
@@ -42,18 +43,11 @@ public class ManageFriendRequests {
               }
       }
    
-         
+
         friendRequest=new FriendRequest(receiver,sender,"pending");
         
          listOfRequests.add(friendRequest);
-      
-         addToFile(friendRequest);
-  
-         JOptionPane.showMessageDialog(null,"friend Request added sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
-          return friendRequest;
-                         
-    }
-    
+
   
     public void acceptRequest(FriendRequest friendRequest){
       friendsManager.AddFriend(friendRequest.getReceiver());
@@ -83,6 +77,7 @@ public class ManageFriendRequests {
               try {
               ObjectMapper objectMapper = new ObjectMapper();
              JsonNode rootNode = objectMapper.readTree(new File("users.json"));
+
             
              JsonNode senderNode = findUserById(rootNode, friendRequest.getSender().getId());
             JsonNode receiverNode = findUserById(rootNode, friendRequest.getReceiver().getId());
@@ -148,6 +143,8 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             
             if (receiverNode != null && senderNode!= null) {
                      ArrayNode senderFriendRequests = ensureArrayNode(senderNode, "sentFriendRequests");
+
+
                      if (senderFriendRequests == null || senderFriendRequests.size() == 0) {
                 System.out.println("Sender's sent friend requests array is empty or null");
             } else {
@@ -168,6 +165,7 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             } else {
                 System.out.println("Receiver's received friend requests array is populated");
             }
+
              for (int i =0;i<receiverFriendRequests.size();i++) {
                 if (receiverFriendRequests.get(i).asText().equals(friendRequest.getSender().getId())) {
                    receiverFriendRequests.remove(i);
@@ -185,6 +183,7 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             e.printStackTrace();
         }}
  
+
     private ArrayNode ensureArrayNode(JsonNode node, String fieldName) {
     JsonNode fieldNode = node.get(fieldName);
     if (fieldNode == null || !fieldNode.isArray()) {
@@ -239,6 +238,7 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
     return listOfRequests;
         
     }
+
 
 
 }

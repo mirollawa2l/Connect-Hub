@@ -207,7 +207,7 @@ private DefaultComboBoxModel<String> model;
     private void addFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendActionPerformed
          boolean found = false;
         String username = JOptionPane.showInputDialog("Search");
-        if (username == null || username.trim().isEmpty()) {
+
         JOptionPane.showMessageDialog(this, "Please enter a username to search.");
         return;
     }

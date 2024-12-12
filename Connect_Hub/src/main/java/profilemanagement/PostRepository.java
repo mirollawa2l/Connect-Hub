@@ -31,6 +31,7 @@ public class PostRepository {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
+
         File file = new File(POST_FILE);
         List<Post> posts = new ArrayList<>();
 
@@ -50,5 +51,5 @@ public class PostRepository {
  public List<Post> findPostsByUserId(String userId) {
         return posts.stream().filter(post -> post.getAuthorId().equals(userId)).collect(Collectors.toList());
  }
- 
+
 }
