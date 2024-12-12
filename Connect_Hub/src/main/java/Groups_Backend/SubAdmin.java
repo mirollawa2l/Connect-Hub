@@ -5,8 +5,9 @@
 package Groups_Backend;
 
 import Content_Creation.Backend.Post;
+import Groups_Backend_Operations.GroupRequest;
+import Groups_Backend_Operations.GroupRequestManager;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import userdatabasemanagement.User;
 
 /**
@@ -17,6 +18,7 @@ public class SubAdmin extends User {
 
     protected String groupId;
     protected GroupManager manager;
+    protected GroupRequestManager requestManager;
 
     public SubAdmin() {
 
@@ -35,14 +37,17 @@ public class SubAdmin extends User {
         this.groupId = groupId;
     }
 
-    public void approveNewMember(User user) {
-        manager.getGroup(groupId).getRequestedMembers().remove(user);
-        manager.getGroup(groupId).getMembers().add(user);
+    public void approveNewMember(GroupRequest request) {
+        if(!manager.isMember(request.getSender(), manager.getGroup(groupId)))
+        requestManager.acceptRequest(request);
+ 
     }
 
-    public void declineNewMember(User user) {
-        manager.getGroup(groupId).getRequestedMembers().remove(user);
+    public void declineNewMember(GroupRequest request) {
+        requestManager.declineRequest(request);
+    
     }
+ 
 
     public void removeUser(User user) {
         if (user == manager.getGroup(groupId).getAdmin()) {
@@ -55,8 +60,10 @@ public class SubAdmin extends User {
         }
     }
 
-    public void editPosts(Post post) {
-
+    public void editPosts(Post post,Post newPost) {
+        manager.getGroup(groupId).getPosts().remove(post);
+        manager.getGroup(groupId).getPosts().add(newPost);
+        
     }
 
     public void deletePost(Post post) {

@@ -5,6 +5,7 @@
 package Groups_Backend;
 
 import Content_Creation.Backend.Post;
+import Groups_Backend_Operations.GroupRequestManager;
 import userdatabasemanagement.User;
 
 /**
@@ -13,16 +14,20 @@ import userdatabasemanagement.User;
  */
 public class Member extends User {
     
-    private GroupManager manger;
+    private GroupManager manager;
+    private GroupRequestManager requestManager;
     
-    public void postContent (Post post){
+    public void leaveGroup(Group group,User user){
+       manager.getGroup(group.getGroupId()).getMembers().remove(user);
+       if(manager.isSubAdmin(user, group))
+           manager.getGroup(group.getGroupId()).getSubAdmins().remove(user);
        
-    }
-    public void leaveGroup(Group g){
-       
-    }
+            
+       }
+          
     
-    public void requestToJoinGroup(Group g){
+    public void requestToJoinGroup(Group group,User user){
+         requestManager.sendRequest(user,group);
     
     }
 }

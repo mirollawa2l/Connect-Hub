@@ -27,6 +27,7 @@ public class ManageFriendRequests {
 
     public FriendRequest sendRequest(User sender,User receiver){
         boolean isFriend=false;
+        boolean isBlocked=false;
         if(receiver.getId().equals(thisUser.getId())){
         JOptionPane.showMessageDialog(null,"Cannot add yourself!","Error",JOptionPane.INFORMATION_MESSAGE);
           return null;
@@ -42,6 +43,14 @@ public class ManageFriendRequests {
               }
       }
    
+      for(User user:friendsManager.getBlocked()){
+          
+              if(user.getId().equals(receiver.getId())||user.getId().equals(sender.getId())){
+                  isBlocked=true;
+                   JOptionPane.showMessageDialog(null,"Blocked!","Error",JOptionPane.INFORMATION_MESSAGE);
+                   return null;
+              }
+      }
          
         friendRequest=new FriendRequest(receiver,sender,"pending");
         
@@ -56,7 +65,7 @@ public class ManageFriendRequests {
     
   
     public void acceptRequest(FriendRequest friendRequest){
-      friendsManager.AddFriend(friendRequest.getReceiver());
+      friendsManager.AddFriend(friendRequest.getSender());
        listOfRequests.remove(friendRequest);
         removeFromFile(friendRequest);
         
@@ -71,7 +80,8 @@ public class ManageFriendRequests {
          JOptionPane.showMessageDialog(null,"friend Request declined sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
     }  public FriendRequest getRequest(String username){
             for(FriendRequest request:listOfRequests)
-                if(username.equals(request.getReceiver().getUsername()))
+                if(username.equals(request.getSender
+        ().getUsername()))
                     return request;
             return null;
        }
@@ -133,6 +143,15 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             }
          return null;
     }
+    
+    public boolean isRequest(User user, ArrayList<FriendRequest> requests) {
+    for (FriendRequest request : requests) {
+        if (request.getReceiver().equals(user.getId())) {
+            return true;
+        }
+    }
+    return false;
+}
     
     public void removeFromFile(FriendRequest friendRequest){
         
@@ -210,23 +229,23 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
                     JsonNode friendNode = findUserById(rootNode, friendId);
                     if (friendNode != null) {
                            User friend = objectMapper.treeToValue(friendNode, User.class);
-                           FriendRequest friendRequest=new FriendRequest(friend,thisUser,"pending");
+                           FriendRequest friendRequest=new FriendRequest(thisUser,friend,"pending");
                         listOfRequests.add(friendRequest);
                     }}}
-             JsonNode sentFriendRequestsNode = userNode.get("sentFriendRequests");
-            if (sentFriendRequestsNode != null && sentFriendRequestsNode.isArray()) {
-                for (JsonNode friendIdNode : sentFriendRequestsNode) {
-                    String friendId = friendIdNode.asText();
-                    JsonNode friendNode = findUserById(rootNode, friendId);
-
-                    if (friendNode != null) {
-                        User receiver = objectMapper.treeToValue(friendNode, User.class);
-                        FriendRequest friendRequest = new FriendRequest(receiver, thisUser, "pending");
-                        listOfRequests.add(friendRequest);
-                    }
-                }
-            }
-                
+//             JsonNode sentFriendRequestsNode = userNode.get("sentFriendRequests");
+//            if (sentFriendRequestsNode != null && sentFriendRequestsNode.isArray()) {
+//                for (JsonNode friendIdNode : sentFriendRequestsNode) {
+//                    String friendId = friendIdNode.asText();
+//                    JsonNode friendNode = findUserById(rootNode, friendId);
+//
+//                    if (friendNode != null) {
+//                        User receiver = objectMapper.treeToValue(friendNode, User.class);
+//                        FriendRequest friendRequest = new FriendRequest(receiver, thisUser, "pending");
+//                        listOfRequests.add(friendRequest);
+//                    }
+//                }
+//            }
+//                
                 System.out.println("Requests loaded successfully!");
  
             } else {

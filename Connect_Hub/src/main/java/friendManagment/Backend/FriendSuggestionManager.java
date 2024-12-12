@@ -33,7 +33,7 @@ public class FriendSuggestionManager {
     if (friends != null) {
         // Add all users as potential suggestions
         for (User user:accountManager.loadUsers()){
-             if (!user.getId().equals(thisUser.getId()) && !isFriend(user,friends)&& !isRequest(user,requests)) {
+             if (!user.getId().equals(thisUser.getId()) && !friendsManager.isFriend(user,friends)&& !requestManager.isRequest(user,requests)&&!friendsManager.getBlocked().contains(user)) {
                 Suggested.add(user);
 
             }}}
@@ -43,23 +43,8 @@ public class FriendSuggestionManager {
             ListOfSuggestions.add(suggestion);}
         return ListOfSuggestions;
     }
-    
-    private boolean isFriend(User user, ArrayList<User> friends) {
-    for (User friend : friends) {
-        if (friend.getId().equals(user.getId())) {
-            return true;
-        }
-    }
-    return false;
-}
-     private boolean isRequest(User user, ArrayList<FriendRequest> requests) {
-    for (FriendRequest request : requests) {
-        if (request.getReceiver().equals(user.getId())) {
-            return true;
-        }
-    }
-    return false;
-}
+
+     
     
     public FriendSuggestion sendSuggestion(User suggested){
            for (FriendSuggestion s : ListOfSuggestions) {

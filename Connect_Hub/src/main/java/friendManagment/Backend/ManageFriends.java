@@ -1,6 +1,8 @@
 
 package friendManagment.Backend;
 
+import static Constants.FileNames.USERS_FILE;
+import com.fasterxml.jackson.core.type.TypeReference;
 import userdatabasemanagement.User;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +44,11 @@ public class ManageFriends {
               if(user.getId().equals(friend.getId())){
                    JOptionPane.showMessageDialog(null,"Friend already added found!","Error",JOptionPane.INFORMATION_MESSAGE);
                    return;}}
-   
+          for(User user:getBlocked())
+              if(user.getId().equals(thisUser.getId())){
+                  JOptionPane.showMessageDialog(null,"Blocked!","Error",JOptionPane.INFORMATION_MESSAGE);
+                   return;}
+
            
            ObjectMapper objectMapper = new ObjectMapper();
            try {
@@ -113,15 +119,41 @@ public class ManageFriends {
 }
 
       public void BlockFriend (User user){
-          if(friendList.contains(user))
-              friendList.remove(user);
+         ArrayList<String> BlockedList=new ArrayList();
+          ArrayList<User>friends=loadFriends(thisUser.getId());
+          if(isFriend(user,friends))
+              RemoveFriend(user);
+            
         blockList.add(user);
+        for(User block :getBlocked())
+            BlockedList.add(block.getId());
+        
+            thisUser.setBlockList(BlockedList);
+             accountManager.saveDatabase();
+
       }
+      
+      public void unBlockFriend (User user){
+          if(blockList.contains(user)) 
+              blockList.remove(user);
+       accountManager.saveDatabase();
+      
+        
+      }
+      
+    public boolean isFriend(User user, ArrayList<User> friends) {
+    for (User friend : friends) {
+        if (friend.getId().equals(user.getId())) {
+            return true;
+        }
+    }
+    return false;
+}
       public ArrayList<User> getFriends(){
           return friendList;
       }
        public ArrayList<User> getBlocked(){
-          return friendList;
+          return blockList;
       }
      
     public ArrayList<User>loadFriends(String userId){
@@ -181,4 +213,102 @@ public class ManageFriends {
                 return userNode;
             }
          return null;
-}}
+}
+ 
+// public ArrayList<User>loadBlocked(String userId){
+//    ObjectMapper objectMapper = new ObjectMapper();
+//
+//        try {
+//             JsonNode rootNode = objectMapper.readTree(new File("users.json"));
+//             JsonNode userNode = findUserById(rootNode, userId);
+//
+//        if (userNode != null && userNode.has("blockList")) {
+//            JsonNode blockedNode = userNode.get("blockList");
+//
+//
+//            if ( blockedNode.isArray()) {
+//                  for (JsonNode blockedIdNode : blockedNode) {
+//                     String blockId = blockedIdNode.asText();// Extract the friend's ID as a string
+//                    
+//                    // Skip the current user from their friend list
+//                     if (blockId.equals(userId)) {
+//                        System.out.println("Skipping self ID: " + userId);
+//                        continue;
+//                    }
+//                      // Check if the friend is already in the list before adding
+//                     boolean alreadyBlocked = false;
+//                    for (User existingFriend : blockList) {
+//                        if (existingFriend.getId().equals(blockId)) {
+//                            alreadyBlocked = true;
+//                            break;
+//                        }
+//                    }
+//                     // If the friend is not already in the list, load the full user object and add it to the list
+//                    if (!alreadyBlocked) {
+//                    JsonNode blockNode = findUserById(rootNode, blockId); // Fetch full user object
+//                    if (blockedNode != null) {
+//                        User user = objectMapper.treeToValue(blockNode, User.class);
+//                        blockList.add(user);
+//                    }
+//                }
+//                    
+//                }} 
+//            } else {
+//                 JOptionPane.showMessageDialog(null,"Cannot load friends!","Error",JOptionPane.INFORMATION_MESSAGE);
+//            }    }
+//            
+//           
+//         catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        for (User u : blockList) {
+//        System.out.println("Loaded user: " + u.getUsername());
+//    }
+//      return blockList;
+//    }
+
+// public void saveBlockList(User friend){
+//       ArrayList<User> blocked = loadBlocked(thisUser.getId());
+//    if (blocked != null) {
+//         if(friend.getId().equals(thisUser.getId())){
+//             JOptionPane.showMessageDialog(null,"Cannot block yourself found!","Error",JOptionPane.INFORMATION_MESSAGE);
+//         return ;}
+//          for(User user:loadBlocked(thisUser.getId())){
+//              if(user.getId().equals(friend.getId())){
+//                   JOptionPane.showMessageDialog(null," already blocked!","Error",JOptionPane.INFORMATION_MESSAGE);
+//                   return;}}
+//          
+//           
+//           ObjectMapper objectMapper = new ObjectMapper();
+//           try {
+//             JsonNode rootNode = objectMapper.readTree(new File("users.json"));
+//             JsonNode thisUserNode = findUserById(rootNode, thisUser.getId());
+//   
+//            if (thisUserNode!= null) {
+//                ArrayNode thisUserBlockList = ensureArrayNode(thisUserNode, "blockList");
+//                       if (!thisUserBlockList .has(friend.getId())||thisUserBlockList ==null) {
+//                    thisUserBlockList .add(friend.getId());
+//                }
+//            
+//               objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("users.json"), rootNode);
+//                JOptionPane.showMessageDialog(null,"Blocked successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
+//            } else {
+//                JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);
+//            }    
+//            }
+//            catch (IOException e) {
+//            e.printStackTrace();
+//        }}}
+
+
+    
+}
+ 
+    
+ 
+
+
+
+
+
+
