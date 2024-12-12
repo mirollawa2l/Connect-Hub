@@ -29,7 +29,7 @@ public class FriendSuggestionManager {
         ArrayList <User> Suggested= new ArrayList<>();
          ListOfSuggestions.clear();
     ArrayList<User> friends = friendsManager.loadFriends(thisUser.getId());
-
+ArrayList<FriendRequest> requests=requestManager.loadFriendRequests(thisUser.getId());
     if (friends != null) {
         // Add all users as potential suggestions
         for (User user:accountManager.loadUsers()){

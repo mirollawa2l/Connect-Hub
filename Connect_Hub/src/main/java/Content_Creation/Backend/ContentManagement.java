@@ -23,10 +23,9 @@ public class ContentManagement {
     private Post p;
     private Story s;
 
-    private Json j;
+
 
     public ContentManagement() {
-        j = new Json();
         posts = new ArrayList<>();
         stories = new ArrayList<>();
         s = new Story();

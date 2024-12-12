@@ -56,7 +56,8 @@ public class ManageFriendRequests {
         friendRequest=new FriendRequest(receiver,sender,"pending");
         
          listOfRequests.add(friendRequest);
-
+         return friendRequest;
+    }
   
     public void acceptRequest(FriendRequest friendRequest){
       friendsManager.AddFriend(friendRequest.getSender());
