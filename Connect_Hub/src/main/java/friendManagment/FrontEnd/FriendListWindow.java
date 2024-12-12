@@ -175,7 +175,6 @@ private DefaultComboBoxModel<String> model;
             }
         }
 
-                    update();
     }//GEN-LAST:event_BlockActionPerformed
 
     private void RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveActionPerformed

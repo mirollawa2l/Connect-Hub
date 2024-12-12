@@ -119,12 +119,17 @@ public class ManageFriends {
 }
 
       public void BlockFriend (User user){
+         ArrayList<String> BlockedList=new ArrayList();
           ArrayList<User>friends=loadFriends(thisUser.getId());
           if(isFriend(user,friends))
               RemoveFriend(user);
             
         blockList.add(user);
-       accountManager.saveDatabase();
+        for(User block :getBlocked())
+            BlockedList.add(block.getId());
+        
+            thisUser.setBlockList(BlockedList);
+             accountManager.saveDatabase();
 
       }
       
