@@ -6,8 +6,12 @@ package Search;
 
 import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import profilemanagement.ViewProfile;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
@@ -191,7 +195,8 @@ public class SearchUserWindow extends javax.swing.JFrame {
 
     private void blockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockBtnActionPerformed
         // TODO add your handling code here:
-        User selectedFriend= (User) usersComboBox.getSelectedItem();
+       String selectedFriendusername= (String) usersComboBox.getSelectedItem();
+        User selectedFriend= accountManagement.getUserByUsername(selectedFriendusername);
         if(selectedFriend!=null){
              System.out.println("SelectedFriend to be blocked username: "+ selectedFriend.getUsername());
              manageFriends.BlockFriend(selectedFriend);
@@ -202,7 +207,8 @@ public class SearchUserWindow extends javax.swing.JFrame {
 
     private void addFriendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendBtnActionPerformed
         // TODO add your handling code here:
-        User reciever= (User) usersComboBox.getSelectedItem();
+        String selectedFriendusername= (String) usersComboBox.getSelectedItem();
+        User reciever= accountManagement.getUserByUsername(selectedFriendusername);
         if(reciever!=null){
             System.out.println("reciever username: "+ reciever.getUsername());
         manageFriendRequest.sendRequest(reciever, CurrentUser.getInstance().getCurrentUser());
@@ -214,7 +220,8 @@ public class SearchUserWindow extends javax.swing.JFrame {
 
     private void removeFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFriendActionPerformed
         // TODO add your handling code here:
-        User selectedFriend= (User) usersComboBox.getSelectedItem();
+         String selectedFriendusername= (String) usersComboBox.getSelectedItem();
+        User selectedFriend= accountManagement.getUserByUsername(selectedFriendusername);
         if(selectedFriend!=null){
              System.out.println("SelectedFriend to be removed username: "+ selectedFriend.getUsername());
              manageFriends.RemoveFriend(selectedFriend);
@@ -225,6 +232,19 @@ public class SearchUserWindow extends javax.swing.JFrame {
 
     private void viewProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewProfileBtnActionPerformed
         // TODO add your handling code here:
+        String selectedFriendusername= (String) usersComboBox.getSelectedItem();
+    
+        User selectedFriend= accountManagement.getUserByUsername(selectedFriendusername);
+         System.out.println("selected username name: "+ selectedFriendusername );
+        if(selectedFriend!=null){
+          try {
+              ViewProfile vp= new ViewProfile(selectedFriend);
+              vp.setVisible(true);
+          } catch (IOException ex) {
+              Logger.getLogger(SearchUserWindow.class.getName()).log(Level.SEVERE, null, ex);
+          }}
+        else
+            JOptionPane.showMessageDialog(this, "Please Select a friend to be removed", "Error", JOptionPane.ERROR_MESSAGE);
         
         
     }//GEN-LAST:event_viewProfileBtnActionPerformed
