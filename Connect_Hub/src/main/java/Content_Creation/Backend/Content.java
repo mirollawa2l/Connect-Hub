@@ -1,40 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Content_Creation.Backend;
 
-import static java.lang.String.valueOf;
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author mirol
- */
-public class Content {
-protected String contentId;
-protected String authorId;
-protected String content;
-protected String imagePath;
-protected String timestamp;
-protected boolean isStory;
+// Custom deserializer for LocalDateTime
 
-public Content()
-{
-    
-}
 
-    public Content(String authorId, String content, String imagePath,String timestamp) {
+
+public abstract class Content implements ContentCreation{
+
+    protected String contentId;
+    protected String authorId;
+    protected String content;
+    protected String imagePath;
+
+    // Use custom deserializer for timestamp
+   // @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime timestamp;
+
+    protected boolean isStory;
+    protected boolean isExpired;
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    // Default constructor (required for Jackson)
+    public Content() {}
+
+    // Parameterized constructor
+    public Content(String authorId, String content, String imagePath, LocalDateTime timestamp) {
         this.authorId = authorId;
         this.content = content;
         this.imagePath = imagePath;
-        this.timestamp = (timestamp);
-        this.isStory=false;
-    }
-      private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // Define your format
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        this.timestamp = timestamp.format(formatter);
 
+this.timestamp=timestamp;
+        this.isStory = false;
+    }
+
+    // Getters and Setters
     public String getContentId() {
         return contentId;
     }
@@ -67,31 +75,43 @@ public Content()
         this.imagePath = imagePath;
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
+   public LocalDateTime getTimestamp(){
+//       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//       return LocalDateTime.parse(this.timestamp, formatter);
+return this.timestamp;
+   }
 
     public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = valueOf(timestamp);
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        this.timestamp = timestamp.format(formatter);
+this.timestamp=timestamp;
+    }
+
+    public boolean isStory() {
+        return isStory;
+    }
+
+    public void setIsStory(boolean isStory) {
+        this.isStory = isStory;
+    }
+
+    public boolean isExpired() {
+        if (isStory) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            isExpired = LocalDateTime.parse(this.timestamp, formatter).plusHours(24).isBefore(LocalDateTime.now());
+
+            isExpired = timestamp.plusHours(24).isBefore(LocalDateTime.now());
+
+        } else {
+            isExpired = false;
+        }
+        return isExpired;
     }
     
-       public boolean isExpired() {
-           if(isStory){
-               
-               LocalDateTime timestampParsed = LocalDateTime.parse(getTimestamp(), FORMATTER);
-            return timestampParsed.plusHours(24).isBefore(LocalDateTime.now());
-           }
-           else return false;
-    }
-       public boolean isStory()
-       {
-           return this.isStory;
-       }
-
-
-
-
-
     
+
+    // Utility to format the timestamp (if needed)
+//    public String getFormattedTimestamp() {
+//        return timestamp != null ? timestamp.format(FORMATTER) : null;
+//    }
 }
-

@@ -25,18 +25,21 @@ public class FriendSuggestionManager {
     public ArrayList<FriendSuggestion> generateSuggestions(){
         ArrayList <User> Suggested= new ArrayList<>();
          ListOfSuggestions.clear();
-   if(friendsManager.getFriends()!=null){
+    ArrayList<User> friends = friendsManager.loadFriends(thisUser.getId());
+    if (friends != null) {
+        // Add all users as potential suggestions
         for (User user:accountManager.loadUsers()){
-            Suggested.add(user);
-           for(User friend:friendsManager.getFriends()){
-               if (user.equals(friend))
-                   Suggested.remove(user);
-           }}}
-   else { for (User user:accountManager.loadUsers()){
+             if (!user.equals(thisUser) && !friends.contains(user)) {
+                Suggested.add(user);
+            }
+        }
+    }
+        else{
+    for (User user:accountManager.loadUsers()){
+       if (!user.equals(thisUser))
         Suggested.add(user);
    }
    }
-   
         for(User user:Suggested){
             suggestion=new FriendSuggestion(user,thisUser);
             ListOfSuggestions.add(suggestion);}
@@ -51,7 +54,6 @@ public class FriendSuggestionManager {
         }
     }
         
-        
         suggestion=new FriendSuggestion(suggested,thisUser);
         ListOfSuggestions.add(suggestion);
          JOptionPane.showMessageDialog(null,"Friend Request ent successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
@@ -60,12 +62,12 @@ public class FriendSuggestionManager {
     public void acceptFriendSuggestion(FriendSuggestion suggestion){
       friendsManager.AddFriend(suggestion.getSuggested());
         ListOfSuggestions.remove(suggestion);
-         JOptionPane.showMessageDialog(null,"Friend Request accepted successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
+         JOptionPane.showMessageDialog(null,"Friend Suggestion accepted successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
 
     }
        public void declineFriendSuggestion(FriendSuggestion suggestion){
         ListOfSuggestions.remove(suggestion);
-        JOptionPane.showMessageDialog(null,"Friend Request declined successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Friend Suggestiom declined successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
         
     } 
        public ArrayList< FriendSuggestion >getListOfSuggestions(){

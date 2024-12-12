@@ -1,48 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+
+
 package NewsFeed;
 
 import javax.swing.*;
 import java.awt.*;
 import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
+import Content_Creation.Backend.Post;
+import Content_Creation.Backend.Story;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
+import Search.SearchUserWindow;
 import friendManagment.Backend.ManageFriends;
+import friendManagment.FrontEnd.FriendListWindow;
 import friendManagment.FrontEnd.FriendRequestWindow;
 import friendManagment.FrontEnd.FriendSuggestionsWindow;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import profilemanagement.PostRepository;
-import profilemanagement.ProfileGUI;
 import profilemanagement.ProfileManager;
 import profilemanagement.UserRepository;
-import userdatabasemanagement.AccountManagment;
 import userdatabasemanagement.CurrentUser;
-import userdatabasemanagement.Login;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 
-/**
- *
- * @author mirol
- */
-public class NewsFeedWindow extends javax.swing.JFrame {
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import profilemanagement.ProfileGUI;
+import userdatabasemanagement.AccountManagment;
 
+
+/**
+ * News Feed window for displaying posts and stories from friends.
+ */
+
+public class NewsFeedWindow extends javax.swing.JFrame {
     private JPanel postsPanel;
     private JScrollPane scrollPane;
     private JButton refreshButton;
@@ -60,13 +59,8 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     public NewsFeedWindow() throws IOException {
         initComponents();
 
-    user = CurrentUser.getInstance().getCurrentUser();
-        model = new DefaultComboBoxModel<>();
-        SelectFriend.setModel(model);
-        
-        listModel = new DefaultListModel<>();
-        friendList.setModel(listModel);
-        friendList = new JList<>(listModel);
+        user = CurrentUser.getInstance().getCurrentUser();
+
         accountManagement = new UserDatabaseManagement();
         friendManager = new ManageFriends();
         contentManager = new ContentManagement();
@@ -74,49 +68,99 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         userRepository = new UserRepository();
         postRepository = new PostRepository();
         profileManager = new ProfileManager(userRepository, postRepository);
+
         // Initialize components
         postsPanel = new JPanel();
-        
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
         scrollPane = new JScrollPane(postsPanel);
         refreshButton = new JButton("Refresh");
 
-        //  refreshButton.addActionListener(e -> refreshNewsFeed());
-        // Add components to the frame
-        setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
+        // Configure panel and layout
+        jPanel1.setBackground(Color.WHITE);
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.add(scrollPane, BorderLayout.CENTER);
+
+        // Ensure the main layout is set up
         add(refreshButton, BorderLayout.SOUTH);
 
-        update();
+        postsPanel.setPreferredSize(new Dimension(700, 650));
+     postsPanel.setBackground(Color.WHITE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Initialize postsPanel and scrollPane
+//    postsPanel = new JPanel();
+    
+    jPanel1.setBackground(Color.WHITE);
+//
+//    postsPanel.setPreferredSize(new Dimension(450, 450));
+//    postsPanel.setBackground(Color.WHITE);
+//
+//    postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
+    scrollPane = new JScrollPane(postsPanel);
+
+    // Ensure displayPanel is set up correctly
+    jPanel1.setLayout(new BorderLayout());
+    jPanel1.add(scrollPane, BorderLayout.CENTER);
+
+    // Call update methods
+ 
+    updateFriends();
+    displayContents();
+
+    // Revalidate and repaint the main frame
+    this.revalidate();
+    this.repaint();
+
         updateFriends();
         displayContents();
-
+        revalidate();
+        repaint();
     }
 
     public void updateFriends() {
-
-        if (friendManager.getFriends() != null) {
+        if (friendManager.loadFriends(user.getId()) != null) {
             for (User u : friendManager.getFriends()) {
                 friendsContent.addAll(contentManager.getcontentByAuthorId(u.getId()));
             }
         }
     }
 
+void displayContents() {
+    contentManager.load();
+    postsPanel.removeAll(); // Clear previous content
+    friendsContent.clear(); // Ensure the list starts empty
 
+    postsPanel.revalidate();
+    postsPanel.repaint();
 
-    void displayContents() {
-         postsPanel.removeAll(); // Clear previous content
-    friendsContent.addAll(contentManager.getcontentByAuthorId(user.getId()));
-    Content c= new Content("100", "hello from friends", null, "12-2020");
-    friendsContent.add(c);
-        System.out.println("friendsContent: "  + friendsContent.size());
+    // Retrieve unique content
+    Set<String> uniqueIds = new HashSet<>();
+    ArrayList<Content> deduplicatedContent = new ArrayList<>();
+    for (Content content : contentManager.getcontentByAuthorId(user.getId())) {
+        if (uniqueIds.add(content.getContentId())) { // Add only unique items
+            deduplicatedContent.add(content);
+        }
+    }
+    friendsContent.addAll(deduplicatedContent);
+
+    System.out.println("friendsContent size: " + friendsContent.size());
+
+    // Create separate panels for stories and posts
+    JPanel storiesPanel = new JPanel();
+    storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
+    storiesPanel.setBorder(BorderFactory.createTitledBorder("Stories"));
+
+    JPanel postsDisplayPanel = new JPanel();
+    postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
+    postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
+
     for (Content content : friendsContent) {
-        
         if (content == null) {
             System.out.println("Null content found, skipping...");
             continue;
         }
 
+        // Skip expired stories
         if (content.isStory() && content.isExpired()) {
             System.out.println("Expired story found, skipping...");
             continue;
@@ -126,61 +170,59 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentPanel.setBackground(Color.BLUE);
-
-        JLabel authorLabel = new JLabel("Author: " + content.getAuthorId());
+        contentPanel.setBackground(Color.LIGHT_GRAY);
+        JLabel authorLabel = new JLabel("Author: " + accountManagement.getUser(content.getAuthorId()).getUsername() + " Time: " + content.getTimestamp());
         contentPanel.add(authorLabel, BorderLayout.NORTH);
 
+        // Display text content if available
         if (content.getContent() != null && !content.getContent().isEmpty()) {
             JTextArea contentArea = new JTextArea(content.getContent());
-            contentPanel.add(contentArea, BorderLayout.CENTER);
+            contentArea.setLineWrap(true);
+            contentArea.setWrapStyleWord(true);
+            contentArea.setEditable(false); // Make the content non-editable
+            contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
         }
 
-        postsPanel.add(contentPanel);
-        
-        System.out.println("content in display: "+ content.getContent());
+        // Display image if available
+        if (content.getImagePath() != null && !content.getImagePath().isEmpty()) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(content.getImagePath()); // Load image from path
+                JLabel imageLabel = new JLabel();
+                imageLabel.setIcon(imageIcon);
+                contentPanel.add(imageLabel, BorderLayout.SOUTH);
+            } catch (Exception e) {
+                System.err.println("Error loading image for content: " + content.getContentId());
+                e.printStackTrace();
+            }
+        }
+
+        // Add content to the appropriate panel
+        if (content.isStory()) {
+            storiesPanel.add(contentPanel);
+        } else {
+            postsDisplayPanel.add(contentPanel);
+        }
     }
+
+    // Combine stories and posts panels
+    JPanel combinedPanel = new JPanel(new BorderLayout());
+    combinedPanel.add(storiesPanel, BorderLayout.NORTH);
+    combinedPanel.add(postsDisplayPanel, BorderLayout.CENTER);
+
+    // Add combined panel to the main postsPanel
+    postsPanel.setLayout(new BorderLayout());
+    postsPanel.add(combinedPanel, BorderLayout.CENTER);
 
     postsPanel.revalidate();
     postsPanel.repaint();
-    }
-        
-
-    public void update() {
-        model.removeAllElements();
-        listModel.clear();
-
-           friendList.revalidate();
-          friendList.repaint();
-          model.addElement("Search");
-        ArrayList<User> friends=friendManager.getFriends();
-        if(friends!=null){
-        for(User friend:friends){
-            String username=friend.getUsername();
-            String status=friend.getStatus();
-            String displayedText=username + " (" + status + ")";
-             model.addElement(displayedText);
-            listModel.addElement(friend.getUsername());
-        }
-
-        friendList.revalidate();
-        friendList.repaint();
-
-    }
 }
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
-        addFriend = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        friendList = new javax.swing.JList<>();
-        SelectFriend = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        displayPanel = new javax.swing.JPanel();
-        Remove = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         addPostBtn = new javax.swing.JButton();
         addStoryBtn = new javax.swing.JButton();
@@ -188,72 +230,24 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         friendRequest = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
         updateProfile = new javax.swing.JButton();
-        Block = new javax.swing.JButton();
+        friendList = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("News Feed Form");
-
-        addFriend.setText("Add Friend");
-        addFriend.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addFriendActionPerformed(evt);
-            }
-        });
-
-        friendList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(friendList);
-
-        SelectFriend.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        SelectFriend.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelectFriendActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setBackground(new java.awt.Color(0, 102, 102));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Friend List ");
-
-        javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
-        displayPanel.setLayout(displayPanelLayout);
-        displayPanelLayout.setHorizontalGroup(
-            displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 571, Short.MAX_VALUE)
-        );
-        displayPanelLayout.setVerticalGroup(
-            displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
-        );
+        setTitle("News Feed");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 409, Short.MAX_VALUE)
         );
-
-        Remove.setText("Remove");
-        Remove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoveActionPerformed(evt);
-            }
-        });
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -299,216 +293,162 @@ public class NewsFeedWindow extends javax.swing.JFrame {
             }
         });
 
+        friendList.setText("FriendList");
+        friendList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                friendListActionPerformed(evt);
+            }
+        });
+
+        refresh.setText("Refresh");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Search User");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Search Group");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addPostBtn)
-                .addGap(18, 18, 18)
+                .addComponent(addPostBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addStoryBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(friendSuggestion)
-                .addGap(18, 18, 18)
-                .addComponent(friendRequest)
-                .addGap(12, 12, 12)
-                .addComponent(updateProfile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(logoutBtn)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addComponent(friendRequest)
+                .addGap(18, 18, 18)
+                .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(refresh)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(updateProfile)
+                .addGap(18, 18, 18)
+                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addPostBtn)
                     .addComponent(addStoryBtn)
                     .addComponent(friendSuggestion)
                     .addComponent(friendRequest)
                     .addComponent(logoutBtn)
-                    .addComponent(updateProfile))
+                    .addComponent(updateProfile)
+                    .addComponent(friendList)
+                    .addComponent(refresh)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(15, 15, 15))
-        );
-
-        Block.setText("Block ");
-        Block.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BlockActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(Remove)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Block))
-                            .addComponent(addFriend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25))
-                    .addComponent(SelectFriend, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(SelectFriend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Block, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
-                        .addComponent(addFriend)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 66, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void addFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendActionPerformed
-        boolean found=false;
-        String username = JOptionPane.showInputDialog("Search");
-
-        for (User u : accountManagement.loadUsers()) {
-            if (username.equals(u.getUsername())) {
-                friendManager.AddFriend(u);
-            
-        
-        update();
-        updateFriends();
-        System.out.println("found");
-        found=true;
-            }
-        }
-
-        if(!found)
-         JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_addFriendActionPerformed
-
-    private void SelectFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectFriendActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SelectFriendActionPerformed
-
-    private void RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveActionPerformed
-         boolean found=false;
-        String username = (String) SelectFriend.getSelectedItem();
-        if (username.equals("Search")) {
-            JOptionPane.showMessageDialog(this, "Please select a user first.");
-        } else { if(friendManager.getFriends()!=null){
-            for(User friend:friendManager.getFriends())
-            if(username.equals(friend.getUsername())){
-                friendManager.RemoveFriend(friend);
-                update();
-                 updateFriends();
-            found=true;}}
-        else
-         JOptionPane.showMessageDialog(null,"User has no friends!","Error",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(!found)
-           JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);  
-    }//GEN-LAST:event_RemoveActionPerformed
 
     private void addPostBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPostBtnActionPerformed
         // TODO add your handling code here:
         AddPostWindow w = new AddPostWindow(this, true);
         w.setVisible(true);
         
-        
+
     }//GEN-LAST:event_addPostBtnActionPerformed
 
     private void addStoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStoryBtnActionPerformed
         // TODO add your handling code here:
         AddStoryWindow w = new AddStoryWindow(this, true);
         w.setVisible(true);
+         
     }//GEN-LAST:event_addStoryBtnActionPerformed
 
     private void friendSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendSuggestionActionPerformed
         FriendSuggestionsWindow friendSuggestionWindow = new FriendSuggestionsWindow();
         friendSuggestionWindow.setVisible(true);
-        this.setVisible(false);
+
+
     }//GEN-LAST:event_friendSuggestionActionPerformed
 
     private void friendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendRequestActionPerformed
         FriendRequestWindow friendRequestWindow = new FriendRequestWindow();
         friendRequestWindow.setVisible(true);
-        this.setVisible(false);
+
+
     }//GEN-LAST:event_friendRequestActionPerformed
-
-    private void BlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlockActionPerformed
-        boolean found=false;
-        String username = (String) SelectFriend.getSelectedItem();
-        if (username.equals("Search")) {
-            JOptionPane.showMessageDialog(this, "Please select a user first.");
-        } else {
-
-            if(friendManager.getFriends()!=null){
-            for(User friend:friendManager.getFriends())
-            if(username.equals(friend.getUsername())){
-                friendManager.BlockFriend(friend);
-                 update();
-                updateFriends();
-                 found=true;
-                
-            }}
-            else JOptionPane.showMessageDialog(null,"User has no friends!","Error",JOptionPane.INFORMATION_MESSAGE);
-                if(!found)
-           JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE);  }
-
-    }//GEN-LAST:event_BlockActionPerformed
 
     private void updateProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfileActionPerformed
         // TODO add your handling code here:
         ProfileGUI w = new ProfileGUI(profileManager, user);
         w.setVisible(true);
-
+       
     }//GEN-LAST:event_updateProfileActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        // TODO add your handling code here:
-        AccountManagment w=new AccountManagment();
+        try {
+            // TODO add your handling code here:
+            accountManagement.updateStatus(CurrentUser.getInstance().getCurrentUser().getId(), "offline");
+        } catch (IOException ex) {
+            Logger.getLogger(NewsFeedWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        AccountManagment w = new AccountManagment();
         w.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_logoutBtnActionPerformed
+
+    private void friendListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendListActionPerformed
+         FriendListWindow friendListWindow = new  FriendListWindow ();
+        friendListWindow.setVisible(true);
+    }//GEN-LAST:event_friendListActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+        displayContents();
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        SearchUserWindow sw= new SearchUserWindow();
+        sw.setVisible(true);
+        sw.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -536,6 +476,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(NewsFeedWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -550,22 +491,17 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Block;
-    private javax.swing.JButton Remove;
-    private javax.swing.JComboBox<String> SelectFriend;
-    private javax.swing.JButton addFriend;
     private javax.swing.JButton addPostBtn;
     private javax.swing.JButton addStoryBtn;
-    private javax.swing.JPanel displayPanel;
-    private javax.swing.JList<String> friendList;
+    private javax.swing.JButton friendList;
     private javax.swing.JButton friendRequest;
     private javax.swing.JButton friendSuggestion;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutBtn;
+    private javax.swing.JButton refresh;
     private javax.swing.JButton updateProfile;
     // End of variables declaration//GEN-END:variables
 }

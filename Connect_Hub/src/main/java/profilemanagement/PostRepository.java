@@ -18,26 +18,43 @@ import java.util.stream.Collectors;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-public class PostRepository {
-    private static final String POST_FILE = "posts.json";
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private List<Post> posts;
-
-    public PostRepository() throws IOException {
-        loadPosts();
+import Content_Creation.Backend.Post;
+import Content_Creation.Backend.*;
+public class PostRepository { 
+    private static final String POST_FILE = "contentDatabase.json"; // Merge content file name
+    private final ObjectMapper objectMapper = new ObjectMapper(); 
+    private List<Content> contents;  // Store both posts and stories
+ 
+    public PostRepository() throws IOException { 
+        loadPosts(); 
+    } 
+ 
+    private void loadPosts() throws IOException { 
+        File file = new File(POST_FILE); 
+        if (file.exists()) { 
+            contents = objectMapper.readValue(file, new TypeReference<List<Content>>() {}); 
+        } else { 
+            contents = new ArrayList<>(); 
+        } 
     }
 
-    private void loadPosts() throws IOException {
-        File file = new File(POST_FILE);
-        if (file.exists()) {
-            posts = objectMapper.readValue(file, new TypeReference<List<Post>>() {});
-        } else {
-            posts = new ArrayList<>();
-        }
-    }
-
+    // Fetch posts by user ID
     public List<Post> findPostsByUserId(String userId) {
-        return posts.stream().filter(post -> post.getAuthorId().equals(userId)).collect(Collectors.toList());
+        // Filter out only posts (isStory == false) and by userId
+        return contents.stream()
+                .filter(content -> !content.isStory() && content.getAuthorId().equals(userId))  // Filtering only posts
+                .map(content -> (Post) content)  // Cast content to Post
+                .collect(Collectors.toList());
     }
+
+    // Additional methods to add posts, save, etc...
+
+
+    // Add a new post
+    /*public void addPost(Post post) {
+        if (post != null) {
+            posts.add(post);
+            savePosts();  // Save the updated posts list to the file
+        }
+    }*/
 }
