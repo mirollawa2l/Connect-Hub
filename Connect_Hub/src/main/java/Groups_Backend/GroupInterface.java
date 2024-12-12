@@ -21,6 +21,8 @@ public interface GroupInterface {
     public abstract void setPosts(ArrayList<Post> posts);
 
     public abstract ArrayList<Post> getPosts();
+    
+    public abstract void addPost(Post p);
 
     public abstract String getGroupId();
 

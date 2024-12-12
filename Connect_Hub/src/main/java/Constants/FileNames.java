@@ -13,5 +13,4 @@ public class FileNames {
     public static final String POST_FILE= "postsDatabase.json";
     public static final String STORY_FILE= "storiesDatabase.json";
     public static final String GROUPS_FILE= "groups.json";
-
 }

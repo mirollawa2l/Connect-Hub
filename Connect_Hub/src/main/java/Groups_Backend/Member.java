@@ -16,12 +16,13 @@ public class Member extends User {
     private GroupManager manger;
     
     public void postContent (Post post){
-    
-        
+       
     }
-    public void leaveGroup(Group group){
+    public void leaveGroup(Group g){
        
     }
     
-    public void requestToJoinGroup(Group group){}
+    public void requestToJoinGroup(Group g){
+    
+    }
 }
