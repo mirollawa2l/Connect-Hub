@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import userdatabasemanagement.Encryptor;
 import userdatabasemanagement.User;
 import Content_Creation.Backend.Post;
+import userdatabasemanagement.CurrentUser;
 /**
  *
  * @author HP

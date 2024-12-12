@@ -109,7 +109,8 @@ public class ProfileGUI extends JFrame {
     saveButton.setBackground(new Color(46, 139, 87));
     saveButton.setForeground(Color.WHITE);
     saveButton.addActionListener(e -> {
-            try {
+            try { String bio= new String(bioField.getText());
+                  profileManager.updateBio(currentUser.getId(), bio);
                 String password = new String(passwordField.getPassword());
                 String confirmPassword = new String(confirmPasswordField.getPassword());
 

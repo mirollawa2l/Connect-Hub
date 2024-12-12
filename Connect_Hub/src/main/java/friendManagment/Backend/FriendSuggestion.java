@@ -11,6 +11,8 @@ import userdatabasemanagement.User;
        this.suggested=suggested;
        
       }
+      // singleton design pattern 
+private FriendSuggestion(){}
 
     public User getSuggested() {
         return suggested;

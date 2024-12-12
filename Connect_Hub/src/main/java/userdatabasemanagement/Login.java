@@ -201,7 +201,7 @@ private UserDatabaseManagement userData;
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(this, "Logged in sucsessfuly, Welcome to Connect Hub");
-               
+
              NewsFeedWindow w;
                 try {
                     w = new NewsFeedWindow();

@@ -33,10 +33,17 @@ public class ManageFriends {
     }
    }
        public void AddFriend(User friend){
-              if (friend != thisUser && !friendList.contains(friend)) {
-                 friendList.add(friend);
-              System.out.println("Added friend: " + friend.getUsername());}
-              else  JOptionPane.showMessageDialog(null,"Cannot add yourself or duplicate friend.","Error",JOptionPane.INFORMATION_MESSAGE);
+
+       ArrayList<User> friends = loadFriends(thisUser.getId());
+    if (friends != null) {
+         if(friend.getId().equals(thisUser.getId())){
+             JOptionPane.showMessageDialog(null,"Cannot add yourself found!","Error",JOptionPane.INFORMATION_MESSAGE);
+         return ;}
+          for(User user:loadFriends(thisUser.getId())){
+              if(user.getId().equals(friend.getId())){
+                   JOptionPane.showMessageDialog(null,"Friend already added found!","Error",JOptionPane.INFORMATION_MESSAGE);
+                   return;}}
+
            
            ObjectMapper objectMapper = new ObjectMapper();
            try {
@@ -60,7 +67,8 @@ public class ManageFriends {
             }
             catch (IOException e) {
             e.printStackTrace();
-        }}
+
+        }}}
       public void RemoveFriend (User friend){
           
              // Check if friend is not the current user and is not already in the friend list
