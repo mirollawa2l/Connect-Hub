@@ -1,5 +1,6 @@
 
 package friendManagment.Backend;
+import Notifications.NotificationManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;
@@ -12,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
-
+import Notifications.*;
 
 //ensure thisUser is the senser not the receiver
 
@@ -23,7 +24,7 @@ public class ManageFriendRequests {
    private ArrayList <FriendRequest> listOfRequests=new ArrayList<>() ;
    private UserDatabaseManagement accountManager=new UserDatabaseManagement();
    private User thisUser= CurrentUser.getInstance().getCurrentUser();
-      
+    private NotificationManager notificationManager = NotificationManager.getInstance();
 
 
     public FriendRequest sendRequest(User sender,User receiver){
@@ -56,21 +57,29 @@ public class ManageFriendRequests {
         friendRequest=new FriendRequest(receiver,sender,"pending");
         
          listOfRequests.add(friendRequest);
-         return friendRequest;
+      
+         addToFile(friendRequest);
+        NotificationManager.getInstance().addNotification("Friend Request is sent to "+ receiver.getUsername(), sender, receiver, "friendRequest", false);
+NotificationManager.getInstance().addNotification(sender.getUsername()+" sent you a friend request!", receiver , sender ,"friendRequest" ,true);
+        System.out.println("notification for reciever added "+receiver.getUsername());
+         JOptionPane.showMessageDialog(null,"friend Request added sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
+          return friendRequest;
+
     }
   
     public void acceptRequest(FriendRequest friendRequest){
       friendsManager.AddFriend(friendRequest.getSender());
        listOfRequests.remove(friendRequest);
         removeFromFile(friendRequest);
-        
+        NotificationManager.getInstance().addNotification("Your Friend request was accepted by "+thisUser.getUsername()+ "!", friendRequest.getSender() , friendRequest.getReceiver(),"response" , false);
         
         JOptionPane.showMessageDialog(null,"friend Request accepted sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
     }
     public void declineRequest(FriendRequest friendRequest){
          listOfRequests.remove(friendRequest);
         removeFromFile(friendRequest);
-       
+        NotificationManager.getInstance().addNotification("You declined "+friendRequest.getSender().getUsername()+"request !", friendRequest.getReceiver(), friendRequest.getSender(), "response", false);
+       NotificationManager.getInstance().addNotification("Your Friend Request was declined by "+friendRequest.getReceiver().getUsername()+"!", friendRequest.getSender() , friendRequest.getReceiver() , "response" , false);
         
          JOptionPane.showMessageDialog(null,"friend Request declined sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
     }  public FriendRequest getRequest(String username){
@@ -258,7 +267,9 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
     return listOfRequests;
         
     }
-
+public NotificationManager getNotificationManager(){
+    return notificationManager;
+}
 
 
 }

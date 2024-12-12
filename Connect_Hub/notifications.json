@@ -1,0 +1,129 @@
+[ {
+  "message" : "Friend Request is sent to miioio",
+  "reciever" : {
+    "id" : "user4",
+    "email" : "shh@",
+    "username" : "shahdd",
+    "password" : "202cb962ac59075b964b07152d234b70",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : "i want to sleeep cryingggg engineer baddd",
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ "user1", "user3", "user2" ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ ]
+  },
+  "sender" : {
+    "id" : "user5",
+    "email" : "maie@",
+    "username" : "miioio",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ ]
+  },
+  "type" : "friendRequest",
+  "actionable" : false
+}, {
+  "message" : "Your Friend request was accepted by miioio!",
+  "reciever" : {
+    "id" : "user4",
+    "email" : "shh@",
+    "username" : "shahdd",
+    "password" : "202cb962ac59075b964b07152d234b70",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : "i want to sleeep cryingggg engineer baddd",
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ "user1", "user3", "user2" ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ ]
+  },
+  "sender" : {
+    "id" : "user5",
+    "email" : "maie@",
+    "username" : "miioio",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ ],
+    "friendRequests" : [ "user4" ],
+    "sentFriendRequests" : [ ]
+  },
+  "type" : "response",
+  "actionable" : false
+}, {
+  "message" : "Your Friend request was accepted bymiioio",
+  "reciever" : {
+    "id" : "user4",
+    "email" : "shh@",
+    "username" : "shahdd",
+    "password" : "202cb962ac59075b964b07152d234b70",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : "i want to sleeep cryingggg engineer baddd",
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ "user1", "user3", "user2" ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ ]
+  },
+  "sender" : {
+    "id" : "user5",
+    "email" : "maie@",
+    "username" : "miioio",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ ],
+    "friendRequests" : [ "user4" ],
+    "sentFriendRequests" : [ ]
+  },
+  "type" : "response",
+  "actionable" : false
+}, {
+  "message" : "You accept shahddRequest !",
+  "reciever" : {
+    "id" : "user5",
+    "email" : "maie@",
+    "username" : "miioio",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ ]
+  },
+  "sender" : {
+    "id" : "user4",
+    "email" : "shh@",
+    "username" : "shahdd",
+    "password" : "202cb962ac59075b964b07152d234b70",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : "i want to sleeep cryingggg engineer baddd",
+    "dateOfBirth" : "2024-12-06",
+    "status" : "offline",
+    "friends" : [ "user1", "user3", "user2" ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ ]
+  },
+  "type" : "response",
+  "actionable" : false
+} ]

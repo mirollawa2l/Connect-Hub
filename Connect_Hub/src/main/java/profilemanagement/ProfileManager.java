@@ -19,7 +19,7 @@ import userdatabasemanagement.CurrentUser;
  * @author HP
  */
 public class ProfileManager {
-    private final UserRepository userRepository;
+   public  final UserRepository userRepository;
    private final PostRepository postRepository;
 
     public ProfileManager(UserRepository userRepository , PostRepository postRepository) {
@@ -47,6 +47,7 @@ public class ProfileManager {
     public void updateBio(String userId, String newBio) throws IOException {
         try {
             userRepository.updateField(userId, "bio", newBio);
+          
         } catch (Exception ex) {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
