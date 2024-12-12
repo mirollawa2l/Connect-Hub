@@ -194,10 +194,21 @@ private UserDatabaseManagement userData;
         else try {
             if(accountManagment.isUser(email, encryptedPassword.encryptPassword(password))){
                 User x= accountManagment.getUserByEmail(email);
+               
+                
                 System.out.println("usier id in login: "+ x.getId());
                 CurrentUser.getInstance().setCurrentUser(x);
+
                 ArrayList<Notification>notification = NotificationManager.getInstance().loadNotifications();
+
+                try {
+                    userData.updateStatus(x.getId(), "online");
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 JOptionPane.showMessageDialog(this, "Logged in sucsessfuly, Welcome to Connect Hub");
+
              NewsFeedWindow w;
                 try {
                     w = new NewsFeedWindow();
@@ -216,6 +227,7 @@ private UserDatabaseManagement userData;
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
         user=userData.getUserByEmail(email);
+        
        
 //        else try {
 //            if(!(accountManagment.isUser(email, encryptedPassword.encryptPassword(password)))){

@@ -1,12 +1,19 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package userdatabasemanagement;
 
-import java.time.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ *
+ * @author mirol
+ */
 public class User {
-
-    private String id;
+    
+        private String id;
     private String email;
     private String username;
     private String password;
@@ -18,6 +25,7 @@ public class User {
     private ArrayList<String> friends;
     private ArrayList<String> friendRequests;
     private ArrayList<String> sentFriendRequests;
+    private ArrayList<String> blockList;
 
     public User() {
     }
@@ -33,7 +41,7 @@ public class User {
 
     }
 
-    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests) {
+    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -46,11 +54,12 @@ public class User {
         this.friends = friends;
         this.dateOfBirth = dateOfBirth;
         this.sentFriendRequests=sentFriendRequests;
+        this.blockList=blockList;
     }
     
 // Factory Method
-   public static User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests) {
-        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests);
+   public  User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList) {
+        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests,blockList);
     }
     
     public String getProfilePhotoPath() {
@@ -128,6 +137,22 @@ public class User {
     public ArrayList<String> getSentFriendRequests() {
         return sentFriendRequests;
     }
+
+    public ArrayList<String> getBlockList() {
+        return blockList;
+    }
+
+    public void setBlockList(ArrayList<String> blockList) {
+        this.blockList = blockList;
+    }
+      @Override
+    public String toString() {
+        return "User{id='" + id + "', status='" + status + "'}";
+    }
+    
+    }
+
+    
+  
     
 
-}

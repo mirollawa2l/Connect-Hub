@@ -10,13 +10,12 @@ import javax.swing.*;
 import java.awt.*;
 import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
-import Content_Creation.Backend.Post;
-import Content_Creation.Backend.Story;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import Notifications.NotificationManager;
 import Notifications.NotificationWindow;
 import friendManagment.Backend.ManageFriendRequests;
+import Search.SearchUserWindow;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendListWindow;
 import friendManagment.FrontEnd.FriendRequestWindow;
@@ -28,7 +27,6 @@ import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -85,7 +83,9 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         // Ensure the main layout is set up
         add(refreshButton, BorderLayout.SOUTH);
 
+
         postsPanel.setPreferredSize(new Dimension(900, 900));
+
      postsPanel.setBackground(Color.WHITE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -106,20 +106,20 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
     // Call update methods
  
-    updateFriends();
+    updateFriendsContent();
     displayContents();
 
     // Revalidate and repaint the main frame
     this.revalidate();
     this.repaint();
 
-        updateFriends();
+        updateFriendsContent();
         displayContents();
         revalidate();
         repaint();
     }
 
-    public void updateFriends() {
+    public void updateFriendsContent() {
         if (friendManager.loadFriends(user.getId()) != null) {
             for (User u : friendManager.getFriends()) {
                 friendsContent.addAll(contentManager.getcontentByAuthorId(u.getId()));
@@ -132,7 +132,9 @@ void displayContents() throws IOException {
     contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty
-
+    updateFriendsContent();
+    
+    
     postsPanel.revalidate();
     postsPanel.repaint();
 
@@ -237,17 +239,31 @@ void displayContents() throws IOException {
         refresh = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("News Feed");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
             .addGap(0, 886, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 492, Short.MAX_VALUE)
+
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
@@ -308,41 +324,70 @@ void displayContents() throws IOException {
             }
         });
 
-        jButton1.setText("Notifications");
+     
+
+        jButton1.setText("Search User");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+
+        jButton2.setText("Search Group");
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addPostBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addPostBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+
                 .addComponent(addStoryBtn)
                 .addGap(18, 18, 18)
                 .addComponent(friendSuggestion)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(friendRequest)
+
+                .addGap(18, 18, 18)
+                .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(refresh)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(updateProfile)
+                .addGap(18, 18, 18)
+
                 .addGap(29, 29, 29)
                 .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(refresh)
                 .addGap(18, 18, 18)
                 .addComponent(updateProfile)
+
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addGap(26, 26, 26)
                 .addComponent(logoutBtn)
+
+
+                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
             .addGroup(jPanel2Layout.createSequentialGroup()
+
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addPostBtn)
@@ -350,10 +395,19 @@ void displayContents() throws IOException {
                     .addComponent(friendSuggestion)
                     .addComponent(friendRequest)
                     .addComponent(logoutBtn)
-                    .addComponent(updateProfile)
+
+                    .addComponent(friendList)
                     .addComponent(refresh)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+
+                    .addComponent(refresh)
+
                     .addComponent(friendList)
                     .addComponent(jButton1))
+
+                    .addComponent(friendList))
+
                 .addGap(15, 15, 15))
         );
 
@@ -361,6 +415,14 @@ void displayContents() throws IOException {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -368,6 +430,7 @@ void displayContents() throws IOException {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,15 +462,13 @@ void displayContents() throws IOException {
     private void friendSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendSuggestionActionPerformed
         FriendSuggestionsWindow friendSuggestionWindow = new FriendSuggestionsWindow();
         friendSuggestionWindow.setVisible(true);
-
-
+        
     }//GEN-LAST:event_friendSuggestionActionPerformed
 
     private void friendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendRequestActionPerformed
         FriendRequestWindow friendRequestWindow = new FriendRequestWindow();
         friendRequestWindow.setVisible(true);
-
-
+        
     }//GEN-LAST:event_friendRequestActionPerformed
 
     private void updateProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfileActionPerformed
@@ -418,7 +479,14 @@ void displayContents() throws IOException {
     }//GEN-LAST:event_updateProfileActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            // TODO add your handling code here:
+            accountManagement.updateStatus(CurrentUser.getInstance().getCurrentUser().getId(), "offline");
+        } catch (IOException ex) {
+            Logger.getLogger(NewsFeedWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         AccountManagment w = new AccountManagment();
         w.setVisible(true);
         this.setVisible(false);
@@ -439,12 +507,21 @@ void displayContents() throws IOException {
         }
     }//GEN-LAST:event_refreshActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-notificationManager = new ManageFriendRequests().getNotificationManager();
-NotificationWindow notificationWindow= new NotificationWindow(NotificationManager.getInstance(), CurrentUser.getInstance().getCurrentUser());
-notificationWindow.setVisible(true);
+// <<<<<<< Notifications
+//     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// notificationManager = new ManageFriendRequests().getNotificationManager();
+// NotificationWindow notificationWindow= new NotificationWindow(NotificationManager.getInstance(), CurrentUser.getInstance().getCurrentUser());
+// notificationWindow.setVisible(true);
 
+//         // TODO add your handling code here:
+// =======
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        SearchUserWindow sw= new SearchUserWindow();
+        sw.setVisible(true);
+        sw.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -493,7 +570,11 @@ notificationWindow.setVisible(true);
     private javax.swing.JButton friendList;
     private javax.swing.JButton friendRequest;
     private javax.swing.JButton friendSuggestion;
+
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+
+
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logoutBtn;

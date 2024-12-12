@@ -1,9 +1,5 @@
 package Content_Creation.Backend;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -43,58 +39,71 @@ this.timestamp=timestamp;
     }
 
     // Getters and Setters
+    @Override
     public String getContentId() {
         return contentId;
     }
 
+    @Override
     public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 
+    @Override
     public String getAuthorId() {
         return authorId;
     }
 
+    @Override
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 
+    @Override
     public String getContent() {
         return content;
     }
 
+    @Override
     public void setContent(String content) {
         this.content = content;
     }
 
+    @Override
     public String getImagePath() {
         return imagePath;
     }
 
+    @Override
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
+    @Override
    public LocalDateTime getTimestamp(){
 //       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //       return LocalDateTime.parse(this.timestamp, formatter);
 return this.timestamp;
    }
 
+    @Override
     public void setTimestamp(LocalDateTime timestamp) {
 //                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //        this.timestamp = timestamp.format(formatter);
 this.timestamp=timestamp;
     }
 
+    @Override
     public boolean isStory() {
         return isStory;
     }
 
+    @Override
     public void setIsStory(boolean isStory) {
         this.isStory = isStory;
     }
 
+    @Override
     public boolean isExpired() {
         if (isStory) {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

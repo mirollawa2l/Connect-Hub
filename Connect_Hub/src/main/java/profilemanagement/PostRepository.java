@@ -8,6 +8,7 @@ package profilemanagement;
  *
  * @author HP
  */
+import static Constants.FileNames.POST_FILE;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 import Content_Creation.Backend.Post;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class PostRepository { 
-    private static final String POST_FILE = "postsDatabase.json"; // Merge content file name
     private final ObjectMapper objectMapper = new ObjectMapper(); 
     private List<Post> posts;  
  
@@ -30,6 +30,7 @@ public class PostRepository {
     public void loadFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+
 
         File file = new File(POST_FILE);
         List<Post> posts = new ArrayList<>();
@@ -50,5 +51,5 @@ public class PostRepository {
  public List<Post> findPostsByUserId(String userId) {
         return posts.stream().filter(post -> post.getAuthorId().equals(userId)).collect(Collectors.toList());
  }
- 
+
 }

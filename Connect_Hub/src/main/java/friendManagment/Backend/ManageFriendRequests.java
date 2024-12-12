@@ -26,8 +26,10 @@ public class ManageFriendRequests {
    private User thisUser= CurrentUser.getInstance().getCurrentUser();
     private NotificationManager notificationManager = NotificationManager.getInstance();
 
+
     public FriendRequest sendRequest(User sender,User receiver){
         boolean isFriend=false;
+        boolean isBlocked=false;
         if(receiver.getId().equals(thisUser.getId())){
         JOptionPane.showMessageDialog(null,"Cannot add yourself!","Error",JOptionPane.INFORMATION_MESSAGE);
           return null;
@@ -43,6 +45,14 @@ public class ManageFriendRequests {
               }
       }
    
+      for(User user:friendsManager.getBlocked()){
+          
+              if(user.getId().equals(receiver.getId())||user.getId().equals(sender.getId())){
+                  isBlocked=true;
+                   JOptionPane.showMessageDialog(null,"Blocked!","Error",JOptionPane.INFORMATION_MESSAGE);
+                   return null;
+              }
+      }
          
         friendRequest=new FriendRequest(receiver,sender,"pending");
         
@@ -54,12 +64,11 @@ NotificationManager.getInstance().addNotification(sender.getUsername()+" sent yo
         System.out.println("notification for reciever added "+receiver.getUsername());
          JOptionPane.showMessageDialog(null,"friend Request added sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
           return friendRequest;
-                         
+
     }
-    
   
     public void acceptRequest(FriendRequest friendRequest){
-      friendsManager.AddFriend(friendRequest.getReceiver());
+      friendsManager.AddFriend(friendRequest.getSender());
        listOfRequests.remove(friendRequest);
         removeFromFile(friendRequest);
         NotificationManager.getInstance().addNotification("Your Friend request was accepted by "+thisUser.getUsername()+ "!", friendRequest.getSender() , friendRequest.getReceiver(),"response" , false);
@@ -75,7 +84,8 @@ NotificationManager.getInstance().addNotification(sender.getUsername()+" sent yo
          JOptionPane.showMessageDialog(null,"friend Request declined sucessfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
     }  public FriendRequest getRequest(String username){
             for(FriendRequest request:listOfRequests)
-                if(username.equals(request.getReceiver().getUsername()))
+                if(username.equals(request.getSender
+        ().getUsername()))
                     return request;
             return null;
        }
@@ -87,6 +97,7 @@ NotificationManager.getInstance().addNotification(sender.getUsername()+" sent yo
               try {
               ObjectMapper objectMapper = new ObjectMapper();
              JsonNode rootNode = objectMapper.readTree(new File("users.json"));
+
             
              JsonNode senderNode = findUserById(rootNode, friendRequest.getSender().getId());
             JsonNode receiverNode = findUserById(rootNode, friendRequest.getReceiver().getId());
@@ -138,6 +149,15 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
          return null;
     }
     
+    public boolean isRequest(User user, ArrayList<FriendRequest> requests) {
+    for (FriendRequest request : requests) {
+        if (request.getReceiver().equals(user.getId())) {
+            return true;
+        }
+    }
+    return false;
+}
+    
     public void removeFromFile(FriendRequest friendRequest){
         
               try {
@@ -152,6 +172,8 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             
             if (receiverNode != null && senderNode!= null) {
                      ArrayNode senderFriendRequests = ensureArrayNode(senderNode, "sentFriendRequests");
+
+
                      if (senderFriendRequests == null || senderFriendRequests.size() == 0) {
                 System.out.println("Sender's sent friend requests array is empty or null");
             } else {
@@ -172,6 +194,7 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             } else {
                 System.out.println("Receiver's received friend requests array is populated");
             }
+
              for (int i =0;i<receiverFriendRequests.size();i++) {
                 if (receiverFriendRequests.get(i).asText().equals(friendRequest.getSender().getId())) {
                    receiverFriendRequests.remove(i);
@@ -189,6 +212,7 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
             e.printStackTrace();
         }}
  
+
     private ArrayNode ensureArrayNode(JsonNode node, String fieldName) {
     JsonNode fieldNode = node.get(fieldName);
     if (fieldNode == null || !fieldNode.isArray()) {
@@ -214,23 +238,23 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
                     JsonNode friendNode = findUserById(rootNode, friendId);
                     if (friendNode != null) {
                            User friend = objectMapper.treeToValue(friendNode, User.class);
-                           FriendRequest friendRequest=new FriendRequest(friend,thisUser,"pending");
+                           FriendRequest friendRequest=new FriendRequest(thisUser,friend,"pending");
                         listOfRequests.add(friendRequest);
                     }}}
-             JsonNode sentFriendRequestsNode = userNode.get("sentFriendRequests");
-            if (sentFriendRequestsNode != null && sentFriendRequestsNode.isArray()) {
-                for (JsonNode friendIdNode : sentFriendRequestsNode) {
-                    String friendId = friendIdNode.asText();
-                    JsonNode friendNode = findUserById(rootNode, friendId);
-
-                    if (friendNode != null) {
-                        User receiver = objectMapper.treeToValue(friendNode, User.class);
-                        FriendRequest friendRequest = new FriendRequest(receiver, thisUser, "pending");
-                        listOfRequests.add(friendRequest);
-                    }
-                }
-            }
-                
+//             JsonNode sentFriendRequestsNode = userNode.get("sentFriendRequests");
+//            if (sentFriendRequestsNode != null && sentFriendRequestsNode.isArray()) {
+//                for (JsonNode friendIdNode : sentFriendRequestsNode) {
+//                    String friendId = friendIdNode.asText();
+//                    JsonNode friendNode = findUserById(rootNode, friendId);
+//
+//                    if (friendNode != null) {
+//                        User receiver = objectMapper.treeToValue(friendNode, User.class);
+//                        FriendRequest friendRequest = new FriendRequest(receiver, thisUser, "pending");
+//                        listOfRequests.add(friendRequest);
+//                    }
+//                }
+//            }
+//                
                 System.out.println("Requests loaded successfully!");
  
             } else {
@@ -246,6 +270,7 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
 public NotificationManager getNotificationManager(){
     return notificationManager;
 }
+
 
 }
  

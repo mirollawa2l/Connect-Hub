@@ -29,37 +29,29 @@ public class FriendSuggestionManager {
         ArrayList <User> Suggested= new ArrayList<>();
          ListOfSuggestions.clear();
     ArrayList<User> friends = friendsManager.loadFriends(thisUser.getId());
-    ArrayList<FriendRequest> requests = requestManager.loadFriendRequests(thisUser.getId());
+ArrayList<FriendRequest> requests=requestManager.loadFriendRequests(thisUser.getId());
     if (friends != null) {
         // Add all users as potential suggestions
         for (User user:accountManager.loadUsers()){
-             if (!user.getId().equals(thisUser.getId()) && !isFriend(user,friends)&& !isRequest(user,requests)) {
+             if (!user.getId().equals(thisUser.getId()) && !friendsManager.isFriend(user,friends)&& !requestManager.isRequest(user,requests)&&!friendsManager.getBlocked().contains(user)) {
                 Suggested.add(user);
-
-            }}}
+            }
+        }
+    }
+        else{
+    for (User user:accountManager.loadUsers()){
+       if (!user.equals(thisUser))
+        Suggested.add(user);
+   }
+   }
 
         for(User user:Suggested){
             suggestion=new FriendSuggestion(user,thisUser);
             ListOfSuggestions.add(suggestion);}
         return ListOfSuggestions;
     }
-    
-    private boolean isFriend(User user, ArrayList<User> friends) {
-    for (User friend : friends) {
-        if (friend.getId().equals(user.getId())) {
-            return true;
-        }
-    }
-    return false;
-}
-     private boolean isRequest(User user, ArrayList<FriendRequest> requests) {
-    for (FriendRequest request : requests) {
-        if (request.getReceiver().equals(user.getId())) {
-            return true;
-        }
-    }
-    return false;
-}
+
+     
     
     public FriendSuggestion sendSuggestion(User suggested){
            for (FriendSuggestion s : ListOfSuggestions) {
@@ -77,6 +69,9 @@ public class FriendSuggestionManager {
     public void acceptFriendSuggestion(FriendSuggestion suggestion){
       requestManager.sendRequest(thisUser,suggestion.getSuggested());
         ListOfSuggestions.remove(suggestion);
+
+         JOptionPane.showMessageDialog(null,"Friend Suggestion accepted successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
+
 
     }
        public void declineFriendSuggestion(FriendSuggestion suggestion){
