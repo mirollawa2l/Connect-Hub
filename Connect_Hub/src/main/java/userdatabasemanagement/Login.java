@@ -2,8 +2,11 @@
 package userdatabasemanagement;
 
 import NewsFeed.NewsFeedWindow;
+import Notifications.Notification;
+import Notifications.NotificationManager;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -193,7 +196,7 @@ private UserDatabaseManagement userData;
                 User x= accountManagment.getUserByEmail(email);
                 System.out.println("usier id in login: "+ x.getId());
                 CurrentUser.getInstance().setCurrentUser(x);
-                
+                ArrayList<Notification>notification = NotificationManager.getInstance().loadNotifications();
                 JOptionPane.showMessageDialog(this, "Logged in sucsessfuly, Welcome to Connect Hub");
              NewsFeedWindow w;
                 try {

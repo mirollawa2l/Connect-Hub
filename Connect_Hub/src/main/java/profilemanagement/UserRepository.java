@@ -36,7 +36,7 @@ public class UserRepository {
     }
 
     // Load users from JSON file
-    private void loadUsers() throws IOException {
+    public void loadUsers() throws IOException {
         File file = new File(USER_FILE);
         if (file.exists()) {
             users = objectMapper.readValue(file, new TypeReference<List<User>>() {}); // read json to java object // TypeReference<List<User>>() {} -> Specifies the type of data being read
@@ -47,7 +47,7 @@ public class UserRepository {
     }
 
     // Save users to JSON file
-    private void saveUsers() throws IOException {
+    public void saveUsers() throws IOException {
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(USER_FILE), users);// writing java object into json
     }
 
@@ -105,6 +105,14 @@ public void updateCoverPhoto(String userId, String coverPhotoPath) throws IOExce
     public List<User> getAllUsers() {
         return new ArrayList<>(users);
     }
+    public User getUser(String userId)  {
+    for (User user : users) {
+        if (user.getId().equals(userId)) {
+            return user; // Return the matching user
+        }
+    }
+   return new User();
+}
 
     // Add a friend to a user
     public void addFriend(String userId, String friendId) throws IOException {

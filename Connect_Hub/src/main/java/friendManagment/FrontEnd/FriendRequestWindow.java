@@ -2,6 +2,7 @@
 package friendManagment.FrontEnd;
 
 
+import Notifications.NotificationWindow;
 import friendManagment.Backend.FriendRequest;
 import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
@@ -22,6 +23,7 @@ private ManageFriendRequests requestManager=new  ManageFriendRequests();
 private UserDatabaseManagement accountManagement=new UserDatabaseManagement() ;
  private User thisUser= CurrentUser.getInstance().getCurrentUser();
 boolean close=false;
+private NotificationWindow notificationWindow;
 
 //connecting the account manager and friendManager to the windows
 
@@ -34,6 +36,8 @@ boolean close=false;
         listModel = new DefaultListModel<>();
          jList1.setModel(listModel);
         jList1 = new JList<>(listModel);
+       // notificationWindow = new NotificationWindow();
+        //notificationWindow.setVisible(true);
          update();
     }
     public void update(){
@@ -147,6 +151,7 @@ boolean close=false;
             if(requestManager.getRequest(username)!=null){
             FriendRequest requestToDecline=requestManager.getRequest(username);
             requestManager.declineRequest(requestToDecline);
+            //notificationWindow.loadNotifications();
             update(); }
             else JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE); }   
     }//GEN-LAST:event_DeclineActionPerformed
@@ -159,6 +164,7 @@ boolean close=false;
             if(requestManager.getRequest(username)!=null){
             FriendRequest requestToAccept=requestManager.getRequest(username);
             requestManager.acceptRequest(requestToAccept);
+            //notificationWindow.loadNotifications();
             update();}
             else JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE); }   
 
@@ -175,6 +181,7 @@ boolean close=false;
             
             if(username.equals(user.getUsername())){
                requestManager.sendRequest(thisUser,user);
+              // notificationWindow.loadNotifications();
                 found=true;
                System.out. print("found");
             break;

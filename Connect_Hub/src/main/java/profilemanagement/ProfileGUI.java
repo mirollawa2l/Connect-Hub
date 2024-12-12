@@ -16,7 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import userdatabasemanagement.User;
 import Content_Creation.Backend.Post;
+import friendManagment.Backend.ManageFriends;
 import static java.lang.String.valueOf;
+import userdatabasemanagement.CurrentUser;
 /**
  *
  * @author HP
@@ -24,13 +26,14 @@ import static java.lang.String.valueOf;
 
 public class ProfileGUI extends JFrame {
     private final ProfileManager profileManager;
+    private ManageFriends manageFriends;
     private User currentUser;
     private JLabel profilePictureLabel;
     private JLabel coverPictureLabel;
 
     public ProfileGUI(ProfileManager profileManager, User user) {
         this.profileManager = profileManager;
-
+       
         try {
             // Load the current user from ProfileManager
             currentUser = user;
@@ -43,6 +46,7 @@ public class ProfileGUI extends JFrame {
 
     private void initComponents() {
     // Frame settings
+    currentUser=CurrentUser.getInstance().getCurrentUser();
     setTitle("Profile Management");
     setSize(900, 700);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -111,6 +115,7 @@ public class ProfileGUI extends JFrame {
     saveButton.addActionListener(e -> {
             try { String bio= new String(bioField.getText());
                   profileManager.updateBio(currentUser.getId(), bio);
+                  
                 String password = new String(passwordField.getPassword());
                 String confirmPassword = new String(confirmPasswordField.getPassword());
 
@@ -126,11 +131,13 @@ public class ProfileGUI extends JFrame {
                     }
                 }
 
-                profileManager.updateBio(currentUser.getId(), bioField.getText());
+                profileManager.userRepository.saveUsers();
+                currentUser=profileManager.userRepository.getUser(currentUser.getId()); //reload 
                 JOptionPane.showMessageDialog(this, "Profile updated successfully!");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error saving changes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+       
         });
     detailsPanel.add(new JLabel());
     detailsPanel.add(saveButton);
@@ -206,7 +213,7 @@ JLabel timestampLabel = new JLabel(post.getTimestamp().format(formatter));
 }
 
 private void openFriendsFrame() {
-    
+    manageFriends= new ManageFriends();
     JFrame friendsFrame = new JFrame("Friends List");
     friendsFrame.setSize(600, 400);
     friendsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -215,7 +222,7 @@ private void openFriendsFrame() {
     JPanel friendsPanel = new JPanel();
     friendsPanel.setLayout(new BoxLayout(friendsPanel, BoxLayout.Y_AXIS)); // Vertical layout
 
-    List<User> friends = profileManager.getFriends(currentUser.getId());
+    List<User> friends = manageFriends.loadFriends(currentUser.getId());
     if (friends.isEmpty()) {
         friendsPanel.add(new JLabel("You have no friends."));
     } else {
@@ -225,13 +232,13 @@ private void openFriendsFrame() {
             friendPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
             // Profile Picture
-            JLabel profilePicLabel = new JLabel();
+          /*  JLabel profilePicLabel = new JLabel();
             if (friend.getProfilePhotoPath() != null && !friend.getProfilePhotoPath().isEmpty()) {
                 profilePicLabel.setIcon(resizeImageIcon(friend.getProfilePhotoPath(), 30, 30)); // Resize the profile photo
             } else {
                 // If no photo, use a default placeholder
-                profilePicLabel.setIcon(new ImageIcon(getClass().getResource("/default_profile_picture.png")));
-            }
+//                profilePicLabel.setIcon(new ImageIcon(getClass().getResource("/default_profile_picture.png")));
+            }*/
 
             // Name and Status
             JLabel nameLabel = new JLabel(friend.getUsername());
@@ -247,7 +254,7 @@ private void openFriendsFrame() {
             }
 
             // Add profile picture, name, and status to the panel
-            friendPanel.add(profilePicLabel);
+           // friendPanel.add(profilePicLabel);
             friendPanel.add(nameLabel);
             friendPanel.add(statusLabel);
 

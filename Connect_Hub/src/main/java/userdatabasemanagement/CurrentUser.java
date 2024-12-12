@@ -6,7 +6,7 @@ public class CurrentUser {
      private static CurrentUser instance;
     private static User currentUser;
 
-
+// singleton for single instance for user
 private CurrentUser(){
     
 }

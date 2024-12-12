@@ -14,6 +14,9 @@ import Content_Creation.Backend.Post;
 import Content_Creation.Backend.Story;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
+import Notifications.NotificationManager;
+import Notifications.NotificationWindow;
+import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendListWindow;
 import friendManagment.FrontEnd.FriendRequestWindow;
@@ -24,7 +27,6 @@ import profilemanagement.UserRepository;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,8 +36,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import profilemanagement.ProfileGUI;
 import userdatabasemanagement.AccountManagment;
-
-
+import Notifications.*;
+import friendManagment.Backend.ManageFriendRequests;
 /**
  * News Feed window for displaying posts and stories from friends.
  */
@@ -54,7 +56,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     private UserRepository userRepository;
     private PostRepository postRepository;
     private User user;
-
+    private NotificationManager notificationManager;
     public NewsFeedWindow() throws IOException {
         initComponents();
   this.setLocation(250, 300);
@@ -125,7 +127,8 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         }
     }
 
-void displayContents() {
+void displayContents() throws IOException {
+    
     contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty
@@ -232,6 +235,7 @@ void displayContents() {
         updateProfile = new javax.swing.JButton();
         friendList = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -304,6 +308,13 @@ void displayContents() {
             }
         });
 
+        jButton1.setText("Notifications");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -319,12 +330,14 @@ void displayContents() {
                 .addComponent(friendRequest)
                 .addGap(29, 29, 29)
                 .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(18, 18, 18)
                 .addComponent(refresh)
-                .addGap(49, 49, 49)
+                .addGap(18, 18, 18)
                 .addComponent(updateProfile)
-                .addGap(40, 40, 40)
-                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(26, 26, 26)
+                .addComponent(logoutBtn)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -339,7 +352,8 @@ void displayContents() {
                     .addComponent(logoutBtn)
                     .addComponent(updateProfile)
                     .addComponent(refresh)
-                    .addComponent(friendList))
+                    .addComponent(friendList)
+                    .addComponent(jButton1))
                 .addGap(15, 15, 15))
         );
 
@@ -348,7 +362,7 @@ void displayContents() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
             .addGroup(layout.createSequentialGroup()
@@ -400,7 +414,7 @@ void displayContents() {
         // TODO add your handling code here:
         ProfileGUI w = new ProfileGUI(profileManager, user);
         w.setVisible(true);
-       
+      
     }//GEN-LAST:event_updateProfileActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
@@ -408,6 +422,7 @@ void displayContents() {
         AccountManagment w = new AccountManagment();
         w.setVisible(true);
         this.setVisible(false);
+        
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void friendListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendListActionPerformed
@@ -416,9 +431,21 @@ void displayContents() {
     }//GEN-LAST:event_friendListActionPerformed
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
-        // TODO add your handling code here:
-        displayContents();
+        try {
+            // TODO add your handling code here:
+            displayContents();
+        } catch (IOException ex) {
+            Logger.getLogger(NewsFeedWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_refreshActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+notificationManager = new ManageFriendRequests().getNotificationManager();
+NotificationWindow notificationWindow= new NotificationWindow(NotificationManager.getInstance(), CurrentUser.getInstance().getCurrentUser());
+notificationWindow.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,6 +493,7 @@ void displayContents() {
     private javax.swing.JButton friendList;
     private javax.swing.JButton friendRequest;
     private javax.swing.JButton friendSuggestion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logoutBtn;
