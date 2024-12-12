@@ -24,7 +24,6 @@ public class ContentManagement {
     private Story s;
 
 
-
     public ContentManagement() {
         posts = new ArrayList<>();
         stories = new ArrayList<>();
