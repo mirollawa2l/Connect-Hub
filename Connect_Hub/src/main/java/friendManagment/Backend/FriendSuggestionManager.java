@@ -33,7 +33,7 @@ public class FriendSuggestionManager {
     if (friends != null) {
         // Add all users as potential suggestions
         for (User user:accountManager.loadUsers()){
-             if (!user.getId().equals(thisUser.getId()) && !isFriend(user,friends)&& !isRequest(user,requests)) {
+             if (!user.getId().equals(thisUser.getId()) && !isFriend(user,friends)&& !isRequest(user,requests)&&!friendsManager.getBlocked().contains(user)) {
                 Suggested.add(user);
 
             }}}

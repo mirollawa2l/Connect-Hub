@@ -210,23 +210,23 @@ System.out.println("Sender ID: " + friendRequest.getSender().getId());
                     JsonNode friendNode = findUserById(rootNode, friendId);
                     if (friendNode != null) {
                            User friend = objectMapper.treeToValue(friendNode, User.class);
-                           FriendRequest friendRequest=new FriendRequest(friend,thisUser,"pending");
+                           FriendRequest friendRequest=new FriendRequest(thisUser,friend,"pending");
                         listOfRequests.add(friendRequest);
                     }}}
-             JsonNode sentFriendRequestsNode = userNode.get("sentFriendRequests");
-            if (sentFriendRequestsNode != null && sentFriendRequestsNode.isArray()) {
-                for (JsonNode friendIdNode : sentFriendRequestsNode) {
-                    String friendId = friendIdNode.asText();
-                    JsonNode friendNode = findUserById(rootNode, friendId);
-
-                    if (friendNode != null) {
-                        User receiver = objectMapper.treeToValue(friendNode, User.class);
-                        FriendRequest friendRequest = new FriendRequest(receiver, thisUser, "pending");
-                        listOfRequests.add(friendRequest);
-                    }
-                }
-            }
-                
+//             JsonNode sentFriendRequestsNode = userNode.get("sentFriendRequests");
+//            if (sentFriendRequestsNode != null && sentFriendRequestsNode.isArray()) {
+//                for (JsonNode friendIdNode : sentFriendRequestsNode) {
+//                    String friendId = friendIdNode.asText();
+//                    JsonNode friendNode = findUserById(rootNode, friendId);
+//
+//                    if (friendNode != null) {
+//                        User receiver = objectMapper.treeToValue(friendNode, User.class);
+//                        FriendRequest friendRequest = new FriendRequest(receiver, thisUser, "pending");
+//                        listOfRequests.add(friendRequest);
+//                    }
+//                }
+//            }
+//                
                 System.out.println("Requests loaded successfully!");
  
             } else {

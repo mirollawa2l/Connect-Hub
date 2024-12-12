@@ -6,11 +6,12 @@
   "profilePhotoPath" : null,
   "coverPhotoPath" : null,
   "bio" : null,
-  "dateOfBirth" : "2024-12-01",
+  "dateOfBirth" : "2024-12-11",
   "status" : "offline",
-  "friends" : [ "user2" ],
-  "friendRequests" : [ "user4" ],
-  "sentFriendRequests" : [ ]
+  "friends" : [ ],
+  "friendRequests" : [ "user2" ],
+  "sentFriendRequests" : null,
+  "blockList" : null
 }, {
   "id" : "user2",
   "email" : "n@",
@@ -19,35 +20,10 @@
   "profilePhotoPath" : null,
   "coverPhotoPath" : null,
   "bio" : null,
-  "dateOfBirth" : "2024-12-01",
+  "dateOfBirth" : "2024-12-18",
   "status" : "offline",
-  "friends" : [ "user1" ],
-  "friendRequests" : [ ],
-  "sentFriendRequests" : [ ]
-}, {
-  "id" : "user3",
-  "email" : "b@",
-  "username" : "b",
-  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
-  "profilePhotoPath" : null,
-  "coverPhotoPath" : null,
-  "bio" : null,
-  "dateOfBirth" : "2024-12-01",
-  "status" : "offline",
-  "friends" : null,
-  "friendRequests" : [ ],
-  "sentFriendRequests" : null
-}, {
-  "id" : "user4",
-  "email" : "wael@gmail.com",
-  "username" : "wael",
-  "password" : "81dc9bdb52d04dc20036dbd8313ed055",
-  "profilePhotoPath" : null,
-  "coverPhotoPath" : "C:\\Users\\mirol\\Downloads\\WhatsApp Image 2024-12-09 at 14.05.54_9a186f8d.jpg",
-  "bio" : "",
-  "dateOfBirth" : "2024-12-01",
-  "status" : "offline",
-  "friends" : null,
+  "friends" : [ ],
   "friendRequests" : null,
-  "sentFriendRequests" : [ "user1" ]
+  "sentFriendRequests" : [ "user1" ],
+  "blockList" : null
 } ]
