@@ -8,12 +8,11 @@ import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import Groups_Backend.Member;
 import Groups_Backend_Operations.GroupRequestManager;
-import Groups_FrontEnd.ViewGroups;
+import Groups_FrontEnd.ViewGroup;
 import java.util.List;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
-import userdatabasemanagement.UserDatabaseManagement;
 
 /**
  *
@@ -29,7 +28,7 @@ public class SearchGroupWindow extends javax.swing.JFrame {
     private User currentUser;
     private GroupManager groupManager;
     private Member member;
-//    private ViewGroup viewGroup;
+    private ViewGroup viewGroup;
     
     public SearchGroupWindow() {
         initComponents();
@@ -149,7 +148,8 @@ public class SearchGroupWindow extends javax.swing.JFrame {
         String selectedGroup = (String) groupsComboBox.getSelectedItem();
         if(selectedGroup!=null){
         Group g = groupManager.getGroupByName(selectedGroup);
-        member.requestToJoinGroup(g, currentUser);
+        groupRequestManager.sendRequest( currentUser,g);
+         JOptionPane.showMessageDialog(this, "Request sent succesfully", "sucsess", JOptionPane.OK_OPTION);
         }
         else
             JOptionPane.showMessageDialog(this, "Please select a group to join", "Error", JOptionPane.ERROR_MESSAGE);
@@ -173,7 +173,7 @@ public class SearchGroupWindow extends javax.swing.JFrame {
              Group g = groupManager.getGroupByName(selectedGroup);
              if(g!=null){
             if(groupManager.isMember(currentUser, g)){
-//                viewGroup= new ViewGroup(currentUser, g);
+                viewGroup= new ViewGroup(currentUser, g);
             }
             else{
                JOptionPane.showMessageDialog(this, "You're not a member of this group, please join the group first", "Error", JOptionPane.ERROR_MESSAGE);
