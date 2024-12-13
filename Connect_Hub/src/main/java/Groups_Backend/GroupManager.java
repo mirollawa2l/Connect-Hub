@@ -151,4 +151,5 @@ public class GroupManager implements GroupManagerInterface {
       return user==g.getAdmin();
     }
 
+
 }

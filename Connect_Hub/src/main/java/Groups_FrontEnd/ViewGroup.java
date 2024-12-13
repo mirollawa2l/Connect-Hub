@@ -11,6 +11,7 @@ package Groups_FrontEnd;
 
 
 import Content_Creation.Backend.Post;
+import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import userdatabasemanagement.User;
 
@@ -26,8 +27,8 @@ import java.util.ArrayList;
  */
 public class ViewGroup {
 
-    private Group group;
-    private User selectedUser;
+ 
+   
 
     public ViewGroup(User selectedUser, Group group) {
         this.selectedUser = selectedUser;

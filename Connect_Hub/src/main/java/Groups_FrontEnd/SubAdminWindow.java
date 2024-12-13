@@ -4,18 +4,48 @@
  */
 package Groups_FrontEnd;
 
+
+import Groups_Backend.Admin;
+import Groups_Backend.CurrentGroup;
+import Groups_Backend.Group;
+import Groups_Backend.GroupManager;
+import Groups_Backend.SubAdmin;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import userdatabasemanagement.CurrentUser;
+import userdatabasemanagement.User;
+import userdatabasemanagement.UserDatabaseManagement;
+
 /**
  *
  * @author sherrygirguis
  */
 public class SubAdminWindow extends javax.swing.JFrame {
-
+    private GroupManager manager=new GroupManager();
+    private User thisUser= CurrentUser.getInstance().getCurrentUser();
+    private Group thisGroup=CurrentGroup.getInstance().getCurrentGroup();
+    private UserDatabaseManagement accountManager=new UserDatabaseManagement();
+    private SubAdmin subAdmin;
     /**
      * Creates new form SubAdminWindow
      */
     public SubAdminWindow() {
         initComponents();
+        update();
+        if(manager.isSAdmin(thisUser,thisGroup)){
+            thisUser=new Admin();
+            if (thisUser instanceof Admin) {
+            // If the user is now an Admin, they have permission to remove users
+               subAdmin = (SubAdmin) thisUser;}}
+
     }
+    public void update(){
+    DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (User user: thisGroup.getMembers()) {
+            listModel.addElement(user.getUsername());}
+            membersList.setModel(listModel);
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,23 +57,39 @@ public class SubAdminWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        GroupRequests = new javax.swing.JButton();
+        RemoveMember = new javax.swing.JButton();
+        PostManager = new javax.swing.JButton();
+        LeaveGroup = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        CreatePost = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        membersList = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
+        SelectMember = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("Group Requests");
+        GroupRequests.setText("Group Requests");
+        GroupRequests.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GroupRequestsActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Remove Member");
+        RemoveMember.setText("Remove Member");
+        RemoveMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveMemberActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Post Manager");
+        PostManager.setText("Post Manager");
+        PostManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PostManagerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -51,53 +97,65 @@ public class SubAdminWindow extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addComponent(GroupRequests, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(RemoveMember)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addComponent(PostManager)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(GroupRequests)
+                    .addComponent(RemoveMember)
+                    .addComponent(PostManager))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Leave Group");
+        LeaveGroup.setText("Leave Group");
+        LeaveGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaveGroupActionPerformed(evt);
+            }
+        });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Members");
 
-        jButton3.setText("Create Post");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        CreatePost.setText("Create Post");
+        CreatePost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                CreatePostActionPerformed(evt);
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        membersList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(membersList);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGap(0, 236, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        SelectMember.setText("Select Member");
+        SelectMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectMemberActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,10 +172,11 @@ public class SubAdminWindow extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(25, 25, 25))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane1)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(SelectMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LeaveGroup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                    .addComponent(CreatePost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(14, 14, 14))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -132,19 +191,66 @@ public class SubAdminWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(LeaveGroup)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(CreatePost))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SelectMember)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+       //mirolla
+    }//GEN-LAST:event_CreatePostActionPerformed
+
+    private void GroupRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupRequestsActionPerformed
+        // TODO add your handling code here:
+        RequestWindow RequestWindow=new RequestWindow();
+        RequestWindow.setVisible(true);
+    }//GEN-LAST:event_GroupRequestsActionPerformed
+
+    private void RemoveMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveMemberActionPerformed
+           boolean found=false;
+        String userName = JOptionPane.showInputDialog("Choose");
+
+        if (userName == null || userName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a group");
+            }
+        else{
+                if(manager.isMember(accountManager.getUserByUsername(userName),thisGroup)){
+                     subAdmin.removeUser(accountManager.getUserByUsername(userName));
+                     found=true;
+                     update();
+                     System.out. print("found");}
+            
+        if(!found)
+        JOptionPane.showMessageDialog(null,"No Group found!","Error",JOptionPane.INFORMATION_MESSAGE);}
+       
+        
+    }//GEN-LAST:event_RemoveMemberActionPerformed
+
+    private void PostManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PostManagerActionPerformed
+        // TODO add your handling code here:
+        //mirolla
+    }//GEN-LAST:event_PostManagerActionPerformed
+
+    private void SelectMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectMemberActionPerformed
+        // TODO add your handling code here:
+                String selectedMemberUsername =membersList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
+        else{
+           User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);}
+    }//GEN-LAST:event_SelectMemberActionPerformed
+
+    private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LeaveGroupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,15 +288,16 @@ public class SubAdminWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton CreatePost;
+    private javax.swing.JButton GroupRequests;
+    private javax.swing.JButton LeaveGroup;
+    private javax.swing.JButton PostManager;
+    private javax.swing.JButton RemoveMember;
+    private javax.swing.JButton SelectMember;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> membersList;
     // End of variables declaration//GEN-END:variables
 }

@@ -72,6 +72,8 @@ public class Group implements GroupInterface {
     @Override
     public void setAdmin(Admin admin) {
         this.admin = admin;
+        if(!isMember(admin))
+            this.members.add(admin);
     }
 
     @Override
@@ -122,6 +124,16 @@ public class Group implements GroupInterface {
     @Override
     public void setGroupPhotoPath(String groupPhotoPath) {
         this.groupPhotoPath = groupPhotoPath;
+    }
+
+   public boolean isMember(User user) {
+        for (User member : getMembers()) {
+            if (user == member) {
+                return true;
+            }
+        }
+        System.out.println("User isn't member of group: "+getName());
+        return false;
     }
 
 }

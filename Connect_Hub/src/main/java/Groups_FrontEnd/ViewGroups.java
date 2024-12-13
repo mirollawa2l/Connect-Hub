@@ -4,8 +4,12 @@
  */
 package Groups_FrontEnd;
 
+import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
+import Groups_Backend_Operations.GroupRequest;
+import Groups_Backend_Operations.GroupRequestManager;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,6 +23,8 @@ import userdatabasemanagement.User;
 public class ViewGroups extends javax.swing.JFrame {
  private User thisUser = CurrentUser.getInstance().getCurrentUser();
  private GroupManager manager=new GroupManager();
+ private GroupRequestManager requestManager=new GroupRequestManager();
+ private Group thisGroup=  CurrentGroup.getInstance().getCurrentGroup();
     /**
     /**
      * Creates new form ViewGroups
@@ -48,6 +54,7 @@ public class ViewGroups extends javax.swing.JFrame {
         createGroup = new javax.swing.JButton();
         SelectedGroup = new javax.swing.JButton();
         GroupDetails = new javax.swing.JButton();
+        SendRequest = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +97,13 @@ public class ViewGroups extends javax.swing.JFrame {
             }
         });
 
+        SendRequest.setText("Send Request");
+        SendRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SendRequestActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,7 +115,8 @@ public class ViewGroups extends javax.swing.JFrame {
                     .addComponent(createGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SelectedGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(GroupDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
+                    .addComponent(GroupDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                    .addComponent(SendRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
@@ -112,17 +127,21 @@ public class ViewGroups extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(85, 85, 85)
-                        .addComponent(open)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(createGroup)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(14, 14, 14)
                         .addComponent(SelectedGroup)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(GroupDetails))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(open)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(GroupDetails)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SendRequest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createGroup)
+                        .addGap(15, 15, 15))))
         );
 
         pack();
@@ -145,6 +164,8 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void createGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createGroupActionPerformed
         // TODO add your handling code here:
+        CreateGroupWindow createGroupWindow=new CreateGroupWindow();
+        createGroupWindow.setVisible(true);
     }//GEN-LAST:event_createGroupActionPerformed
 
     private void SelectedGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectedGroupActionPerformed
@@ -152,6 +173,12 @@ public class ViewGroups extends javax.swing.JFrame {
         String selectedGroupId = GroupList.getSelectedValue();
         if (selectedGroupId == null) {
             JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
+        else{
+            Group selectedGroup = getGroupById(selectedGroupId);
+            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
+        
+        
+        }
     }//GEN-LAST:event_SelectedGroupActionPerformed
 
     private void GroupDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupDetailsActionPerformed
@@ -165,6 +192,15 @@ public class ViewGroups extends javax.swing.JFrame {
              GroupDetails groupDetails=new GroupDetails ();
              groupDetails.setVisible(true);}
     }//GEN-LAST:event_GroupDetailsActionPerformed
+
+    private void SendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendRequestActionPerformed
+        // TODO add your handling code here:
+        ArrayList<GroupRequest>requests=requestManager.getRequests();
+        if(!requestManager.isRequest(thisUser,requests)&&!manager.isMember(thisUser, thisGroup)){
+            requestManager.sendRequest(thisUser,thisGroup);}
+         else  JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
+           
+    }//GEN-LAST:event_SendRequestActionPerformed
    public Group getGroupById(String Id){
         for(Group g:manager.getGroups())
            if(Id.equals(g.getGroupId()))
@@ -210,6 +246,7 @@ public class ViewGroups extends javax.swing.JFrame {
     private javax.swing.JButton GroupDetails;
     private javax.swing.JList<String> GroupList;
     private javax.swing.JButton SelectedGroup;
+    private javax.swing.JButton SendRequest;
     private javax.swing.JButton createGroup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

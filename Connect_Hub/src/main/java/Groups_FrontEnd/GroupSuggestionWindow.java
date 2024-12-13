@@ -5,11 +5,11 @@
 package Groups_FrontEnd;
 
 import Groups_Backend_Operations.GroupRequestManager;
-import Groups_Backend_Operations.GroupRequestManagerInterface;
+
 import Groups_Backend_Operations.GroupSuggestion;
 import Groups_Backend_Operations.GroupSuggestionManager;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
+
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
@@ -29,13 +29,16 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
      */
     public GroupSuggestionWindow() {
         initComponents();
+        update();
+
+        }
+public void update(){
         suggestionManager.generateSuggestions( thisUser);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
             listModel.addElement(suggestion.getSuggested().getGroupId());}
             suggestionList.setModel(listModel);
-        }
-
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,7 +101,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
     private void AcceptSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptSuggestionActionPerformed
      boolean found=false;
-        String username = JOptionPane.showInputDialog("Search");
+        String username = JOptionPane.showInputDialog("Choose");
 
         if (username == null || username.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a group");
@@ -108,7 +111,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
             if(username.equals(suggestion.getSuggested())){
                 suggestionManager.acceptGroupSuggestion(suggestion,thisUser);
                 found=true;
-
+                update();
                 System.out. print("found");
                 break;
             }
