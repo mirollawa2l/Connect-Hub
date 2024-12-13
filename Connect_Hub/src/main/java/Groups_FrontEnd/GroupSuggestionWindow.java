@@ -4,6 +4,9 @@
  */
 package Groups_FrontEnd;
 
+import Groups_Backend.CurrentGroup;
+import Groups_Backend.Group;
+import Groups_Backend.GroupManager;
 import Groups_Backend_Operations.GroupRequestManager;
 
 import Groups_Backend_Operations.GroupSuggestion;
@@ -24,6 +27,8 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
     private GroupRequestManager requestManager;
     private GroupSuggestionManager suggestionManager;
     private User thisUser;
+    private  DefaultListModel<String> listModel;
+    private GroupManager manager;
 
     /**
      * Creates new form GroupSuggestionWindow
@@ -34,14 +39,15 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
         requestManager = new GroupRequestManager();
         suggestionManager = new GroupSuggestionManager();
+        manager=new GroupManager();
         thisUser = CurrentUser.getInstance().getCurrentUser();
+        listModel = new DefaultListModel<>();
         update();
 
     }
 
     public void update() {
         suggestionManager.generateSuggestions(thisUser);
-        DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
 
             listModel.addElement(suggestion.getSuggested().getName());}
@@ -63,7 +69,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         suggestionList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        AcceptSuggestion = new javax.swing.JButton();
+        SendFriendRequest = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,10 +77,10 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
         jLabel1.setText("Group Suggestions");
 
-        AcceptSuggestion.setText("Send Friend Request");
-        AcceptSuggestion.addActionListener(new java.awt.event.ActionListener() {
+        SendFriendRequest.setText("Send Friend Request");
+        SendFriendRequest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AcceptSuggestionActionPerformed(evt);
+                SendFriendRequestActionPerformed(evt);
             }
         });
 
@@ -83,35 +89,60 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(AcceptSuggestion)
-                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(34, 34, 34)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(SendFriendRequest))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel1)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(AcceptSuggestion))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(5, 5, 5)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(SendFriendRequest)
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AcceptSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptSuggestionActionPerformed
+    private void SendFriendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendFriendRequestActionPerformed
+
+         String selectedGroupId = suggestionList.getSelectedValue();
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            Group selectedGroup = getGroupByName(selectedGroupId);
+            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
+        }
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } else {
+            Group selectedGroup
+                    = getGroupByName(selectedGroupId);
+
+            Factory factory = new Factory(manager);
+
+            JFrame window = factory.createWindow(thisUser, selectedGroup);
+            if (window == null) {
+                JOptionPane.showMessageDialog(this, "You aren't a member of this group");
+            } else {
+                window.setVisible(true);
+            }
+
+        }
+        
         boolean found = false;
         String username = JOptionPane.showInputDialog("Choose");
 
@@ -131,9 +162,23 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
         }
 
         if (!found)
-            JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_AcceptSuggestionActionPerformed
+        {
+              JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE); 
+        }
+         
+    }//GEN-LAST:event_SendFriendRequestActionPerformed
 
+    
+       public Group getGroupByName(String name) {
+        for (Group g : manager.getGroups()) {
+            if (name.equals(g.getName())) {
+                return g;
+            }
+        }
+        return null;
+    }
+
+    
     /**
      * @param args the command line arguments
      */
@@ -170,7 +215,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AcceptSuggestion;
+    private javax.swing.JButton SendFriendRequest;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> suggestionList;

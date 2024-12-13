@@ -48,26 +48,25 @@ public class GroupSuggestionManager {
         return suggestions;
     }
 
-
-    
-    public void acceptGroupSuggestion(GroupSuggestion suggestion,User user){
-        requestManager.sendRequest(user,suggestion.getSuggested());
+    public void acceptGroupSuggestion(GroupSuggestion suggestion, User user) {
+        requestManager.sendRequest(user, suggestion.getSuggested());
         suggestions.remove(suggestion);
         manager.save();
 
     }
-       
-       public ArrayList< GroupSuggestion >getSuggestions(){
-       return suggestions;
-       }
-       
-        public GroupSuggestion getSuggestion(Group group){
-            for(GroupSuggestion suggestion:suggestions)
-                if(group.getGroupId().equals(suggestion.getSuggested()))
-                    return suggestion;
-            return null;
-       
-       }
-       
-}
 
+    public ArrayList< GroupSuggestion> getSuggestions() {
+        return suggestions;
+    }
+
+    public GroupSuggestion getSuggestion(Group group) {
+        for (GroupSuggestion suggestion : suggestions) {
+            if (group.getGroupId().equals(suggestion.getSuggested())) {
+                return suggestion;
+            }
+        }
+        return null;
+
+    }
+
+}

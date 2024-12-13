@@ -31,7 +31,6 @@ public class CurrentGroup {
     public synchronized void setCurrentGroup(Group currentGroup) {
         this.currentGroup = currentGroup;
     }
- 
- 
+    
 }
 

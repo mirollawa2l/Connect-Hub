@@ -15,7 +15,7 @@ import userdatabasemanagement.User;
 public class Admin extends SubAdmin {
 
     public Admin() {
-        manager=new GroupManager();
+        
     }
 
     public Admin(String id, String email, String username, String password, String dateOfBirth, String status) {
