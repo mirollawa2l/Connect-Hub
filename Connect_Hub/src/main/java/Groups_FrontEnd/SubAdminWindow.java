@@ -243,7 +243,7 @@ public class SubAdminWindow extends javax.swing.JFrame {
 
     private void SelectMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectMemberActionPerformed
         // TODO add your handling code here:
-                String selectedMemberUsername =membersList.getSelectedValue();
+         String selectedMemberUsername =membersList.getSelectedValue();
         if (selectedMemberUsername == null) {
             JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
         else{

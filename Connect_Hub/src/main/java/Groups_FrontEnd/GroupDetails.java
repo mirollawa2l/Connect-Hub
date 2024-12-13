@@ -34,6 +34,8 @@ public class GroupDetails extends javax.swing.JFrame {
         thisGroup = CurrentGroup.getInstance().getCurrentGroup();
         thisUser = CurrentUser.getInstance().getCurrentUser();
         manager = new GroupManager();
+        jLabel4=new JLabel(thisGroup.getName());
+         jLabel5=new JLabel(thisGroup.getDescription());
          DisplayPhoto();
          update();
     }
@@ -56,11 +58,10 @@ public class GroupDetails extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
         jPanel1Photo2 = new javax.swing.JPanel();
-        description = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2Posts = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         membersList = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
@@ -69,41 +70,18 @@ public class GroupDetails extends javax.swing.JFrame {
 
         jLabel1.setText("Name");
 
-        name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Photo2Layout = new javax.swing.GroupLayout(jPanel1Photo2);
         jPanel1Photo2.setLayout(jPanel1Photo2Layout);
         jPanel1Photo2Layout.setHorizontalGroup(
             jPanel1Photo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 501, Short.MAX_VALUE)
+            .addGap(0, 348, Short.MAX_VALUE)
         );
         jPanel1Photo2Layout.setVerticalGroup(
             jPanel1Photo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
+            .addGap(0, 269, Short.MAX_VALUE)
         );
-
-        description.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descriptionActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Description");
-
-        javax.swing.GroupLayout jPanel2PostsLayout = new javax.swing.GroupLayout(jPanel2Posts);
-        jPanel2Posts.setLayout(jPanel2PostsLayout);
-        jPanel2PostsLayout.setHorizontalGroup(
-            jPanel2PostsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-        );
-        jPanel2PostsLayout.setVerticalGroup(
-            jPanel2PostsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 157, Short.MAX_VALUE)
-        );
 
         membersList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -121,77 +99,48 @@ public class GroupDetails extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(27, 27, 27)
-                                .addComponent(name))
-                            .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1Photo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2Posts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
-                        .addGap(21, 21, 21))))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addGap(11, 11, 11)
+                .addComponent(jPanel1Photo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1Photo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jPanel2Posts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1Photo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-       if (thisGroup != null && thisGroup.getName() != null) {
-        name.setText(thisGroup.getName());
-    } else {
-        name.setText("Unknown Name");
-    }
-                                   
-
-    }//GEN-LAST:event_nameActionPerformed
-
-    private void descriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionActionPerformed
-        // TODO add your handling code here:
-         if (thisGroup != null && thisGroup.getDescription() != null) {
-        description.setText(thisGroup.getDescription());
-    } else {
-        description.setText("No Description Available");
-    }
-    }//GEN-LAST:event_descriptionActionPerformed
     public void DisplayPhoto() {
         try {
             String photoPath = thisGroup != null ? thisGroup.getGroupPhotoPath() : null;
@@ -205,7 +154,8 @@ public class GroupDetails extends javax.swing.JFrame {
         jPanel1Photo2 .removeAll();
         jPanel1Photo2.add(photoLabel);
         jPanel1Photo2.revalidate();
-        jPanel1Photo2.repaint();} 
+        jPanel1Photo2.repaint();
+        jPanel1Photo2.setVisible(true);} 
             
             
 }catch (Exception e) {
@@ -248,14 +198,13 @@ public class GroupDetails extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField description;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1Photo2;
-    private javax.swing.JPanel jPanel2Posts;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> membersList;
-    private javax.swing.JTextField name;
     // End of variables declaration//GEN-END:variables
 }
