@@ -39,7 +39,7 @@ private GroupManager manager;
     public void acceptGroupSuggestion(GroupSuggestion suggestion,User user){
         requestManager.sendRequest(user,suggestion.getSuggested());
         suggestions.remove(suggestion);
-        manager.saveToFile(manager.getGroups());
+        manager.save();
 
     }
        

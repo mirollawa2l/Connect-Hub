@@ -13,6 +13,8 @@ import userdatabasemanagement.User;
  * @author mirol
  */
 public interface GroupManagerInterface {
+    
+    public abstract void save();
 
     public abstract void addPost(Post p,Group g);
 
@@ -20,9 +22,7 @@ public interface GroupManagerInterface {
 
     public abstract void setGroups(ArrayList<Group> groups);
 
-    public abstract void saveToFile(ArrayList<Group> groups);
-
-    public abstract ArrayList<Group> loadFromFile();
+    public abstract void load();
 
     public abstract void addGroup(Group g);
 

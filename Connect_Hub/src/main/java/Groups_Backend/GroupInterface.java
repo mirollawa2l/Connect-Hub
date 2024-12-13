@@ -13,6 +13,8 @@ import userdatabasemanagement.User;
  * @author mirol
  */
 public interface GroupInterface {
+    
+    public abstract boolean isMember(User user);
 
     public abstract ArrayList<User> getRequestedMembers();
 

@@ -38,12 +38,14 @@ public class GroupRequestManager {
              if(!manager.isMember(groupRequest.getSender(),groupRequest.getGroup())){
                        groupRequest.getGroup().getRequestedMembers().remove(groupRequest.getSender());
                        groupRequest.getGroup().getMembers().add(groupRequest.getSender());
-                       manager.saveToFile(manager.getGroups());}
+                       manager.save();
+             
+             }
          }
       
         public void declineRequest(GroupRequest groupRequest){
             groupRequest.getGroup().getRequestedMembers().remove(groupRequest.getSender());
-            manager.saveToFile(manager.getGroups());
+            manager.save();
         }
         
         public void  sendRequest(User user,Group group){
@@ -56,8 +58,10 @@ public class GroupRequestManager {
                  GroupRequest groupRequest=new GroupRequest(group,user);
                  group.getRequestedMembers().add(user);
                  requests.add(groupRequest);
-                 manager.saveToFile(manager.getGroups());
-             }}}
+                 manager.save();
+             }
+        }
+    }
         
         
         }
