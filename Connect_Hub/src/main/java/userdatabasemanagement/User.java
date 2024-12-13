@@ -7,7 +7,7 @@ package userdatabasemanagement;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
+
 
 /**
  *
@@ -29,6 +29,7 @@ public class User {
     private ArrayList<String> sentFriendRequests;
     private ArrayList<String> blockList;
     private ArrayList<String> deletedGroups;
+    private ArrayList<String> groups;
 
 
     public User() {
@@ -45,7 +46,7 @@ public class User {
 
     }
 
-    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,ArrayList<String>deletedGroups) {
+    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,ArrayList<String>deletedGroups,ArrayList<String>groups) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -59,13 +60,14 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.sentFriendRequests=sentFriendRequests;
         this.blockList=blockList;
+        this.groups=groups;
         this.deletedGroups=deletedGroups;
         
     }
     
 // Factory Method
-   public  User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,ArrayList<String>deletedGroups) {
-        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests,blockList,deletedGroups);
+   public  User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,ArrayList<String>deletedGroups,ArrayList<String>groups) {
+        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests,blockList,deletedGroups,groups);
     }
     
     public String getProfilePhotoPath() {
@@ -159,6 +161,15 @@ public class User {
     public void setDeletedGroups(ArrayList<String> deletedGroups) {
         this.deletedGroups = deletedGroups;
     }
+
+    public ArrayList<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(ArrayList<String> groups) {
+        this.groups = groups;
+    }
+    
 
       @Override
     public String toString() {

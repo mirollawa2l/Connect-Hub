@@ -25,17 +25,19 @@ public class ViewGroups extends javax.swing.JFrame {
  private GroupManager manager=new GroupManager();
  private GroupRequestManager requestManager=new GroupRequestManager();
  private Group thisGroup=  CurrentGroup.getInstance().getCurrentGroup();
+ 
     /**
+     */
     /**
      * Creates new form ViewGroups
      */
     public ViewGroups() {
         initComponents();
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Group g : manager.getGroups()) {
+        for (Group g : thisGroup.getGroups()) {
             listModel.addElement(g.getGroupId());
         }
-        GroupList.setModel(listModel);
+        groupList.setModel(listModel);
     }
 
     /**
@@ -49,7 +51,7 @@ public class ViewGroups extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        GroupList = new javax.swing.JList<>();
+        groupList = new javax.swing.JList<>();
         open = new javax.swing.JButton();
         createGroup = new javax.swing.JButton();
         SelectedGroup = new javax.swing.JButton();
@@ -62,12 +64,12 @@ public class ViewGroups extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Groups");
 
-        GroupList.setModel(new javax.swing.AbstractListModel<String>() {
+        groupList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(GroupList);
+        jScrollPane1.setViewportView(groupList);
 
         open.setText("Open ");
         open.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +151,7 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
         // TODO add your handling code here:
-        String selectedGroupId = GroupList.getSelectedValue();
+        String selectedGroupId = groupList.getSelectedValue();
         if(selectedGroupId==null){
             JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;}
@@ -170,7 +172,7 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void SelectedGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectedGroupActionPerformed
         // TODO add your handling code here:
-        String selectedGroupId = GroupList.getSelectedValue();
+        String selectedGroupId = groupList.getSelectedValue();
         if (selectedGroupId == null) {
             JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
         else{
@@ -183,7 +185,7 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void GroupDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupDetailsActionPerformed
         // TODO add your handling code here:
-        String selectedGroupId = GroupList.getSelectedValue();
+        String selectedGroupId = groupList.getSelectedValue();
         if(selectedGroupId==null){
             JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;}
@@ -244,10 +246,10 @@ public class ViewGroups extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GroupDetails;
-    private javax.swing.JList<String> GroupList;
     private javax.swing.JButton SelectedGroup;
     private javax.swing.JButton SendRequest;
     private javax.swing.JButton createGroup;
+    private javax.swing.JList<String> groupList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton open;

@@ -205,7 +205,7 @@ public class SubAdminWindow extends javax.swing.JFrame {
 
     private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
-       //mirolla
+       
     }//GEN-LAST:event_CreatePostActionPerformed
 
     private void GroupRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupRequestsActionPerformed
