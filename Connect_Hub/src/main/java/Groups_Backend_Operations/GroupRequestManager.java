@@ -15,12 +15,14 @@ import userdatabasemanagement.User;
  */
 public class GroupRequestManager {
 
-    private GroupRequestManager requestManager;
     private GroupManager manager;
     private ArrayList<GroupRequest> requests;
+    private ArrayList<User> members;
 
     public GroupRequestManager() {
         requests = new ArrayList<>();
+        members = new ArrayList<>();
+        manager=new GroupManager();
     }
     
 
@@ -55,12 +57,11 @@ public class GroupRequestManager {
     }
 
     public void sendRequest(User user, Group group) {
-        ArrayList<User> members = group.getMembers();
-        ArrayList<GroupRequest> requests = requestManager.getRequests();
+         members = group.getMembers();
         if (members != null) {
             // Add all users as potential suggestions
             for (Group g : manager.getGroups()) {
-                if (!manager.isMember(user, group) && !requestManager.isRequest(user, requests)) {
+                if (!manager.isMember(user, group) && !isRequest(user, requests)) {
                     GroupRequest groupRequest = new GroupRequest(group, user);
                     group.getRequestedMembers().add(user);
                     requests.add(groupRequest);

@@ -25,7 +25,6 @@ public class GroupManager implements GroupManagerInterface {
 
 
     public GroupManager() {
-        groups=new ArrayList<>();
        load();
       
     }    
@@ -46,7 +45,10 @@ public class GroupManager implements GroupManagerInterface {
         g.addPost(p);
         save();
         load();
-                } 
+                }
+    
+    
+    
     @Override
     public ArrayList<Group> getGroups() {
         return groups;

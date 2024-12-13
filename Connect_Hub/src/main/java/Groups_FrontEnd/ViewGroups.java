@@ -214,8 +214,8 @@ public class ViewGroups extends javax.swing.JFrame {
         } else {
             selectedGroup = getGroupByName(selectedGroupId);
             ArrayList<GroupRequest> requests = requestManager.getRequests();
-            if (!requestManager.isRequest(thisUser, requests) && !manager.isMember(thisUser, thisGroup)) {
-                requestManager.sendRequest(thisUser, thisGroup);
+            if (!requestManager.isRequest(thisUser, requests) && !manager.isMember(thisUser, selectedGroup)) {
+                requestManager.sendRequest(thisUser, selectedGroup);
             } else {
                 JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
             }

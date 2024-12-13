@@ -27,7 +27,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
     private GroupRequestManager requestManager;
     private GroupSuggestionManager suggestionManager;
     private User thisUser;
-    private   DefaultListModel<String> listModel;
+    private  DefaultListModel<String> listModel;
     private GroupManager manager;
 
     /**
@@ -117,9 +117,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SendFriendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendFriendRequestActionPerformed
-       
-        
-        
+
          String selectedGroupId = suggestionList.getSelectedValue();
         if (selectedGroupId == null) {
             JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
