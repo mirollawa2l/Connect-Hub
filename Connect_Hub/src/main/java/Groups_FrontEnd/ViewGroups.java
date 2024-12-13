@@ -156,8 +156,14 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void GroupDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupDetailsActionPerformed
         // TODO add your handling code here:
-        GroupDetails groupDetails=new GroupDetails ();
-        groupDetails.setVisible(true);
+        String selectedGroupId = GroupList.getSelectedValue();
+        if(selectedGroupId==null){
+            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;}
+        else{
+            Group selectedGroup = getGroupById(selectedGroupId);
+             GroupDetails groupDetails=new GroupDetails ();
+             groupDetails.setVisible(true);}
     }//GEN-LAST:event_GroupDetailsActionPerformed
    public Group getGroupById(String Id){
         for(Group g:manager.getGroups())
