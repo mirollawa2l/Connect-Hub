@@ -11,6 +11,7 @@ import Groups_Backend_Operations.GroupRequestManager;
 
 import Groups_Backend_Operations.GroupSuggestion;
 import Groups_Backend_Operations.GroupSuggestionManager;
+import Notifications.NotificationManager;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
@@ -155,6 +156,8 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
             if (username.equals(suggestion.getSuggested())) {
                 suggestionManager.acceptGroupSuggestion(suggestion, thisUser);
                 found = true;
+                                
+// NotificationManager.getInstance().addNotification(thisUser.getUsername()+" want to be a member of a group", manager.g, thisUser, username, found);
                 update();
                 System.out.print("found");
                 break;
