@@ -8,7 +8,7 @@ import Content_Creation.Backend.Post;
 import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import userdatabasemanagement.User;
-
+import Notifications.*;
 /**
  *
  * @author mirol
@@ -24,7 +24,7 @@ public class Group implements GroupInterface {
     private String name;
     private String description;
     private String groupPhotoPath;
-
+    
     
     private static int GroupCount = 0;
 
@@ -37,7 +37,12 @@ public class Group implements GroupInterface {
        admin=new Admin();
     }
    
-    
+    public void notifyAllMembers(String message){
+        for(User member : members){
+            NotificationManager.getInstance().addNotification(message, member, null, "Group activity", false);
+        }
+        
+    }
     
     @Override
     public ArrayList<User> getRequestedMembers() {
@@ -63,6 +68,7 @@ public class Group implements GroupInterface {
     public void addPost(Post p)
     {
         this.posts.add(p);
+        this.notifyAllMembers("A new post is added");
     }
 
     @Override

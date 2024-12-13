@@ -45,6 +45,7 @@ import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 import Groups_FrontEnd.ViewGroups;
+import Notifications.NotificationWindow;
 
 /**
  *
@@ -348,6 +349,11 @@ void displayContents() throws IOException {
         });
 
         notificationtn.setText("Notifications");
+        notificationtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notificationtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -512,6 +518,15 @@ void displayContents() throws IOException {
         w.setVisible(true);
         w.setLocationRelativeTo(null); 
     }//GEN-LAST:event_groupSuggestionsBtnActionPerformed
+
+    private void notificationtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificationtnActionPerformed
+//notificationManager = new ManageFriendRequests().getNotificationManager();
+NotificationWindow notificationWindow= new NotificationWindow(NotificationManager.getInstance(), CurrentUser.getInstance().getCurrentUser());
+notificationWindow.setVisible(true);
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notificationtnActionPerformed
 
     /**
      * @param args the command line arguments

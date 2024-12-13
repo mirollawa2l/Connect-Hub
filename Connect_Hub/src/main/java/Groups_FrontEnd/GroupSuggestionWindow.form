@@ -78,7 +78,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Groop Suggestions"/>
+        <Property name="text" type="java.lang.String" value="Group Suggestions"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="SendFriendRequest">

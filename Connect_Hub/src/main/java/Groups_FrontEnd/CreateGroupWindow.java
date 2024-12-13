@@ -181,6 +181,7 @@ public class CreateGroupWindow extends javax.swing.JFrame {
             manager.addGroup(group);
             manager.save();
             JOptionPane.showMessageDialog(this, "Group created successfully");
+            group.notifyAllMembers("A new group is created");
             this.setVisible(false);
         }
     }//GEN-LAST:event_CreateGroupActionPerformed

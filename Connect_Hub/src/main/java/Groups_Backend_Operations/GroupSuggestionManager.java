@@ -7,6 +7,7 @@ package Groups_Backend_Operations;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import userdatabasemanagement.User;
 
 /**
@@ -14,22 +15,34 @@ import userdatabasemanagement.User;
  * @author sherrygirguis
  */
 public class GroupSuggestionManager {
+    
+     private GroupManager manager;
+     private GroupRequestManager requestManager;
+    private ArrayList <GroupSuggestion> suggestions;
 
-    private GroupManager manager;
-    private GroupRequestManager requestManager;
-    private ArrayList<GroupSuggestion> suggestions = new ArrayList<>();
+    public GroupSuggestionManager() {
 
-    public ArrayList<GroupSuggestion> generateSuggestions(User user) {
+        suggestions= new ArrayList<>();
+         requestManager=new GroupRequestManager();
+          manager=new GroupManager();
+    }
+  
 
-        suggestions.clear();
-
-        ArrayList<GroupRequest> requests = requestManager.getRequests();
-
-        for (Group g : manager.getGroups()) {
-            if (!manager.isMember(user, g) && (!requestManager.isRequest(user, requests) || requests == null)) {
-                GroupSuggestion suggestion = new GroupSuggestion(g);
-                suggestions.add(suggestion);
-            }
+   public ArrayList<GroupSuggestion> generateSuggestions(User user){
+      
+         suggestions.clear();
+        if( requestManager.getRequests()!=null){
+         ArrayList<GroupRequest> requests = requestManager.getRequests();
+   
+        for (Group g:manager.getGroups()){
+             if (!manager.isMember(user,g)&&(!requestManager.isRequest(user,requests)||requests==null)) {
+           GroupSuggestion suggestion=new GroupSuggestion(g);
+            suggestions.add(suggestion);}}}
+        else if(requestManager.getRequests()==null){for (Group g:manager.getGroups()){
+             if (!manager.isMember(user,g)) {
+           GroupSuggestion suggestion=new GroupSuggestion(g);
+            suggestions.add(suggestion);}}
+        
         }
 
         return suggestions;
