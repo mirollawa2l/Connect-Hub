@@ -96,6 +96,14 @@
     "timestamp" : [ 2024, 12, 13, 22, 26, 59, 82250000 ],
     "expired" : false,
     "story" : false
+  }, {
+    "contentId" : "P26",
+    "authorId" : null,
+    "content" : "hello",
+    "imagePath" : null,
+    "timestamp" : null,
+    "expired" : false,
+    "story" : false
   } ],
   "name" : "family",
   "description" : "hii",
@@ -139,7 +147,15 @@
     "groups" : null
   } ],
   "requestedMembers" : [ ],
-  "posts" : [ ],
+  "posts" : [ {
+    "contentId" : "P26",
+    "authorId" : null,
+    "content" : "hello",
+    "imagePath" : null,
+    "timestamp" : null,
+    "expired" : false,
+    "story" : false
+  } ],
   "name" : "girls",
   "description" : "talks",
   "groupPhotoPath" : "C:\\Users\\Public\\Pictures\\Sample Pictures\\Koala.jpg"
