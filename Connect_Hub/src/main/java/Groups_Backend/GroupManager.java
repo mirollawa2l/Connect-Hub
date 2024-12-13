@@ -26,7 +26,6 @@ public class GroupManager implements GroupManagerInterface {
 
     public GroupManager() {
        load();
-        save();
     }    
     @Override
     public void save()

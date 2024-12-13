@@ -40,7 +40,7 @@ public class SubAdmin extends User {
     public void approveNewMember(GroupRequest request) {
         if(!manager.isMember(request.getSender(), manager.getGroup(groupId)))
         requestManager.acceptRequest(request);
- 
+           
     }
 
     public void declineNewMember(GroupRequest request) {
@@ -58,20 +58,27 @@ public class SubAdmin extends User {
             manager.getGroup(groupId).getMembers().remove(user);
 
         }
+         manager.save();
+        manager.load();
     }
 
     public void editPosts(Post post,Post newPost) {
         manager.getGroup(groupId).getPosts().remove(post);
         manager.getGroup(groupId).getPosts().add(newPost);
-        
+         manager.save();
+        manager.load();
     }
 
     public void deletePost(Post post) {
         manager.getGroup(groupId).getPosts().remove(post);
+        manager.save();
+        manager.load(); 
     }
 
     public void addPost(Post post) {
         manager.getGroup(groupId).getPosts().add(post);
+         manager.save();
+        manager.load();
 
     }
 

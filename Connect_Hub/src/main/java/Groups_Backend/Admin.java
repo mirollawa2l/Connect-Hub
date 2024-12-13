@@ -18,6 +18,8 @@ public class Admin extends SubAdmin {
             if (u.getId().equals(user.getId())) {
                 manager.getGroup(groupId).getSubAdmins().add((SubAdmin) u);
                 flag = true;
+                 manager.save();
+        manager.load();
             }
         }
         if (!flag) {
@@ -33,15 +35,21 @@ public class Admin extends SubAdmin {
             if (u.getId().equals(user.getId())) {
                 manager.getGroup(groupId).getSubAdmins().remove((SubAdmin) u);
                 flag = true;
+                 manager.save();
+        manager.load();
             }
         }
         if (!flag) {
             System.out.println("User not found in members list");
         }
+         manager.save();
+        manager.load();
     }
 
     public void deleteGroup(Group group) {
         manager.getGroups().remove(group);
+        manager.save();
+        manager.load();
     }
 
     @Override
@@ -53,6 +61,7 @@ public class Admin extends SubAdmin {
             }
 
         }
-
+    manager.save();
+        manager.load();
     }
 }

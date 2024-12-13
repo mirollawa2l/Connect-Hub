@@ -41,9 +41,8 @@ public class AdminWindow extends javax.swing.JFrame {
     private Group thisGroup;
     private UserDatabaseManagement accountManager;
     private Admin admin;
-    private   ArrayList<Post> groupPosts;
+    private ArrayList<Post> groupPosts;
     private UserDatabaseManagement accountManagement;
-
 
     /**
      * Creates new form AdminWindoe
@@ -51,19 +50,19 @@ public class AdminWindow extends javax.swing.JFrame {
     public AdminWindow() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                accountManagement = new UserDatabaseManagement();
+        accountManagement = new UserDatabaseManagement();
 
         GroupManager manager = new GroupManager();
         User thisUser = CurrentUser.getInstance().getCurrentUser();
         Group thisGroup = CurrentGroup.getInstance().getCurrentGroup();
         UserDatabaseManagement accountManager = new UserDatabaseManagement();
-        ArrayList<Post> groupPosts=new ArrayList<>();
+        ArrayList<Post> groupPosts = new ArrayList<>();
         updateList();
         postsPanel = new JPanel();
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
         scrollPane = new JScrollPane(postsPanel);
-         postsPanel.setPreferredSize(new Dimension(1200, 1200));
-     postsPanel.setBackground(Color.WHITE);
+        postsPanel.setPreferredSize(new Dimension(1200, 1200));
+        postsPanel.setBackground(Color.WHITE);
         if (manager.isSAdmin(thisUser, thisGroup)) {
             thisUser = new Admin();
             if (thisUser instanceof Admin) {
@@ -71,7 +70,6 @@ public class AdminWindow extends javax.swing.JFrame {
                 admin = (Admin) thisUser;
             }
         }
-        
 
     }
 
@@ -82,67 +80,66 @@ public class AdminWindow extends javax.swing.JFrame {
         }
         membersList.setModel(listModel);
     }
- 
+
     public void displayContents() {
         manager.load();
-        groupPosts=manager.getGroup(thisGroup.getGroupId()).getPosts();
-    postsPanel.removeAll(); // Clear previous content
-    postsPanel.revalidate();
-    postsPanel.repaint();
-    
-    JPanel postsDisplayPanel = new JPanel();
-    postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
-    postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
+        groupPosts = manager.getGroup(thisGroup.getGroupId()).getPosts();
+        postsPanel.removeAll(); // Clear previous content
+        postsPanel.revalidate();
+        postsPanel.repaint();
 
-    for (Post post : groupPosts) {
-        if (post == null) {
-            System.out.println("Null content found, skipping...");
-            continue;
-        }
-        System.out.println("Displaying content: " + post);
+        JPanel postsDisplayPanel = new JPanel();
+        postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
+        postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
 
-        JPanel contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentPanel.setBackground(Color.LIGHT_GRAY);
-        JLabel authorLabel = new JLabel("Author: " + accountManagement.getUser(post.getAuthorId()).getUsername() + " Time: " + post.getTimestamp());
-        contentPanel.add(authorLabel, BorderLayout.NORTH);
-
-        // Display text content if available
-        if (post.getContent() != null && !post.getContent().isEmpty()) {
-            JTextArea contentArea = new JTextArea(post.getContent());
-            contentArea.setLineWrap(true);
-            contentArea.setWrapStyleWord(true);
-            contentArea.setEditable(false); // Make the content non-editable
-            contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
-        }
-
-        // Display image if available
-        if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
-            try {
-                ImageIcon imageIcon = new ImageIcon(post.getImagePath()); // Load image from path
-                JLabel imageLabel = new JLabel();
-                imageLabel.setIcon(imageIcon);
-                contentPanel.add(imageLabel, BorderLayout.SOUTH);
-            } catch (Exception e) {
-                System.err.println("Error loading image for content: " + post.getContentId());
-                e.printStackTrace();
+        for (Post post : groupPosts) {
+            if (post == null) {
+                System.out.println("Null content found, skipping...");
+                continue;
             }
+            System.out.println("Displaying content: " + post);
+
+            JPanel contentPanel = new JPanel(new BorderLayout());
+            contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            contentPanel.setBackground(Color.LIGHT_GRAY);
+            JLabel authorLabel = new JLabel("Author: " + accountManagement.getUser(post.getAuthorId()).getUsername() + " Time: " + post.getTimestamp());
+            contentPanel.add(authorLabel, BorderLayout.NORTH);
+
+            // Display text content if available
+            if (post.getContent() != null && !post.getContent().isEmpty()) {
+                JTextArea contentArea = new JTextArea(post.getContent());
+                contentArea.setLineWrap(true);
+                contentArea.setWrapStyleWord(true);
+                contentArea.setEditable(false); // Make the content non-editable
+                contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
+            }
+
+            // Display image if available
+            if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
+                try {
+                    ImageIcon imageIcon = new ImageIcon(post.getImagePath()); // Load image from path
+                    JLabel imageLabel = new JLabel();
+                    imageLabel.setIcon(imageIcon);
+                    contentPanel.add(imageLabel, BorderLayout.SOUTH);
+                } catch (Exception e) {
+                    System.err.println("Error loading image for content: " + post.getContentId());
+                    e.printStackTrace();
+                }
+            }
+
         }
 
-      
-    }
+        // Combine stories and posts panels
+        JPanel combinedPanel = new JPanel(new BorderLayout());
+        combinedPanel.add(postsDisplayPanel, BorderLayout.CENTER);
 
-    // Combine stories and posts panels
-    JPanel combinedPanel = new JPanel(new BorderLayout());
-    combinedPanel.add(postsDisplayPanel, BorderLayout.CENTER);
+        // Add combined panel to the main postsPanel
+        postsPanel.setLayout(new BorderLayout());
+        postsPanel.add(combinedPanel, BorderLayout.CENTER);
 
-    // Add combined panel to the main postsPanel
-    postsPanel.setLayout(new BorderLayout());
-    postsPanel.add(combinedPanel, BorderLayout.CENTER);
+        postsPanel.revalidate();
+        postsPanel.repaint();
 
-    postsPanel.revalidate();
-    postsPanel.repaint();
-    
     }
 
     /**
@@ -354,6 +351,10 @@ public class AdminWindow extends javax.swing.JFrame {
     private void DeleteGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteGroupActionPerformed
         // TODO add your handling code here:
         admin.deleteGroup(thisGroup);
+
+        JOptionPane.showMessageDialog(this, "Group deleted succeseefully");
+        this.setVisible(false);
+
     }//GEN-LAST:event_DeleteGroupActionPerformed
 
     private void DemoteMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DemoteMemberActionPerformed
