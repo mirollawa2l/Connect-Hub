@@ -33,10 +33,12 @@ public class SearchGroupWindow extends javax.swing.JFrame {
     public SearchGroupWindow() {
         initComponents();
         groupRequestManager = new GroupRequestManager();
-        member= new Member();
+        
         
         groupManager = new GroupManager();
         currentUser = CurrentUser.getInstance().getCurrentUser();
+        //String id, String email, String username, String password, String dateOfBirth, String status
+        member= new Member(currentUser.getId(),currentUser.getEmail(), currentUser.getUsername(),currentUser.getPassword(),currentUser.getDateOfBirth(),currentUser.getStatus());
     }
 
     /**
@@ -148,8 +150,9 @@ public class SearchGroupWindow extends javax.swing.JFrame {
         String selectedGroup = (String) groupsComboBox.getSelectedItem();
         if(selectedGroup!=null){
         Group g = groupManager.getGroupByName(selectedGroup);
+      //  member.requestToJoinGroup(g, currentUser);
         groupRequestManager.sendRequest( currentUser,g);
-         JOptionPane.showMessageDialog(this, "Request sent succesfully", "sucsess", JOptionPane.OK_OPTION);
+        JOptionPane.showMessageDialog(this, "Request sent sucessfully", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else
             JOptionPane.showMessageDialog(this, "Please select a group to join", "Error", JOptionPane.ERROR_MESSAGE);

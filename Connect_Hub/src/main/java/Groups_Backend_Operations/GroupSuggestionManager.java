@@ -30,22 +30,36 @@ public class GroupSuggestionManager {
 
    public ArrayList<GroupSuggestion> generateSuggestions(User user){
       
-         suggestions.clear();
-        if( requestManager.getRequests()!=null){
-         ArrayList<GroupRequest> requests = requestManager.getRequests();
-   
-        for (Group g:manager.getGroups()){
-             if (!manager.isMember(user,g)&&(!requestManager.isRequest(user,requests)||requests==null)) {
-           GroupSuggestion suggestion=new GroupSuggestion(g);
-            suggestions.add(suggestion);}}}
-        else if(requestManager.getRequests()==null){for (Group g:manager.getGroups()){
-             if (!manager.isMember(user,g)) {
-           GroupSuggestion suggestion=new GroupSuggestion(g);
-            suggestions.add(suggestion);}}
-        
-        }
+//         suggestions.clear();
+//        if( requestManager.getRequests()!=null){
+//         ArrayList<GroupRequest> requests = requestManager.getRequests();
+//   
+//        for (Group g:manager.getGroups()){
+//             if (!manager.isMember(user,g)&&(!requestManager.isRequest(user,requests)||requests==null)) {
+//           GroupSuggestion suggestion=new GroupSuggestion(g);
+//            suggestions.add(suggestion);}}}
+//        else if(requestManager.getRequests()==null){for (Group g:manager.getGroups()){
+//             if (!manager.isMember(user,g)) {
+//           GroupSuggestion suggestion=new GroupSuggestion(g);
+//            suggestions.add(suggestion);}}
+//        
+//        }
+//
+//        return suggestions;
 
-        return suggestions;
+
+            suggestions.clear();
+
+    // Iterate through all groups in the manager
+    for (Group group : manager.getGroups()) {
+        // Check if the user is not a member and has not already sent a request
+        if (!manager.isMember(user, group) && !requestManager.isRequest(user, group)) {
+            GroupSuggestion suggestion = new GroupSuggestion(group);
+            suggestions.add(suggestion);
+        }
+    }
+
+    return suggestions;
     }
 
     public void acceptGroupSuggestion(GroupSuggestion suggestion, User user) {
