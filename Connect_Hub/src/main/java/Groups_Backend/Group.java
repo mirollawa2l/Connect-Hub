@@ -42,8 +42,12 @@ public class Group implements GroupInterface {
             NotificationManager.getInstance().addNotification(message, member, null, "Group activity", false);
         }
         
+    } 
+    public void notifyAdmin(String message){
+        for(SubAdmin admin : subAdmins){
+            NotificationManager.getInstance().addNotification(message, admin, null, "Group Activity", true);
+        }
     }
-    
     @Override
     public ArrayList<User> getRequestedMembers() {
         return requestedMembers;
@@ -140,6 +144,7 @@ public class Group implements GroupInterface {
 
     @Override
    public boolean isMember(User user) {
+       
         for (User member : getMembers()) {
             if (user.getId().equals(member.getId())) {
                 return true;

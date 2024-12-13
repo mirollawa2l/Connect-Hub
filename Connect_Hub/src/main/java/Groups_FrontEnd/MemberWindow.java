@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import Groups_Backend.Member;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -40,6 +41,7 @@ public class MemberWindow extends javax.swing.JFrame {
     private GroupManager manager;
     private User thisUser;
     private Group thisGroup;
+     private Member member;
 
     /**
      * Creates new form MemberwINDOW
@@ -87,7 +89,7 @@ public class MemberWindow extends javax.swing.JFrame {
     jPanel2.repaint();
         
 
-    }
+    }}
 
     public void update() {
 
@@ -301,6 +303,7 @@ public void displayContents() {
 
     private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed
         // TODO add your handling code here:
+        member.leaveGroup(thisGroup,thisUser);
 
     }//GEN-LAST:event_LeaveGroupActionPerformed
 

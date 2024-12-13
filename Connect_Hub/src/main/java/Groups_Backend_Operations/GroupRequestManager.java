@@ -102,6 +102,12 @@ public class GroupRequestManager {
         }
         return false;
     }
+public boolean requestInGroup(User user,Group group){
+   for(User member:group.getRequestedMembers())
+       if(user.getId().equals(member.getId()))
+           return true;
+       return false;}
+    
 
     public void acceptRequest(GroupRequest groupRequest) {
         if (!manager.isMember(groupRequest.getSender(), groupRequest.getGroup())) {
@@ -117,17 +123,22 @@ public class GroupRequestManager {
     }
 
     public void sendRequest(User user, Group group) {
-        // Ensure user is not already a member of the group
-        if (!manager.isMember(user, group)) {
-            // Ensure user has not already sent a request to this group
-            if (!isRequest(user, group)) {
-                GroupRequest groupRequest = new GroupRequest(group, user);
-                group.getRequestedMembers().add(user);
-                requests.add(groupRequest);
-                manager.save();
+         members = group.getMembers();
+        if (members != null) {
+            // Add all users as potential suggestions
+            for (Group g : manager.getGroups()) {
+                if (!manager.isMember(user, group) &&!requestInGroup(user,group) ) {
+                    GroupRequest groupRequest = new GroupRequest(group, user);
+                    group.getRequestedMembers().add(user);
+                    requests.add(groupRequest);
+                    manager.save();
+                }
             }
-        }
-    }
+        }}
+
+    
+        
+        
 
     public GroupRequest getRequest(User user, String groupId) {
         for (GroupRequest request : getRequests()) {

@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
+import userdatabasemanagement.UserDatabaseManagement;
 
 /**
  *
@@ -24,7 +25,9 @@ public class RequestWindow extends javax.swing.JFrame {
 
     private GroupRequestManager requestManager;
     private User thisUser;
+     private Group thisGroup;
     private GroupManager manager;
+    private UserDatabaseManagement accountManager;
 
     /**
      * Creates new form RequestWindow
@@ -32,8 +35,10 @@ public class RequestWindow extends javax.swing.JFrame {
     public RequestWindow() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        accountManager = new UserDatabaseManagement();
         requestManager = new GroupRequestManager();
         thisUser = CurrentUser.getInstance().getCurrentUser();
+        thisGroup=CurrentGroup.getInstance().getCurrentGroup();
         manager = new GroupManager();
         update();
     }
@@ -131,15 +136,14 @@ public class RequestWindow extends javax.swing.JFrame {
 
     private void DeclineRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeclineRequestActionPerformed
         // TODO add your handling code here:
-        boolean found = false;
-        String username = JOptionPane.showInputDialog("Choose");
-
-        if (username == null || username.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a group");
-            return;
+        String selectedMemberUsername =requestsList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a user first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (requestManager.getRequest(thisUser, username) != null) {
-                GroupRequest requestToDecline = requestManager.getRequest(thisUser, username);
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+        
+            if (requestManager.getRequest(selectedMember,thisGroup.getGroupId()) != null) {
+                GroupRequest requestToDecline = requestManager.getRequest(selectedMember,thisGroup.getGroupId());
                 requestManager.declineRequest(requestToDecline);
                 update();
             } //notificationWindow.loadNotifications();
@@ -151,15 +155,14 @@ public class RequestWindow extends javax.swing.JFrame {
 
     private void AcceptRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptRequestActionPerformed
         // TODO add your handling code here:
-        boolean found = false;
-        String username = JOptionPane.showInputDialog("Choose");
-
-        if (username == null || username.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a group");
-            return;
+                String selectedMemberUsername =requestsList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a user first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (requestManager.getRequest(thisUser, username) != null) {
-                GroupRequest requestToAccept = requestManager.getRequest(thisUser, username);
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+       
+            if (requestManager.getRequest(selectedMember, thisGroup.getGroupId()) != null) {
+                GroupRequest requestToAccept = requestManager.getRequest(selectedMember, thisGroup.getGroupId());
                 requestManager.acceptRequest(requestToAccept);
                 update();
             } //notificationWindow.loadNotifications();

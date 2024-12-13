@@ -390,22 +390,19 @@ public void displayContents() {
 
     private void RemoveMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveMemberActionPerformed
         // TODO add your handling code here:
-        boolean found = false;
-        String userName = JOptionPane.showInputDialog("Choose");
-
-        if (userName == null || userName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a group");
+         String selectedMemberUsername = membersList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a member first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (manager.isMember(accountManager.getUserByUsername(userName), thisGroup)) {
-                admin.removeUser(accountManager.getUserByUsername(userName));
-                found = true;
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+       
+            if (manager.isMember(selectedMember, thisGroup)) {
+                admin.removeUser(selectedMember);
+                
                 updateList();
-                System.out.print("found");
+               
             }
 
-            if (!found) {
-                JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
         }
 
 
@@ -429,24 +426,20 @@ public void displayContents() {
 
     private void DemoteMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DemoteMemberActionPerformed
         // TODO add your handling code here:
-        boolean found = false;
-        String userName = JOptionPane.showInputDialog("Choose");
-
-        if (userName == null || userName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a user first");
+         String selectedMemberUsername = membersList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a member first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (manager.isSubAdmin(accountManager.getUserByUsername(userName), thisGroup)) {
-                admin.demoteMember(accountManager.getUserByUsername(userName));
-                found = true;
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+        
+            if (manager.isSubAdmin(selectedMember, thisGroup)) {
+                admin.demoteMember(selectedMember);
                 updateList();
-                System.out.print("found");
+               
             } else {
                 JOptionPane.showMessageDialog(null, "Cannot demote a member!", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
 
-            if (!found) {
-                JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
         }
 
 
@@ -454,29 +447,22 @@ public void displayContents() {
 
     private void PromoteMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromoteMemberActionPerformed
         // TODO add your handling code here:
-        boolean found = false;
-        String userName = JOptionPane.showInputDialog("Choose");
-
-        if (userName == null || userName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a user first");
+         String selectedMemberUsername = membersList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a member first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            admin.promoteMember(accountManager.getUserByUsername(userName));
-            found = true;
-            updateList();
-            System.out.print("found");
-        }
-
-        if (!found) {
-            JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+        
+            if(manager.isMember(selectedMember, thisGroup)){
+            admin.promoteMember(selectedMember);
+            updateList();}}
+         
     }//GEN-LAST:event_PromoteMemberActionPerformed
 
     private void SelectMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectMemberActionPerformed
         String selectedMemberUsername = membersList.getSelectedValue();
         if (selectedMemberUsername == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Select a member first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
             User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
         }

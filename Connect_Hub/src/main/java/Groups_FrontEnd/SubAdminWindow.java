@@ -354,35 +354,31 @@ public void displayContents() {
 
     private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
+        AddGroupPost w=new AddGroupPost(this,true);
+        w.setVisible(true);
 
     }//GEN-LAST:event_CreatePostActionPerformed
 
     private void GroupRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupRequestsActionPerformed
         // TODO add your handling code here:
-        RequestWindow RequestWindow = new RequestWindow();
-        RequestWindow.setVisible(true);
+        RequestWindow requestWindow = new RequestWindow();
+        requestWindow.setVisible(true);
     }//GEN-LAST:event_GroupRequestsActionPerformed
 
     private void RemoveMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveMemberActionPerformed
-        boolean found = false;
-        String userName = JOptionPane.showInputDialog("Choose");
-
-        if (userName == null || userName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a group");
+      String selectedMemberUsername =membersList.getSelectedValue();
+        if (selectedMemberUsername == null) {
+            JOptionPane.showMessageDialog(this, "Select a user first", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (manager.isMember(accountManager.getUserByUsername(userName), thisGroup)) {
-                subAdmin.removeUser(accountManager.getUserByUsername(userName));
-                found = true;
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+        
+           if (manager.isMember( selectedMember, thisGroup)) {
+                subAdmin.removeUser(selectedMember);
                 update();
-                System.out.print("found");
-            }
+                
+            }}
 
-            if (!found) {
-                JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-
-
+            
     }//GEN-LAST:event_RemoveMemberActionPerformed
 
     private void PostManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PostManagerActionPerformed
@@ -404,6 +400,7 @@ public void displayContents() {
 
     private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_LeaveGroupActionPerformed
 
     /**
