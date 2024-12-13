@@ -21,16 +21,16 @@ import userdatabasemanagement.User;
  * @author sherrygirguis
  */
 public class ViewGroups extends javax.swing.JFrame {
- private User thisUser;
- private GroupManager manager;
- private GroupRequestManager requestManager;
- private Group thisGroup;
- private DefaultListModel<String> listModel; 
- 
+
+    private User thisUser;
+    private GroupManager manager;
+    private GroupRequestManager requestManager;
+    private Group thisGroup;
+    private DefaultListModel<String> listModel;
+    private Group selectedGroup;
+
     /**
      */
-
-
     /**
      * /**
      * Creates new form ViewGroups
@@ -38,24 +38,25 @@ public class ViewGroups extends javax.swing.JFrame {
     public ViewGroups() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        selectedGroup = new Group();
         thisUser = CurrentUser.getInstance().getCurrentUser();
-        manager=new GroupManager();
-        requestManager=new GroupRequestManager();
-                 thisGroup=  CurrentGroup.getInstance().getCurrentGroup();
+        manager = new GroupManager();
+        requestManager = new GroupRequestManager();
+        thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+        System.out.println("In view groups this group: "+thisGroup);
         listModel = new DefaultListModel<>();
-     updateList();
+        updateList();
     }
-    
-    public void updateList()
-    {
+
+    public void updateList() {
         listModel.clear();
         for (Group g : manager.getGroups()) {
             listModel.addElement(g.getName());
-        }   
-                groupList.setModel(listModel);
+        }
+        groupList.setModel(listModel);
 
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -166,21 +167,18 @@ public class ViewGroups extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         } else {
-            Group selectedGroup =
-                    getGroupByName(selectedGroupId);
-            
+            Group selectedGroup
+                    = getGroupByName(selectedGroupId);
+
             Factory factory = new Factory(manager);
-            
+
             JFrame window = factory.createWindow(thisUser, selectedGroup);
-            if(window==null)
-            {
-              JOptionPane.showMessageDialog(this, "You aren't a member of this group");
+            if (window == null) {
+                JOptionPane.showMessageDialog(this, "You aren't a member of this group");
+            } else {
+                window.setVisible(true);
             }
-            else
-            {
-               window.setVisible(true); 
-            }
-            
+
         }
         //        GroupDetails groupDetails=new GroupDetails ();
         //        groupDetails.setVisible(true);
@@ -214,13 +212,14 @@ public class ViewGroups extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         } else {
-            Group selectedGroup = getGroupByName(selectedGroupId);
-        ArrayList<GroupRequest> requests = requestManager.getRequests();
-        if (!requestManager.isRequest(thisUser, requests) && !manager.isMember(thisUser, thisGroup)) {
-            requestManager.sendRequest(thisUser, thisGroup);
-        } else {
-            JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }}
+            selectedGroup = getGroupByName(selectedGroupId);
+            ArrayList<GroupRequest> requests = requestManager.getRequests();
+            if (!requestManager.isRequest(thisUser, requests) && !manager.isMember(thisUser, thisGroup)) {
+                requestManager.sendRequest(thisUser, thisGroup);
+            } else {
+                JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
 
     }//GEN-LAST:event_SendRequestActionPerformed
     public Group getGroupByName(String name) {
