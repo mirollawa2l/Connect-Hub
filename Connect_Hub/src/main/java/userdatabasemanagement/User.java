@@ -4,8 +4,10 @@
  */
 package userdatabasemanagement;
 
+import Groups_Backend.GroupRole;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -26,6 +28,7 @@ public class User {
     private ArrayList<String> friendRequests;
     private ArrayList<String> sentFriendRequests;
     private ArrayList<String> blockList;
+    private Map<String,String> groups;
 
     public User() {
     }
@@ -41,7 +44,7 @@ public class User {
 
     }
 
-    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList) {
+    public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,Map<String,String>groups) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -55,11 +58,12 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.sentFriendRequests=sentFriendRequests;
         this.blockList=blockList;
+        this.groups=groups;
     }
     
 // Factory Method
-   public  User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList) {
-        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests,blockList);
+   public  User create(String userId,  String email, String username,String hashedPassword, String profilePhotoPath, String coverPhotoPath, String bio,  String dateOfBirth ,String status ,ArrayList<String> friends ,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,Map<String,String>groups) {
+        return new User(userId,  email, username,hashedPassword, profilePhotoPath, coverPhotoPath, bio, dateOfBirth,status , friends ,friendRequests,sentFriendRequests,blockList,groups);
     }
     
     public String getProfilePhotoPath() {
@@ -145,6 +149,15 @@ public class User {
     public void setBlockList(ArrayList<String> blockList) {
         this.blockList = blockList;
     }
+
+    public Map<String, String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Map<String, String> groups) {
+        this.groups = groups;
+    }
+    
       @Override
     public String toString() {
         return "User{id='" + id + "', status='" + status + "'}";

@@ -20,17 +20,17 @@ private GroupManager manager;
     private ArrayList <GroupSuggestion> suggestions= new ArrayList<>();
   
 
-   public ArrayList<GroupSuggestion> generateSuggestions(Group group,User user){
+   public ArrayList<GroupSuggestion> generateSuggestions(User user){
       
          suggestions.clear();
-         ArrayList<User> members = group.getMembers();
+        
          ArrayList<GroupRequest> requests = requestManager.getRequests();
-    if (members != null) {
-        // Add all users as potential suggestions
+   
+      
         for (Group g:manager.getGroups()){
-             if (!g.getGroupId().equals(group.getGroupId()) && !manager.isMember(user,group)&& !requestManager.isRequest(user,requests)) {
-           GroupSuggestion suggestion=new GroupSuggestion(group);
-            suggestions.add(suggestion);}}}
+             if (  !manager.isMember(user,g)&& !requestManager.isRequest(user,requests)) {
+           GroupSuggestion suggestion=new GroupSuggestion(g);
+            suggestions.add(suggestion);}}
         return suggestions;
     }
 
