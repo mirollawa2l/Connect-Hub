@@ -42,7 +42,13 @@ public class GroupManager implements GroupManagerInterface {
     
     @Override
     public void addPost (Post p,Group g){
-        g.addPost(p);
+        for(Group g2:groups)
+        {
+            if(g.getGroupId().equals(g2.getGroupId()))
+            {
+                g2.addPost(p);
+            }
+        }
         save();
         load();
                 }

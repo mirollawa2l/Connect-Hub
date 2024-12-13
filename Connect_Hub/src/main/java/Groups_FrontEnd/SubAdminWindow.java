@@ -4,14 +4,26 @@
  */
 package Groups_FrontEnd;
 
+import Content_Creation.Backend.Post;
 import Groups_Backend.Admin;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import Groups_Backend.SubAdmin;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
@@ -22,6 +34,11 @@ import userdatabasemanagement.UserDatabaseManagement;
  */
 public class SubAdminWindow extends javax.swing.JFrame {
 
+
+        private ArrayList<Post> groupPosts;
+
+     private JPanel postsPanel;
+    private JScrollPane scrollPane;
     private GroupManager manager;
     private User thisUser;
     private Group thisGroup;
@@ -46,6 +63,38 @@ public class SubAdminWindow extends javax.swing.JFrame {
                 subAdmin = (SubAdmin) thisUser;
             }
         }
+        
+        
+            groupPosts = new ArrayList<>();
+
+    // Initialize posts panel
+    postsPanel = new JPanel();
+    postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS)); // Vertical stacking
+    postsPanel.setBackground(Color.WHITE);
+
+    // Add posts panel to a scroll pane
+    scrollPane = new JScrollPane(postsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+    // Configure the scroll pane
+    scrollPane.setPreferredSize(new Dimension(750, 550));
+    scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+    // Configure jPanel2 to hold the scroll pane
+    jPanel2.setBackground(Color.WHITE);
+    jPanel2.setLayout(new BorderLayout());
+    jPanel2.add(scrollPane, BorderLayout.CENTER);
+
+    // Check if user is a super admin
+  
+    
+
+    // Display posts
+    displayContents();
+
+    // Revalidate and repaint after adding all components
+    jPanel2.revalidate();
+    jPanel2.repaint();
+        
 
     }
 
@@ -56,6 +105,96 @@ public class SubAdminWindow extends javax.swing.JFrame {
         }
         membersList.setModel(listModel);
     }
+    
+    
+    
+    
+    
+public void displayContents() {
+    manager.load(); // Load all groups
+
+    // Fetch posts for the current group
+    for (Group g : manager.getGroups()) {
+        if (thisGroup.getGroupId().equals(g.getGroupId())) {
+            groupPosts = g.getPosts();
+            break; // Exit the loop once the group is found
+        }
+    }
+
+    if (groupPosts == null || groupPosts.isEmpty()) {
+        System.out.println("No posts to display.");
+        return; // Exit if no posts are available
+    }
+
+    // Clear previous content
+    postsPanel.removeAll();
+    postsPanel.revalidate();
+    postsPanel.repaint();
+
+    // Prepare the panel for displaying posts
+    JPanel postsDisplayPanel = new JPanel();
+    postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
+    postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
+
+    // Iterate over posts to display
+    for (Post p : groupPosts) {
+        if (p == null) {
+            System.out.println("Null post found, skipping...");
+            continue;
+        }
+
+        System.out.println("Displaying post: " + p);
+
+        // Create a panel for the post
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBackground(Color.LIGHT_GRAY);
+
+        // Add author and timestamp
+        User author = accountManager.getUser(p.getAuthorId());
+        if (author != null) {
+            JLabel authorLabel = new JLabel("Author: " + author.getUsername() + " | Time: " + p.getTimestamp());
+            contentPanel.add(authorLabel, BorderLayout.NORTH);
+        } else {
+            System.out.println("Author not found for post: " + p.getContentId());
+        }
+
+        // Add text content
+        if (p.getContent() != null && !p.getContent().isEmpty()) {
+            JTextArea contentArea = new JTextArea(p.getContent());
+            contentArea.setLineWrap(true);
+            contentArea.setWrapStyleWord(true);
+            contentArea.setEditable(false);
+            contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
+        }
+
+        // Add image if available
+        if (p.getImagePath() != null && !p.getImagePath().isEmpty()) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(p.getImagePath());
+                JLabel imageLabel = new JLabel(imageIcon);
+                contentPanel.add(imageLabel, BorderLayout.SOUTH);
+            } catch (Exception e) {
+                System.err.println("Error loading image for post: " + p.getContentId());
+                e.printStackTrace();
+            }
+        }
+
+        // Add the content panel to the display panel
+        postsDisplayPanel.add(contentPanel);
+    }
+
+    // Add the posts display panel to the main posts panel
+    postsPanel.setLayout(new BorderLayout());
+    postsPanel.add(postsDisplayPanel, BorderLayout.CENTER);
+
+    postsPanel.revalidate();
+    postsPanel.repaint();
+}
+
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,7 +251,7 @@ public class SubAdminWindow extends javax.swing.JFrame {
                 .addComponent(RemoveMember)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PostManager)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(447, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +292,7 @@ public class SubAdminWindow extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 236, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +346,7 @@ public class SubAdminWindow extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SelectMember)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         pack();

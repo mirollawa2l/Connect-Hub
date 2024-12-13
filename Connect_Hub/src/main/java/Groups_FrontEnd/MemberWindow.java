@@ -4,13 +4,26 @@
  */
 package Groups_FrontEnd;
 
+import Content_Creation.Backend.Post;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
+import userdatabasemanagement.UserDatabaseManagement;
 
 /**
  *
@@ -18,6 +31,12 @@ import userdatabasemanagement.User;
  */
 public class MemberWindow extends javax.swing.JFrame {
 
+    
+       private ArrayList<Post> groupPosts;
+
+     private JPanel postsPanel;
+    private JScrollPane scrollPane;
+    private UserDatabaseManagement accountManager;
     private GroupManager manager;
     private User thisUser;
     private Group thisGroup;
@@ -32,6 +51,41 @@ public class MemberWindow extends javax.swing.JFrame {
         thisUser = CurrentUser.getInstance().getCurrentUser();
         thisGroup = CurrentGroup.getInstance().getCurrentGroup();
         update();
+        
+        
+        
+                accountManager = new UserDatabaseManagement();
+
+                 groupPosts = new ArrayList<>();
+
+    // Initialize posts panel
+    postsPanel = new JPanel();
+    postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS)); // Vertical stacking
+    postsPanel.setBackground(Color.WHITE);
+
+    // Add posts panel to a scroll pane
+    scrollPane = new JScrollPane(postsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+    // Configure the scroll pane
+    scrollPane.setPreferredSize(new Dimension(750, 550));
+    scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+    // Configure jPanel2 to hold the scroll pane
+    jPanel2.setBackground(Color.WHITE);
+    jPanel2.setLayout(new BorderLayout());
+    jPanel2.add(scrollPane, BorderLayout.CENTER);
+
+    // Check if user is a super admin
+  
+    
+
+    // Display posts
+    displayContents();
+
+    // Revalidate and repaint after adding all components
+    jPanel2.revalidate();
+    jPanel2.repaint();
+        
 
     }
 
@@ -43,6 +97,99 @@ public class MemberWindow extends javax.swing.JFrame {
         }
         membersList.setModel(listModel);
     }
+    
+    
+    
+    
+    
+public void displayContents() {
+    manager.load(); // Load all groups
+
+    // Fetch posts for the current group
+    for (Group g : manager.getGroups()) {
+        if (thisGroup.getGroupId().equals(g.getGroupId())) {
+            groupPosts = g.getPosts();
+            break; // Exit the loop once the group is found
+        }
+    }
+
+    if (groupPosts == null || groupPosts.isEmpty()) {
+        System.out.println("No posts to display.");
+        return; // Exit if no posts are available
+    }
+
+    // Clear previous content
+    postsPanel.removeAll();
+    postsPanel.revalidate();
+    postsPanel.repaint();
+
+    // Prepare the panel for displaying posts
+    JPanel postsDisplayPanel = new JPanel();
+    postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
+    postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
+
+    // Iterate over posts to display
+    for (Post p : groupPosts) {
+        if (p == null) {
+            System.out.println("Null post found, skipping...");
+            continue;
+        }
+
+        System.out.println("Displaying post: " + p);
+
+        // Create a panel for the post
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBackground(Color.LIGHT_GRAY);
+
+        // Add author and timestamp
+        User author = accountManager.getUser(p.getAuthorId());
+        if (author != null) {
+            JLabel authorLabel = new JLabel("Author: " + author.getUsername() + " | Time: " + p.getTimestamp());
+            contentPanel.add(authorLabel, BorderLayout.NORTH);
+        } else {
+            System.out.println("Author not found for post: " + p.getContentId());
+        }
+
+        // Add text content
+        if (p.getContent() != null && !p.getContent().isEmpty()) {
+            JTextArea contentArea = new JTextArea(p.getContent());
+            contentArea.setLineWrap(true);
+            contentArea.setWrapStyleWord(true);
+            contentArea.setEditable(false);
+            contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
+        }
+
+        // Add image if available
+        if (p.getImagePath() != null && !p.getImagePath().isEmpty()) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(p.getImagePath());
+                JLabel imageLabel = new JLabel(imageIcon);
+                contentPanel.add(imageLabel, BorderLayout.SOUTH);
+            } catch (Exception e) {
+                System.err.println("Error loading image for post: " + p.getContentId());
+                e.printStackTrace();
+            }
+        }
+
+        // Add the content panel to the display panel
+        postsDisplayPanel.add(contentPanel);
+    }
+
+    // Add the posts display panel to the main posts panel
+    postsPanel.setLayout(new BorderLayout());
+    postsPanel.add(postsDisplayPanel, BorderLayout.CENTER);
+
+    postsPanel.revalidate();
+    postsPanel.repaint();
+}
+
+    
+    
+    
+    
+    
+    
 
     /**
      * Action for adding a post.
@@ -98,7 +245,7 @@ public class MemberWindow extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -107,34 +254,40 @@ public class MemberWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 515, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(LeaveGroup, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                            .addComponent(CreatePost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CreatePost, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LeaveGroup, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LeaveGroup)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CreatePost)))
-                .addGap(0, 8, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)))
+                .addGap(12, 12, 12)
+                .addComponent(LeaveGroup)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CreatePost)
+                .addGap(16, 16, 16))
         );
 
         pack();

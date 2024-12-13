@@ -1,27 +1,5 @@
 [ {
-  "message" : "m is added to a group you belong to",
-  "reciever" : {
-    "id" : "user1",
-    "email" : "m@",
-    "username" : "m",
-    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
-    "profilePhotoPath" : null,
-    "coverPhotoPath" : null,
-    "bio" : null,
-    "dateOfBirth" : "2024-12-01",
-    "status" : "online",
-    "friends" : null,
-    "friendRequests" : null,
-    "sentFriendRequests" : null,
-    "blockList" : null,
-    "deletedGroups" : null,
-    "groups" : null
-  },
-  "sender" : null,
-  "type" : "Group activity",
-  "actionable" : false
-}, {
-  "message" : "A new group is created",
+  "message" : "A new post is added",
   "reciever" : {
     "id" : "user1",
     "email" : "m@",

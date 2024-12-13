@@ -80,7 +80,23 @@
     "groups" : null
   } ],
   "requestedMembers" : [ ],
-  "posts" : [ ],
+  "posts" : [ {
+    "contentId" : "P18",
+    "authorId" : "user1",
+    "content" : "hello",
+    "imagePath" : null,
+    "timestamp" : [ 2024, 12, 13, 22, 11, 7, 526081100 ],
+    "expired" : false,
+    "story" : false
+  }, {
+    "contentId" : "P23",
+    "authorId" : "user1",
+    "content" : "hii",
+    "imagePath" : null,
+    "timestamp" : [ 2024, 12, 13, 22, 26, 59, 82250000 ],
+    "expired" : false,
+    "story" : false
+  } ],
   "name" : "family",
   "description" : "hii",
   "groupPhotoPath" : "C:\\Users\\mirol\\Documents\\GitHub\\Connect-Hub\\Connect_Hub\\Pictures\\WhatsApp Image 2024-12-09 at 14.05.51_528df11a.jpg"

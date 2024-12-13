@@ -150,6 +150,15 @@ public class AddGroupPost extends javax.swing.JDialog {
             manager.addPost(p, thisGroup);
             manager.save();
             manager.load();
+            System.out.println("Posts of group: " + thisGroup.getName());
+
+            for (Post p : thisGroup.getPosts()) {
+                System.out.println("");
+                System.out.println(p.getContent());
+                System.out.println(p.getImagePath());
+                System.out.println(p.getTimestamp());
+                System.out.println("");
+            }
             JOptionPane.showMessageDialog(this, "Post created Successfully");
             this.setVisible(false);
         }
@@ -177,6 +186,7 @@ public class AddGroupPost extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "No image selected!");
         }
+
 
     }//GEN-LAST:event_inputImageActionPerformed
 
