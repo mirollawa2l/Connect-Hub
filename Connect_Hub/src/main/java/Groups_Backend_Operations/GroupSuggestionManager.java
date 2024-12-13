@@ -28,9 +28,10 @@ private GroupManager manager;
    
       
         for (Group g:manager.getGroups()){
-             if (  !manager.isMember(user,g)&& !requestManager.isRequest(user,requests)) {
+             if (  !manager.isMember(user,g)&&(!requestManager.isRequest(user,requests)||requests==null)) {
            GroupSuggestion suggestion=new GroupSuggestion(g);
             suggestions.add(suggestion);}}
+    
         return suggestions;
     }
 
