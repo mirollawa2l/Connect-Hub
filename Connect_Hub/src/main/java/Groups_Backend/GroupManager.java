@@ -25,7 +25,9 @@ public class GroupManager implements GroupManagerInterface {
 
 
     public GroupManager() {
+        groups=new ArrayList<>();
        load();
+      
     }    
     @Override
     public void save()
@@ -125,7 +127,7 @@ public class GroupManager implements GroupManagerInterface {
     @Override
     public boolean isSubAdmin(User user, Group g) {
         for (SubAdmin admin : g.getSubAdmins()) {
-            if (user == admin) {
+            if (user.getId().equals(admin.getId())) {
                 return true;
             }
         }
@@ -138,6 +140,13 @@ public class GroupManager implements GroupManagerInterface {
       return g.isMember(user);
     }
 
+    public void addMember(Member member,Group g)
+    {
+        g.getMembers().add(member);
+        save();
+        load();
+    }
+    
     @Override
     public User getMember(String id,Group g)
     {
@@ -152,7 +161,7 @@ public class GroupManager implements GroupManagerInterface {
 
     @Override
     public boolean isSAdmin(User user, Group g) {
-      return user==g.getAdmin();
+      return user.getId().equals(g.getAdmin().getId());
     }
 
 

@@ -4,6 +4,8 @@
  */
 package Groups_Backend;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import userdatabasemanagement.User;
 
 /**
@@ -11,6 +13,22 @@ import userdatabasemanagement.User;
  * @author mirol
  */
 public class Admin extends SubAdmin {
+
+    public Admin() {
+    }
+
+    public Admin(String id, String email, String username, String password, String dateOfBirth, String status) {
+        super(id, email, username, password, dateOfBirth, status);
+    }
+
+    public Admin(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends, ArrayList<String> friendRequests, ArrayList<String> sentFriendRequests, ArrayList<String> blockList, ArrayList<String> deletedGroups, ArrayList<String> groups) {
+        super(id, email, username, password, profilePhotoPath, coverPhotoPath, bio, dateOfBirth, status, friends, friendRequests, sentFriendRequests, blockList, deletedGroups, groups);
+    }
+    
+    
+    
+    
+    
 
     public void promoteMember(User user) {
         boolean flag = false;

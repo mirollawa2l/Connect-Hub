@@ -45,6 +45,16 @@ public class User {
         this.status = status;
 
     }
+    
+   public User(String id, String email, String username, String password,String dateOfBirth, String status) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.status = status;
+
+    }    
 
     public User(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends,ArrayList<String>friendRequests,ArrayList<String>sentFriendRequests,ArrayList<String>blockList,ArrayList<String>deletedGroups,ArrayList<String>groups) {
         this.id = id;

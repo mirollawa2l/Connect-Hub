@@ -4,8 +4,11 @@
  */
 package Groups_FrontEnd;
 
+import Groups_Backend.Admin;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
+import Groups_Backend.Member;
+import Roles.RolesAssigner;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
@@ -16,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import userdatabasemanagement.CurrentUser;
+import userdatabasemanagement.User;
 
 /**
  *
@@ -26,7 +31,7 @@ public class CreateGroupWindow extends javax.swing.JFrame {
     private JLabel imageLabel;
     private String selectedImagePath;
     private GroupManager manager;
-
+    private User thisUser;
     /**
      * Creates new form CreateGroupWindow
      */
@@ -35,6 +40,8 @@ public class CreateGroupWindow extends javax.swing.JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         manager = new GroupManager();
+                thisUser = CurrentUser.getInstance().getCurrentUser();
+
         imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
     }
@@ -162,6 +169,7 @@ public class CreateGroupWindow extends javax.swing.JFrame {
     private void CreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateGroupActionPerformed
         // TODO add your handling code here:
         Group group = new Group();
+        RolesAssigner roles=new RolesAssigner();
         System.out.println("New Group " + group.getGroupId());
         if (name.getText().isEmpty() || description.getText().isEmpty() || selectedImagePath == null) {
             JOptionPane.showMessageDialog(this, "Some Fields are Empty!");
@@ -169,10 +177,12 @@ public class CreateGroupWindow extends javax.swing.JFrame {
             group.setName(name.getText());
             group.setGroupPhotoPath(selectedImagePath);
             group.setDescription(description.getText());
+            manager.addMember(roles.asMember(thisUser), group);
+            group.setAdmin(roles.asAdmin(thisUser));
             manager.addGroup(group);
             manager.save();
             JOptionPane.showMessageDialog(this, "Group created successfully");
-this.setVisible(false);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_CreateGroupActionPerformed
 

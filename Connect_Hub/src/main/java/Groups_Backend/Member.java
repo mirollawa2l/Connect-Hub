@@ -6,6 +6,8 @@ package Groups_Backend;
 
 
 import Groups_Backend_Operations.GroupRequestManager;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import userdatabasemanagement.User;
 
 /**
@@ -16,6 +18,20 @@ public class Member extends User {
     
     private GroupManager manager;
     private GroupRequestManager requestManager;
+
+    public Member() {
+    }
+    
+
+    public Member(String id, String email, String username, String password, String dateOfBirth, String status) {
+        super(id, email, username, password, dateOfBirth, status);
+    }
+
+    public Member(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends, ArrayList<String> friendRequests, ArrayList<String> sentFriendRequests, ArrayList<String> blockList, ArrayList<String> deletedGroups, ArrayList<String> groups) {
+        super(id, email, username, password, profilePhotoPath, coverPhotoPath, bio, dateOfBirth, status, friends, friendRequests, sentFriendRequests, blockList, deletedGroups, groups);
+    }
+    
+    
     
     public void leaveGroup(Group group,User user){
        manager.getGroup(group.getGroupId()).getMembers().remove(user);

@@ -8,6 +8,7 @@ import Content_Creation.Backend.Post;
 import Groups_Backend_Operations.GroupRequest;
 import Groups_Backend_Operations.GroupRequestManager;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import userdatabasemanagement.User;
 
 /**
@@ -21,14 +22,17 @@ public class SubAdmin extends User {
     protected GroupRequestManager requestManager;
 
     public SubAdmin() {
-
     }
 
-    public SubAdmin(String groupId, String id, String email, String username, String password, LocalDate dateOfBirth, String status) {
+    public SubAdmin(String id, String email, String username, String password, String dateOfBirth, String status) {
         super(id, email, username, password, dateOfBirth, status);
-        this.groupId = groupId;
     }
 
+    public SubAdmin(String id, String email, String username, String password, String profilePhotoPath, String coverPhotoPath, String bio, String dateOfBirth, String status, ArrayList<String> friends, ArrayList<String> friendRequests, ArrayList<String> sentFriendRequests, ArrayList<String> blockList, ArrayList<String> deletedGroups, ArrayList<String> groups) {
+        super(id, email, username, password, profilePhotoPath, coverPhotoPath, bio, dateOfBirth, status, friends, friendRequests, sentFriendRequests, blockList, deletedGroups, groups);
+    }
+
+  
     public String getGroupId() {
         return groupId;
     }

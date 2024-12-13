@@ -10,6 +10,7 @@ import Groups_Backend.GroupManager;
 import java.awt.Image;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
@@ -19,23 +20,29 @@ import userdatabasemanagement.User;
  * @author sherrygirguis
  */
 public class GroupDetails extends javax.swing.JFrame {
-  private GroupManager manager=new GroupManager();
-      private Group thisGroup=CurrentGroup.getInstance().getCurrentGroup();
-      private User thisUser=CurrentUser.getInstance().getCurrentUser();
+
+    private GroupManager manager = new GroupManager();
+    private Group thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+    private User thisUser = CurrentUser.getInstance().getCurrentUser();
+
     /**
      * Creates new form GroupDetails
      */
     public GroupDetails() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          DisplayPhoto();
          update();
     }
-public void update(){
-    DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (User user: thisGroup.getMembers()) {
-            listModel.addElement(user.getUsername());}
-            membersList.setModel(listModel);
-}
+
+    public void update() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (User user : thisGroup.getMembers()) {
+            listModel.addElement(user.getUsername());
+        }
+        membersList.setModel(listModel);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,19 +179,20 @@ public void update(){
         // TODO add your handling code here:
         description.setText(thisGroup.getDescription());
     }//GEN-LAST:event_descriptionActionPerformed
- public void DisplayPhoto(){
+    public void DisplayPhoto() {
 
         ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath());
         // Scale the image to fit the label (optional)
         Image scaledImage = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         // Display the image in a JLabel (or update an existing JLabel)
-          JLabel photoLabel = new JLabel(scaledIcon);
-          jPanel1Photo2.add(photoLabel);
-          jPanel1Photo2.revalidate();
-          jPanel1Photo2.repaint();
+        JLabel photoLabel = new JLabel(scaledIcon);
+        jPanel1Photo2.add(photoLabel);
+        jPanel1Photo2.revalidate();
+        jPanel1Photo2.repaint();
 
- }
+    }
+
     /**
      * @param args the command line arguments
      */

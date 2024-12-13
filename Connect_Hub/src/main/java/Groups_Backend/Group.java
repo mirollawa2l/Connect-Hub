@@ -30,7 +30,13 @@ public class Group implements GroupInterface {
 
     public Group() {
         this.groupId="G"+valueOf(++GroupCount);
+        members=new ArrayList<>();
+        subAdmins=new ArrayList<>();
+        requestedMembers=new ArrayList<>();
+        posts=new ArrayList<>();
+       admin=new Admin();
     }
+   
     
     
     @Override
@@ -129,12 +135,11 @@ public class Group implements GroupInterface {
     @Override
    public boolean isMember(User user) {
         for (User member : getMembers()) {
-            if (user == member) {
+            if (user.getId().equals(member.getId())) {
                 return true;
             }
         }
         System.out.println("User isn't member of group: "+getName());
         return false;
     }
-
 }
