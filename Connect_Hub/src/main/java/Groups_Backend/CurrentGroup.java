@@ -17,7 +17,9 @@ public class CurrentGroup {
 }
  public static synchronized CurrentGroup getInstance() {
         if (instance == null) {
+            System.out.println("in CurrentGroup instance == null is true");
             instance = new CurrentGroup();
+            System.out.println(instance);
         }
         return instance;
     }

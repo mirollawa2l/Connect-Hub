@@ -197,24 +197,13 @@ public class ViewGroups extends javax.swing.JFrame {
             Group selectedGroup = getGroupByName(selectedGroupId);
             CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
         }
-        if (selectedGroupId == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            Group selectedGroup = getGroupByName(selectedGroupId);
-            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
-        }
+       
     }//GEN-LAST:event_SelectedGroupActionPerformed
 
     private void GroupDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupDetailsActionPerformed
         // TODO add your handling code here:
 
         String selectedGroupId = groupList.getSelectedValue();
-        if (selectedGroupId == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            Group selectedGroup = getGroupByName(selectedGroupId);
-            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
-        }
         if (selectedGroupId == null) {
             JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -227,12 +216,18 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void SendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendRequestActionPerformed
         // TODO add your handling code here:
+        String selectedGroupId = groupList.getSelectedValue();
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } else {
+            Group selectedGroup = getGroupByName(selectedGroupId);
         ArrayList<GroupRequest> requests = requestManager.getRequests();
         if (!requestManager.isRequest(thisUser, requests) && !manager.isMember(thisUser, thisGroup)) {
             requestManager.sendRequest(thisUser, thisGroup);
         } else {
             JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }
+        }}
 
     }//GEN-LAST:event_SendRequestActionPerformed
     public Group getGroupByName(String name) {

@@ -4,7 +4,6 @@
  */
 package Groups_FrontEnd;
 
-import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import javax.swing.JFrame;
@@ -16,18 +15,17 @@ import userdatabasemanagement.User;
  */
 public class Factory {
 private GroupManager manager;
-private Group thisGroup;
+
     public Factory(GroupManager manager) {
         this.manager = manager;
-        thisGroup=  CurrentGroup.getInstance().getCurrentGroup();
     }
     
-     public  JFrame createWindow (User user){
-         if(manager.isSAdmin(user, thisGroup))
+     public  JFrame createWindow (User user,Group group){
+         if(manager.isSAdmin(user, group))
              return new AdminWindow();
-         else if(manager.isSubAdmin(user, thisGroup))
+         else if(manager.isSubAdmin(user, group))
              return new SubAdminWindow();
-         else  if(manager.isMember(user, thisGroup))
+         else  if(manager.isMember(user, group))
              return new MemberWindow();
      else {
             throw new IllegalArgumentException("User role not recognized in this group.");

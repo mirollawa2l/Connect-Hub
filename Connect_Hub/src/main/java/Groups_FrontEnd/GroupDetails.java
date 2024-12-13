@@ -172,26 +172,45 @@ public class GroupDetails extends javax.swing.JFrame {
 
     private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
         // TODO add your handling code here:
+       if (thisGroup != null && thisGroup.getName() != null) {
         name.setText(thisGroup.getName());
+    } else {
+        name.setText("Unknown Name");
+    }
+                                   
+
     }//GEN-LAST:event_nameActionPerformed
 
     private void descriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionActionPerformed
         // TODO add your handling code here:
+         if (thisGroup != null && thisGroup.getDescription() != null) {
         description.setText(thisGroup.getDescription());
+    } else {
+        description.setText("No Description Available");
+    }
     }//GEN-LAST:event_descriptionActionPerformed
     public void DisplayPhoto() {
-
+        try {
+            String photoPath = thisGroup != null ? thisGroup.getGroupPhotoPath() : null;
+            if (photoPath != null && !photoPath.isEmpty()) {
         ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath());
         // Scale the image to fit the label (optional)
         Image scaledImage = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         // Display the image in a JLabel (or update an existing JLabel)
-        JLabel photoLabel = new JLabel(scaledIcon);
+        JLabel photoLabel = new JLabel(new ImageIcon(scaledImage));
+        jPanel1Photo2 .removeAll();
         jPanel1Photo2.add(photoLabel);
         jPanel1Photo2.revalidate();
-        jPanel1Photo2.repaint();
-
+        jPanel1Photo2.repaint();} 
+            
+            
+}catch (Exception e) {
+            System.err.println("Error displaying photo: " + e.getMessage());
+        }
     }
+
+    
 
     /**
      * @param args the command line arguments

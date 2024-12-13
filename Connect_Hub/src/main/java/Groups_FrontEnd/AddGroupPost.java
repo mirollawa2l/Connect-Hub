@@ -31,7 +31,7 @@ public class AddGroupPost extends javax.swing.JDialog {
   private JLabel imageLabel;
     private String selectedImagePath;
     private Post p;
-    private User user;
+    User user;
    private GroupManager manager;
    private Group thisGroup;
     /**
@@ -147,7 +147,6 @@ public class AddGroupPost extends javax.swing.JDialog {
             manager.addPost(p,thisGroup);
             manager.save();
             manager.load();
-
             JOptionPane.showMessageDialog(this, "Post created Successfully");
             this.setVisible(false);
         }

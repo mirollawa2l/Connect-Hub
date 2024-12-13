@@ -107,6 +107,8 @@ public class PostManagerWindow extends javax.swing.JFrame {
 
     private void AddPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPostActionPerformed
         // TODO add your handling code here:
+        AddGroupPost w=new AddGroupPost(this,true);
+        w.setVisible(true);
     }//GEN-LAST:event_AddPostActionPerformed
 
     /**

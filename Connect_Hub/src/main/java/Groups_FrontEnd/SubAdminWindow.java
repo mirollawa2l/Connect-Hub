@@ -236,6 +236,8 @@ public class SubAdminWindow extends javax.swing.JFrame {
 
     private void PostManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PostManagerActionPerformed
         // TODO add your handling code here:
+         PostManagerWindow postManagerWindow = new PostManagerWindow();
+        postManagerWindow.setVisible(true);
         //mirolla
     }//GEN-LAST:event_PostManagerActionPerformed
 
