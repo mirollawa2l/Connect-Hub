@@ -103,6 +103,14 @@ public class GroupManager implements GroupManagerInterface {
         }
         return null;
     }
+     public Group getGroupByName(String name) {
+        for (Group g : groups) {
+            if (g.getName().equals(name)) {
+                return g;
+            }
+        }
+        return null;
+    }
 
     @Override
     public boolean isSubAdmin(User user, Group g) {

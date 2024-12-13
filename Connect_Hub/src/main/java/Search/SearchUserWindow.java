@@ -4,6 +4,7 @@
  */
 package Search;
 
+import Groups_Backend.GroupManager;
 import friendManagment.Backend.ManageFriendRequests;
 import friendManagment.Backend.ManageFriends;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class SearchUserWindow extends javax.swing.JFrame {
      private UserDatabaseManagement accountManagement;
      private ManageFriendRequests manageFriendRequest;
      private ManageFriends manageFriends;
+     private GroupManager groupManager;
     
     public SearchUserWindow() {
         initComponents();
@@ -38,6 +40,7 @@ public class SearchUserWindow extends javax.swing.JFrame {
         accountManagement = new UserDatabaseManagement();
         manageFriendRequest= new ManageFriendRequests();
         manageFriends= new ManageFriends();
+        groupManager= new GroupManager();
     }
 
     /**

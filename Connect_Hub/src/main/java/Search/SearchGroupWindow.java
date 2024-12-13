@@ -4,6 +4,17 @@
  */
 package Search;
 
+import Groups_Backend.Group;
+import Groups_Backend.GroupManager;
+import Groups_Backend.Member;
+import Groups_Backend_Operations.GroupRequestManager;
+import Groups_FrontEnd.ViewGroup;
+import java.util.List;
+import javax.swing.JOptionPane;
+import userdatabasemanagement.CurrentUser;
+import userdatabasemanagement.User;
+import userdatabasemanagement.UserDatabaseManagement;
+
 /**
  *
  * @author Yara
@@ -13,8 +24,20 @@ public class SearchGroupWindow extends javax.swing.JFrame {
     /**
      * Creates new form SearchGroupWindow
      */
+    private GroupRequestManager groupRequestManager;
+
+    private User currentUser;
+    private GroupManager groupManager;
+    private Member member;
+    private ViewGroup viewGroup;
+    
     public SearchGroupWindow() {
         initComponents();
+        groupRequestManager = new GroupRequestManager();
+        member= new Member();
+        
+        groupManager = new GroupManager();
+        currentUser = CurrentUser.getInstance().getCurrentUser();
     }
 
     /**
@@ -28,24 +51,44 @@ public class SearchGroupWindow extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         groupSearchField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        searchGroupBtn = new javax.swing.JButton();
         groupsComboBox = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        joinGroupBtn = new javax.swing.JButton();
+        leaveGroupBtn = new javax.swing.JButton();
+        viewGroupBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Search Group");
+        searchGroupBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        searchGroupBtn.setText("Search Group");
+        searchGroupBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchGroupBtnActionPerformed(evt);
+            }
+        });
 
         groupsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton2.setText("Join Group");
+        joinGroupBtn.setText("Join Group");
+        joinGroupBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinGroupBtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Leave Group");
+        leaveGroupBtn.setText("Leave Group");
+        leaveGroupBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leaveGroupBtnActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("View Group");
+        viewGroupBtn.setText("View Group");
+        viewGroupBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewGroupBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -55,17 +98,17 @@ public class SearchGroupWindow extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(groupSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jButton1)
+                .addComponent(searchGroupBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(groupsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(jButton2)
+                .addComponent(joinGroupBtn)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(leaveGroupBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(viewGroupBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -74,13 +117,13 @@ public class SearchGroupWindow extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(groupSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(searchGroupBtn)
                     .addComponent(groupsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(80, 80, 80)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(joinGroupBtn)
+                    .addComponent(leaveGroupBtn)
+                    .addComponent(viewGroupBtn))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -100,6 +143,73 @@ public class SearchGroupWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void joinGroupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinGroupBtnActionPerformed
+        // TODO add your handling code here:
+        String selectedGroup = (String) groupsComboBox.getSelectedItem();
+        if(selectedGroup!=null){
+        Group g = groupManager.getGroupByName(selectedGroup);
+        member.requestToJoinGroup(g, currentUser);
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Please select a group to join", "Error", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_joinGroupBtnActionPerformed
+
+    private void leaveGroupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveGroupBtnActionPerformed
+        // TODO add your handling code here:
+        String selectedGroup = (String) groupsComboBox.getSelectedItem();
+        if(selectedGroup!=null){
+        Group g = groupManager.getGroupByName(selectedGroup);
+        member.leaveGroup(g, currentUser);
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Please select a group to Leave", "Error", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_leaveGroupBtnActionPerformed
+
+    private void viewGroupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewGroupBtnActionPerformed
+        // TODO add your handling code here:
+        String selectedGroup = (String) groupsComboBox.getSelectedItem();
+        if(selectedGroup!=null){
+             Group g = groupManager.getGroupByName(selectedGroup);
+             if(g!=null){
+            if(groupManager.isMember(currentUser, g)){
+                viewGroup= new ViewGroup(currentUser, g);
+            }
+            else{
+               JOptionPane.showMessageDialog(this, "You're not a member of this group, please join the group first", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+             }
+             else{
+                 System.out.println("g is null in ViewBtn");
+             }
+           
+        }
+          else
+            JOptionPane.showMessageDialog(this, "Please select a group to View", "Error", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_viewGroupBtnActionPerformed
+
+    private void searchGroupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchGroupBtnActionPerformed
+        // TODO add your handling code here:
+        String search = groupSearchField.getText().trim();
+        if (!search.isEmpty()) {
+            List<Group> groups = groupManager.loadFromFile();
+            List<Group> matchingUsers = groups.stream()
+                .filter(group -> group.getName().toLowerCase().contains(search.toLowerCase()))
+                .toList();
+        if (matchingUsers.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No groups found matching your Search", "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+           
+            groupsComboBox.removeAllItems(); // Clear previous results
+            for (Group group : matchingUsers) {
+                groupsComboBox.addItem(group.getName()); 
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a group to search for", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        
+    }//GEN-LAST:event_searchGroupBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,10 +249,10 @@ public class SearchGroupWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField groupSearchField;
     private javax.swing.JComboBox<String> groupsComboBox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton joinGroupBtn;
+    private javax.swing.JButton leaveGroupBtn;
+    private javax.swing.JButton searchGroupBtn;
+    private javax.swing.JButton viewGroupBtn;
     // End of variables declaration//GEN-END:variables
 }

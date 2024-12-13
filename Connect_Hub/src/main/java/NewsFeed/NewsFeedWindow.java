@@ -9,6 +9,7 @@ import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import Notifications.NotificationManager;
+import Search.SearchGroupWindow;
 import Search.SearchUserWindow;
 import friendManagment.Backend.ManageFriends;
 import friendManagment.FrontEnd.FriendListWindow;
@@ -93,7 +94,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         // Ensure the main layout is set up
         add(refreshButton, BorderLayout.SOUTH);
 
-        postsPanel.setPreferredSize(new Dimension(700, 650));
+        postsPanel.setPreferredSize(new Dimension(1200, 1200));
      postsPanel.setBackground(Color.WHITE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -121,10 +122,10 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     this.revalidate();
     this.repaint();
 
-//        updateFriendsContent();
-//        displayContents();
-//        revalidate();
-//        repaint();
+        updateFriendsContent();
+        displayContents();
+        revalidate();
+        repaint();
     }
 
     public void updateFriendsContent() {
@@ -137,12 +138,10 @@ public class NewsFeedWindow extends javax.swing.JFrame {
 
 void displayContents() throws IOException {
     
-    contentManager.load();
+     contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty
-    updateFriendsContent();
-    
-    
+
     postsPanel.revalidate();
     postsPanel.repaint();
 
@@ -249,8 +248,8 @@ void displayContents() throws IOException {
         updateProfile = new javax.swing.JButton();
         friendList = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        searchUserBtn = new javax.swing.JButton();
+        searchGroupBtn = new javax.swing.JButton();
         groupsBtn = new javax.swing.JButton();
         groupSuggestionsBtn = new javax.swing.JButton();
         notificationtn = new javax.swing.JButton();
@@ -262,7 +261,7 @@ void displayContents() throws IOException {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1267, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,14 +326,19 @@ void displayContents() throws IOException {
             }
         });
 
-        jButton1.setText("SearchUser");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        searchUserBtn.setText("SearchUser");
+        searchUserBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                searchUserBtnActionPerformed(evt);
             }
         });
 
-        jButton2.setText("SearchGroup");
+        searchGroupBtn.setText("SearchGroup");
+        searchGroupBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchGroupBtnActionPerformed(evt);
+            }
+        });
 
         groupsBtn.setText("Groups");
 
@@ -364,9 +368,9 @@ void displayContents() throws IOException {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(notificationtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(searchUserBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(searchGroupBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(updateProfile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -388,8 +392,8 @@ void displayContents() throws IOException {
                     .addComponent(updateProfile)
                     .addComponent(friendList)
                     .addComponent(refresh)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(searchUserBtn)
+                    .addComponent(searchGroupBtn)
                     .addComponent(groupsBtn)
                     .addComponent(groupSuggestionsBtn)
                     .addComponent(notificationtn))
@@ -401,11 +405,11 @@ void displayContents() throws IOException {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,12 +482,19 @@ void displayContents() throws IOException {
         }
     }//GEN-LAST:event_refreshActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void searchUserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchUserBtnActionPerformed
         // TODO add your handling code here:
         SearchUserWindow sw= new SearchUserWindow();
         sw.setVisible(true);
         sw.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_searchUserBtnActionPerformed
+
+    private void searchGroupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchGroupBtnActionPerformed
+        // TODO add your handling code here:
+         SearchGroupWindow sgw= new SearchGroupWindow();
+        sgw.setVisible(true);
+        sgw.setLocationRelativeTo(null);
+    }//GEN-LAST:event_searchGroupBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -533,13 +544,13 @@ void displayContents() throws IOException {
     private javax.swing.JButton friendSuggestion;
     private javax.swing.JButton groupSuggestionsBtn;
     private javax.swing.JButton groupsBtn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JButton notificationtn;
     private javax.swing.JButton refresh;
+    private javax.swing.JButton searchGroupBtn;
+    private javax.swing.JButton searchUserBtn;
     private javax.swing.JButton updateProfile;
     // End of variables declaration//GEN-END:variables
 }
