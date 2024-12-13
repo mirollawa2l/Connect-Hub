@@ -7,6 +7,7 @@ package Groups_FrontEnd;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
+import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -114,9 +115,9 @@ public class GroupDetails extends javax.swing.JFrame {
                             .addContainerGap()
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1Photo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,25 +143,43 @@ public class GroupDetails extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void DisplayPhoto() {
-        try {
-            String photoPath = thisGroup != null ? thisGroup.getGroupPhotoPath() : null;
-            if (photoPath != null && !photoPath.isEmpty()) {
-        ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath());
-        // Scale the image to fit the label (optional)
-        Image scaledImage = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        // Display the image in a JLabel (or update an existing JLabel)
-        JLabel photoLabel = new JLabel(new ImageIcon(scaledImage));
-        jPanel1Photo2 .removeAll();
-        jPanel1Photo2.add(photoLabel);
-        jPanel1Photo2.revalidate();
-        jPanel1Photo2.repaint();
-        jPanel1Photo2.setVisible(true);} 
-            
-            
-}catch (Exception e) {
-            System.err.println("Error displaying photo: " + e.getMessage());
+        
+        
+           // Display image if available
+        if (thisGroup.getGroupPhotoPath()!= null && !thisGroup.getGroupPhotoPath().isEmpty()) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath()); // Load image from path
+                JLabel imageLabel = new JLabel();
+                imageLabel.setIcon(imageIcon);
+                jPanel1Photo2.add(imageLabel, BorderLayout.SOUTH);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        
+        
+        
+//        try {
+//            String photoPath = thisGroup != null ? thisGroup.getGroupPhotoPath() : null;
+//            if (photoPath != null && !photoPath.isEmpty()) {
+//        ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath());
+//        // Scale the image to fit the label (optional)
+//        Image scaledImage = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+//        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+//        // Display the image in a JLabel (or update an existing JLabel)
+//        JLabel photoLabel = new JLabel(new ImageIcon(scaledImage));
+//        jPanel1Photo2 .removeAll();
+//        jPanel1Photo2.add(photoLabel);
+//        jPanel1Photo2.revalidate();
+//        jPanel1Photo2.repaint();
+//        jPanel1Photo2.setVisible(true);
+//            }            
+//}catch (Exception e) {
+//            System.err.println("Error displaying photo: " + e.getMessage());
+//        }
+
+
+
     }
     /**
      * @param args the command line arguments
