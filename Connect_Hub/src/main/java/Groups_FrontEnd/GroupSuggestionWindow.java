@@ -43,10 +43,13 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
         suggestionManager.generateSuggestions(thisUser);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
-            listModel.addElement(suggestion.getSuggested().getGroupId());
-        }
-        suggestionList.setModel(listModel);
-    }
+
+            listModel.addElement(suggestion.getSuggested().getName());}
+            suggestionList.setModel(listModel);
+            suggestionList.revalidate();
+            suggestionList.repaint();}
+            
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,7 +69,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(suggestionList);
 
-        jLabel1.setText("Groop Suggestions");
+        jLabel1.setText("Group Suggestions");
 
         AcceptSuggestion.setText("Send Friend Request");
         AcceptSuggestion.addActionListener(new java.awt.event.ActionListener() {
