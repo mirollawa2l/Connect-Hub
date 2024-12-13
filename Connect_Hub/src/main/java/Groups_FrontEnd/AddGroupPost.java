@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Content_Creation.Frontend;
+package Groups_FrontEnd;
 
-import Content_Creation.Backend.ContentManagement;
+
+import Groups_Backend.GroupManager;
 import Content_Creation.Backend.Post;
+import Groups_Backend.CurrentGroup;
+import Groups_Backend.Group;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
@@ -19,25 +22,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 
+
 /**
  *
  * @author mirol
  */
-public class AddPostWindow extends javax.swing.JDialog {
-
-    private JLabel imageLabel;
+public class AddGroupPost extends javax.swing.JDialog {
+  private JLabel imageLabel;
     private String selectedImagePath;
     private Post p;
     private User user;
-   private ContentManagement contentManager;
-    public Post getP() {
-        return p;
-    }
-
+   private GroupManager manager;
+   private Group thisGroup;
     /**
-     * Creates new form AddContentWindow
+     * Creates new form AddGroupPost
      */
-    public AddPostWindow(java.awt.Frame parent, boolean modal) {
+    public AddGroupPost(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(250, 300);
@@ -45,8 +45,9 @@ public class AddPostWindow extends javax.swing.JDialog {
         imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
         user = CurrentUser.getInstance().getCurrentUser();
-        contentManager =new ContentManagement();
-         
+        manager =new GroupManager();
+         thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+
     }
 
     /**
@@ -58,14 +59,21 @@ public class AddPostWindow extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        create = new javax.swing.JButton();
         text = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         inputText = new javax.swing.JTextArea();
         Image = new javax.swing.JLabel();
         inputImage = new javax.swing.JButton();
-        create = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        create.setText("Create Post");
+        create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createActionPerformed(evt);
+            }
+        });
 
         text.setText("Text");
 
@@ -79,13 +87,6 @@ public class AddPostWindow extends javax.swing.JDialog {
         inputImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputImageActionPerformed(evt);
-            }
-        });
-
-        create.setText("Create Post");
-        create.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createActionPerformed(evt);
             }
         });
 
@@ -143,15 +144,13 @@ public class AddPostWindow extends javax.swing.JDialog {
             p.setTimestamp(LocalDateTime.now());
             p.setImagePath(selectedImagePath);
             p.setAuthorId(user.getId());
-            contentManager.addContent(p);
-            contentManager.save();
-            contentManager.load();
-            
-            
+            manager.addPost(p,thisGroup);
+            manager.save();
+            manager.load();
+
             JOptionPane.showMessageDialog(this, "Post created Successfully");
             this.setVisible(false);
         }
-
     }//GEN-LAST:event_createActionPerformed
 
     private void inputImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputImageActionPerformed
@@ -177,7 +176,6 @@ public class AddPostWindow extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "No image selected!");
         }
 
-
     }//GEN-LAST:event_inputImageActionPerformed
 
     /**
@@ -197,21 +195,20 @@ public class AddPostWindow extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddPostWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddGroupPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddPostWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddGroupPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddPostWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddGroupPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddPostWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddGroupPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddPostWindow dialog = new AddPostWindow(new javax.swing.JFrame(), true);
+                AddGroupPost dialog = new AddGroupPost(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -225,9 +222,6 @@ public class AddPostWindow extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Image;
-    private javax.swing.JButton InputImage;
-    private javax.swing.JButton InputImage1;
-    private javax.swing.JButton InputImage2;
     private javax.swing.JButton create;
     private javax.swing.JButton inputImage;
     private javax.swing.JTextArea inputText;

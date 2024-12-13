@@ -211,11 +211,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Groups"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupsBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="groupSuggestionsBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="GroupSuggestions"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupSuggestionsBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="notificationtn">
           <Properties>

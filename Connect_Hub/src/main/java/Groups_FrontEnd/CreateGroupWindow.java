@@ -5,11 +5,13 @@
 package Groups_FrontEnd;
 
 import Groups_Backend.Group;
+import Groups_Backend.GroupManager;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -20,13 +22,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author sherrygirguis
  */
 public class CreateGroupWindow extends javax.swing.JFrame {
-  private JLabel imageLabel;
+
+    private JLabel imageLabel;
     private String selectedImagePath;
+    private GroupManager manager;
+
     /**
      * Creates new form CreateGroupWindow
      */
     public CreateGroupWindow() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        manager = new GroupManager();
         imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
     }
@@ -130,7 +138,7 @@ public class CreateGroupWindow extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-                JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg", "gif");
         fileChooser.setFileFilter(filter);
 
@@ -153,13 +161,19 @@ public class CreateGroupWindow extends javax.swing.JFrame {
 
     private void CreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateGroupActionPerformed
         // TODO add your handling code here:
-        Group group=new Group();
-        System.out.println("New Group "+group.getGroupId());
-        String nameInput = name.getText();
-        String descriptionInput=description.getText();
-        group.setName( nameInput);
-        group. setGroupPhotoPath(selectedImagePath);
-        group.setDescription(descriptionInput);
+        Group group = new Group();
+        System.out.println("New Group " + group.getGroupId());
+        if (name.getText().isEmpty() || description.getText().isEmpty() || selectedImagePath == null) {
+            JOptionPane.showMessageDialog(this, "Some Fields are Empty!");
+        } else {
+            group.setName(name.getText());
+            group.setGroupPhotoPath(selectedImagePath);
+            group.setDescription(description.getText());
+            manager.addGroup(group);
+            manager.save();
+            JOptionPane.showMessageDialog(this, "Group created successfully");
+this.setVisible(false);
+        }
     }//GEN-LAST:event_CreateGroupActionPerformed
 
     /**

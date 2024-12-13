@@ -28,7 +28,10 @@ public class ViewGroups extends javax.swing.JFrame {
  
     /**
      */
+
+
     /**
+     * /**
      * Creates new form ViewGroups
      */
     public ViewGroups() {
@@ -151,22 +154,29 @@ public class ViewGroups extends javax.swing.JFrame {
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
         // TODO add your handling code here:
-        String selectedGroupId = groupList.getSelectedValue();
-        if(selectedGroupId==null){
-            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
-            return;}
-        else{
+        String selectedGroupId = GroupList.getSelectedValue();
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             Group selectedGroup = getGroupById(selectedGroupId);
-            Factory factory=new Factory(manager);
-            JFrame window =factory.createWindow(thisUser,selectedGroup);
-            window.setVisible(true);}
+            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
+        }
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } else {
+            Group selectedGroup = getGroupById(selectedGroupId);
+            Factory factory = new Factory(manager);
+            JFrame window = factory.createWindow(thisUser, selectedGroup);
+            window.setVisible(true);
+        }
         //        GroupDetails groupDetails=new GroupDetails ();
         //        groupDetails.setVisible(true);
     }//GEN-LAST:event_openActionPerformed
 
     private void createGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createGroupActionPerformed
         // TODO add your handling code here:
-        CreateGroupWindow createGroupWindow=new CreateGroupWindow();
+        CreateGroupWindow createGroupWindow = new CreateGroupWindow();
         createGroupWindow.setVisible(true);
     }//GEN-LAST:event_createGroupActionPerformed
 
@@ -174,41 +184,58 @@ public class ViewGroups extends javax.swing.JFrame {
         // TODO add your handling code here:
         String selectedGroupId = groupList.getSelectedValue();
         if (selectedGroupId == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
-        else{
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             Group selectedGroup = getGroupById(selectedGroupId);
             CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
-        
-        
+        }
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            Group selectedGroup = getGroupById(selectedGroupId);
+            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
         }
     }//GEN-LAST:event_SelectedGroupActionPerformed
 
     private void GroupDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupDetailsActionPerformed
         // TODO add your handling code here:
-        String selectedGroupId = groupList.getSelectedValue();
-        if(selectedGroupId==null){
-            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
-            return;}
-        else{
+
+        String selectedGroupId = GroupList.getSelectedValue();
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             Group selectedGroup = getGroupById(selectedGroupId);
-             GroupDetails groupDetails=new GroupDetails ();
-             groupDetails.setVisible(true);}
+            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
+        }
+        if (selectedGroupId == null) {
+            JOptionPane.showMessageDialog(null, "Select a group ", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } else {
+            Group selectedGroup = getGroupById(selectedGroupId);
+            GroupDetails groupDetails = new GroupDetails();
+            groupDetails.setVisible(true);
+        }
     }//GEN-LAST:event_GroupDetailsActionPerformed
 
     private void SendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendRequestActionPerformed
         // TODO add your handling code here:
-        ArrayList<GroupRequest>requests=requestManager.getRequests();
-        if(!requestManager.isRequest(thisUser,requests)&&!manager.isMember(thisUser, thisGroup)){
-            requestManager.sendRequest(thisUser,thisGroup);}
-         else  JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
-           
+        ArrayList<GroupRequest> requests = requestManager.getRequests();
+        if (!requestManager.isRequest(thisUser, requests) && !manager.isMember(thisUser, thisGroup)) {
+            requestManager.sendRequest(thisUser, thisGroup);
+        } else {
+            JOptionPane.showMessageDialog(null, "Already added or requested", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_SendRequestActionPerformed
-   public Group getGroupById(String Id){
-        for(Group g:manager.getGroups())
-           if(Id.equals(g.getGroupId()))
-               return g;
+    public Group getGroupById(String Id) {
+        for (Group g : manager.getGroups()) {
+            if (Id.equals(g.getGroupId())) {
+                return g;
+            }
+        }
         return null;
     }
+
     /**
      * @param args the command line arguments
      */

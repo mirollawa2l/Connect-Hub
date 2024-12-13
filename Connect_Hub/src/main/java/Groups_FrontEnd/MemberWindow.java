@@ -152,7 +152,8 @@ public void update(){
 
     private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
-        //mirolla
+           AddGroupPost w=new AddGroupPost(this,true);
+           w.setVisible(true);
     }//GEN-LAST:event_CreatePostActionPerformed
 
     private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed

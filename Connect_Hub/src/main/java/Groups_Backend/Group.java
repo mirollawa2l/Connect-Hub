@@ -126,6 +126,7 @@ public class Group implements GroupInterface {
         this.groupPhotoPath = groupPhotoPath;
     }
 
+    @Override
    public boolean isMember(User user) {
         for (User member : getMembers()) {
             if (user == member) {

@@ -8,6 +8,7 @@ import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
+import Groups_FrontEnd.GroupSuggestionWindow;
 import Notifications.NotificationManager;
 import Search.SearchGroupWindow;
 import Search.SearchUserWindow;
@@ -43,6 +44,7 @@ import userdatabasemanagement.AccountManagment;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
+import Groups_FrontEnd.ViewGroups;
 
 /**
  *
@@ -97,17 +99,8 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         postsPanel.setPreferredSize(new Dimension(1200, 1200));
      postsPanel.setBackground(Color.WHITE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Initialize postsPanel and scrollPane
-//    postsPanel = new JPanel();
     
     jPanel1.setBackground(Color.WHITE);
-//
-//    postsPanel.setPreferredSize(new Dimension(450, 450));
-//    postsPanel.setBackground(Color.WHITE);
-//
-//    postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
-    scrollPane = new JScrollPane(postsPanel);
 
     // Ensure displayPanel is set up correctly
     jPanel1.setLayout(new BorderLayout());
@@ -341,8 +334,18 @@ void displayContents() throws IOException {
         });
 
         groupsBtn.setText("Groups");
+        groupsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupsBtnActionPerformed(evt);
+            }
+        });
 
         groupSuggestionsBtn.setText("GroupSuggestions");
+        groupSuggestionsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupSuggestionsBtnActionPerformed(evt);
+            }
+        });
 
         notificationtn.setText("Notifications");
 
@@ -495,6 +498,20 @@ void displayContents() throws IOException {
         sgw.setVisible(true);
         sgw.setLocationRelativeTo(null);
     }//GEN-LAST:event_searchGroupBtnActionPerformed
+
+    private void groupsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupsBtnActionPerformed
+        // TODO add your handling code here:
+        ViewGroups w= new ViewGroups();
+        w.setVisible(true);
+        w.setLocationRelativeTo(null);
+    }//GEN-LAST:event_groupsBtnActionPerformed
+
+    private void groupSuggestionsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupSuggestionsBtnActionPerformed
+        // TODO add your handling code here:
+        GroupSuggestionWindow w=new GroupSuggestionWindow();
+        w.setVisible(true);
+        w.setLocationRelativeTo(null); 
+    }//GEN-LAST:event_groupSuggestionsBtnActionPerformed
 
     /**
      * @param args the command line arguments

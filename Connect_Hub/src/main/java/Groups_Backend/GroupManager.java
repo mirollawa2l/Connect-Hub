@@ -25,10 +25,21 @@ public class GroupManager implements GroupManagerInterface {
 
 
     public GroupManager() {
-        this.groups=loadFromFile();
+       load();
     }    
+    @Override
+    public void save()
+    {
+        saveToFile(this.groups);
+    }
+    
+    public void load()
+    {
+        this.groups=loadFromFile();
+    }
     
     
+    @Override
     public void addPost (Post p,Group g){
         g.addPost(p);
     } 
@@ -42,8 +53,7 @@ public class GroupManager implements GroupManagerInterface {
         this.groups = groups;
     }
 
-    @Override
-    public void saveToFile(ArrayList<Group> groups) {
+    private void saveToFile(ArrayList<Group> groups) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty printing JSON
@@ -64,8 +74,8 @@ public class GroupManager implements GroupManagerInterface {
         }
     }
 
-    @Override
-    public ArrayList<Group> loadFromFile() {
+
+    private ArrayList<Group> loadFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
@@ -125,13 +135,7 @@ public class GroupManager implements GroupManagerInterface {
 
     @Override
     public boolean isMember(User user, Group g) {
-        for (User member : g.getMembers()) {
-            if (user == member) {
-                return true;
-            }
-        }
-        System.out.println("User isn't member of group: "+g.getName());
-        return false;
+      return g.isMember(user);
     }
 
     @Override

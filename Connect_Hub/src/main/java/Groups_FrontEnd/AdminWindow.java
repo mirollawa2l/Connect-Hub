@@ -4,16 +4,26 @@
  */
 package Groups_FrontEnd;
 
+import Content_Creation.Backend.Content;
+import Content_Creation.Backend.Post;
 import Groups_Backend.Admin;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
-import Groups_Backend.Member;
-import Groups_Backend_Operations.GroupSuggestion;
-import Groups_FrontEnd.PostManagerWindow;
-import Groups_FrontEnd.RequestWindow;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
@@ -23,30 +33,114 @@ import userdatabasemanagement.UserDatabaseManagement;
  * @author sherrygirguis
  */
 public class AdminWindow extends javax.swing.JFrame {
-    private GroupManager manager=new GroupManager();
-    private User thisUser= CurrentUser.getInstance().getCurrentUser();
-    private Group thisGroup=CurrentGroup.getInstance().getCurrentGroup();
-    private UserDatabaseManagement accountManager=new UserDatabaseManagement();
+
+    private JPanel postsPanel;
+    private JScrollPane scrollPane;
+    private GroupManager manager;
+    private User thisUser;
+    private Group thisGroup;
+    private UserDatabaseManagement accountManager;
     private Admin admin;
+    private ArrayList<Post> groupPosts;
+    private UserDatabaseManagement accountManagement;
+
     /**
      * Creates new form AdminWindoe
      */
     public AdminWindow() {
         initComponents();
-        update();
-        if(manager.isSAdmin(thisUser,thisGroup)){
-            thisUser=new Admin();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        accountManagement = new UserDatabaseManagement();
+
+        GroupManager manager = new GroupManager();
+        User thisUser = CurrentUser.getInstance().getCurrentUser();
+        Group thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+        UserDatabaseManagement accountManager = new UserDatabaseManagement();
+        ArrayList<Post> groupPosts = new ArrayList<>();
+        updateList();
+        postsPanel = new JPanel();
+        postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
+        scrollPane = new JScrollPane(postsPanel);
+        postsPanel.setPreferredSize(new Dimension(1200, 1200));
+        postsPanel.setBackground(Color.WHITE);
+        if (manager.isSAdmin(thisUser, thisGroup)) {
+            thisUser = new Admin();
             if (thisUser instanceof Admin) {
-            // If the user is now an Admin, they have permission to remove users
-               admin = (Admin) thisUser;}}
+                // If the user is now an Admin, they have permission to remove users
+                admin = (Admin) thisUser;
+            }
+        }
 
     }
-  public void update(){
-    DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (User user: thisGroup.getMembers()) {
-            listModel.addElement(user.getUsername());}
-            membersList.setModel(listModel);
-}
+
+    public void updateList() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (User user : thisGroup.getMembers()) {
+            listModel.addElement(user.getUsername());
+        }
+        membersList.setModel(listModel);
+    }
+
+    public void displayContents() {
+        manager.load();
+        groupPosts = manager.getGroup(thisGroup.getGroupId()).getPosts();
+        postsPanel.removeAll(); // Clear previous content
+        postsPanel.revalidate();
+        postsPanel.repaint();
+
+        JPanel postsDisplayPanel = new JPanel();
+        postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
+        postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
+
+        for (Post post : groupPosts) {
+            if (post == null) {
+                System.out.println("Null content found, skipping...");
+                continue;
+            }
+            System.out.println("Displaying content: " + post);
+
+            JPanel contentPanel = new JPanel(new BorderLayout());
+            contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            contentPanel.setBackground(Color.LIGHT_GRAY);
+            JLabel authorLabel = new JLabel("Author: " + accountManagement.getUser(post.getAuthorId()).getUsername() + " Time: " + post.getTimestamp());
+            contentPanel.add(authorLabel, BorderLayout.NORTH);
+
+            // Display text content if available
+            if (post.getContent() != null && !post.getContent().isEmpty()) {
+                JTextArea contentArea = new JTextArea(post.getContent());
+                contentArea.setLineWrap(true);
+                contentArea.setWrapStyleWord(true);
+                contentArea.setEditable(false); // Make the content non-editable
+                contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
+            }
+
+            // Display image if available
+            if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
+                try {
+                    ImageIcon imageIcon = new ImageIcon(post.getImagePath()); // Load image from path
+                    JLabel imageLabel = new JLabel();
+                    imageLabel.setIcon(imageIcon);
+                    contentPanel.add(imageLabel, BorderLayout.SOUTH);
+                } catch (Exception e) {
+                    System.err.println("Error loading image for content: " + post.getContentId());
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        // Combine stories and posts panels
+        JPanel combinedPanel = new JPanel(new BorderLayout());
+        combinedPanel.add(postsDisplayPanel, BorderLayout.CENTER);
+
+        // Add combined panel to the main postsPanel
+        postsPanel.setLayout(new BorderLayout());
+        postsPanel.add(combinedPanel, BorderLayout.CENTER);
+
+        postsPanel.revalidate();
+        postsPanel.repaint();
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,7 +161,6 @@ public class AdminWindow extends javax.swing.JFrame {
         PromoteMember = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         membersList = new javax.swing.JList<>();
-        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         SelectMember = new javax.swing.JButton();
 
@@ -175,17 +268,6 @@ public class AdminWindow extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(membersList);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Members");
 
@@ -204,9 +286,7 @@ public class AdminWindow extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
@@ -221,14 +301,12 @@ public class AdminWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(SelectMember))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(SelectMember)
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -236,34 +314,36 @@ public class AdminWindow extends javax.swing.JFrame {
 
     private void GroupRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupRequestsActionPerformed
         // TODO add your handling code here:
-        RequestWindow requestWindow=new RequestWindow();
+        RequestWindow requestWindow = new RequestWindow();
         requestWindow.setVisible(true);
     }//GEN-LAST:event_GroupRequestsActionPerformed
 
     private void RemoveMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveMemberActionPerformed
         // TODO add your handling code here:
-             boolean found=false;
+        boolean found = false;
         String userName = JOptionPane.showInputDialog("Choose");
 
         if (userName == null || userName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a group");
+        } else {
+            if (manager.isMember(accountManager.getUserByUsername(userName), thisGroup)) {
+                admin.removeUser(accountManager.getUserByUsername(userName));
+                found = true;
+                updateList();
+                System.out.print("found");
             }
-        else{
-                if(manager.isMember(accountManager.getUserByUsername(userName),thisGroup)){
-                     admin.removeUser(accountManager.getUserByUsername(userName));
-                     found=true;
-                     update();
-                     System.out. print("found");}
-            
-        if(!found)
-        JOptionPane.showMessageDialog(null,"No Group found!","Error",JOptionPane.INFORMATION_MESSAGE);}
-       
-        
+
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+
     }//GEN-LAST:event_RemoveMemberActionPerformed
 
     private void PostManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PostManagerActionPerformed
         // TODO add your handling code here:
-        PostManagerWindow postManagerWindow=new  PostManagerWindow();
+        PostManagerWindow postManagerWindow = new PostManagerWindow();
         postManagerWindow.setVisible(true);
         //mirolla
     }//GEN-LAST:event_PostManagerActionPerformed
@@ -271,59 +351,67 @@ public class AdminWindow extends javax.swing.JFrame {
     private void DeleteGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteGroupActionPerformed
         // TODO add your handling code here:
         admin.deleteGroup(thisGroup);
+
+        JOptionPane.showMessageDialog(this, "Group deleted succeseefully");
+        this.setVisible(false);
+
     }//GEN-LAST:event_DeleteGroupActionPerformed
 
     private void DemoteMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DemoteMemberActionPerformed
         // TODO add your handling code here:
-         boolean found=false;
+        boolean found = false;
         String userName = JOptionPane.showInputDialog("Choose");
 
         if (userName == null || userName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a user first");
+        } else {
+            if (manager.isSubAdmin(accountManager.getUserByUsername(userName), thisGroup)) {
+                admin.demoteMember(accountManager.getUserByUsername(userName));
+                found = true;
+                updateList();
+                System.out.print("found");
+            } else {
+                JOptionPane.showMessageDialog(null, "Cannot demote a member!", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-        else{   if(manager.isSubAdmin(accountManager.getUserByUsername(userName), thisGroup)){
-                     admin.demoteMember(accountManager.getUserByUsername(userName));
-                     found=true;
-                     update();
-                     System.out. print("found");}
-        else {JOptionPane.showMessageDialog(null,"Cannot demote a member!","Error",JOptionPane.INFORMATION_MESSAGE);}
 
-        if(!found)
-        JOptionPane.showMessageDialog(null,"No Group found!","Error",JOptionPane.INFORMATION_MESSAGE);}
-       
-        
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+
     }//GEN-LAST:event_DemoteMemberActionPerformed
 
     private void PromoteMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromoteMemberActionPerformed
         // TODO add your handling code here:
-           boolean found=false;
+        boolean found = false;
         String userName = JOptionPane.showInputDialog("Choose");
 
         if (userName == null || userName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a user first");
-            }
-        else{        
-                     admin.promoteMember(accountManager.getUserByUsername(userName));
-                     found=true;
-                     update();
-                     System.out. print("found");}
-       
+        } else {
+            admin.promoteMember(accountManager.getUserByUsername(userName));
+            found = true;
+            updateList();
+            System.out.print("found");
+        }
 
-        if(!found)
-        JOptionPane.showMessageDialog(null,"No Group found!","Error",JOptionPane.INFORMATION_MESSAGE);
-       
-        
+        if (!found) {
+            JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_PromoteMemberActionPerformed
 
     private void SelectMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectMemberActionPerformed
-        String selectedMemberUsername =membersList.getSelectedValue();
+        String selectedMemberUsername = membersList.getSelectedValue();
         if (selectedMemberUsername == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
-        else{
-           User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);}
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+        }
     }//GEN-LAST:event_SelectMemberActionPerformed
 
-   
     /**
      * @param args the command line arguments
      */
@@ -370,7 +458,6 @@ public class AdminWindow extends javax.swing.JFrame {
     private javax.swing.JButton SelectMember;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> membersList;
