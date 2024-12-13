@@ -31,7 +31,6 @@ public class Admin extends SubAdmin {
         for (User u : manager.getGroup(groupId).getMembers()) {
             if (u.getId().equals(user.getId())) {
                 manager.getGroup(groupId).getSubAdmins().add((SubAdmin) u);
-                manager.getGroup(groupId).notifyAllMembers(u.getUsername()+" is promoted to be an admin");
                 flag = true;
                  manager.save();
         manager.load();
@@ -63,7 +62,6 @@ public class Admin extends SubAdmin {
 
     public void deleteGroup(Group group) {
         manager.getGroups().remove(group);
-        group.notifyAllMembers(group.getName()+" is deleated");
         manager.save();
         manager.load();
     }
