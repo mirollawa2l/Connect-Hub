@@ -32,13 +32,14 @@ public class CreateGroupWindow extends javax.swing.JFrame {
     private String selectedImagePath;
     private GroupManager manager;
     private User thisUser;
+    private Group group; 
     /**
      * Creates new form CreateGroupWindow
      */
     public CreateGroupWindow() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        group = new Group();
         manager = new GroupManager();
                 thisUser = CurrentUser.getInstance().getCurrentUser();
 
@@ -168,7 +169,7 @@ public class CreateGroupWindow extends javax.swing.JFrame {
 
     private void CreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateGroupActionPerformed
         // TODO add your handling code here:
-        Group group = new Group();
+        
         RolesAssigner roles=new RolesAssigner();
         System.out.println("New Group " + group.getGroupId());
         if (name.getText().isEmpty() || description.getText().isEmpty() || selectedImagePath == null) {

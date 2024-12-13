@@ -21,9 +21,9 @@ import userdatabasemanagement.User;
  */
 public class GroupDetails extends javax.swing.JFrame {
 
-    private GroupManager manager = new GroupManager();
-    private Group thisGroup = CurrentGroup.getInstance().getCurrentGroup();
-    private User thisUser = CurrentUser.getInstance().getCurrentUser();
+    private GroupManager manager;
+    private Group thisGroup;
+    private User thisUser;
 
     /**
      * Creates new form GroupDetails
@@ -31,6 +31,9 @@ public class GroupDetails extends javax.swing.JFrame {
     public GroupDetails() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+        thisUser = CurrentUser.getInstance().getCurrentUser();
+        manager = new GroupManager();
          DisplayPhoto();
          update();
     }

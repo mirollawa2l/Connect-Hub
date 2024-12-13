@@ -15,17 +15,17 @@ import userdatabasemanagement.User;
  */
 public class RolesAssigner {
     public Member asMember(User user) {
-        Member member = new Member(user.getId(),user.getEmail(),user.getPassword(),user.getUsername(),user.getDateOfBirth(),user.getStatus());
+        Member member = new Member(user.getId(),user.getEmail(),user.getUsername(),user.getPassword(),user.getDateOfBirth(),user.getStatus());
         return member;
     }
 
     public Admin asAdmin(User user) {
-        Admin admin = new Admin(user.getId(),user.getEmail(),user.getPassword(),user.getUsername(),user.getDateOfBirth(),user.getStatus());
+        Admin admin = new Admin(user.getId(),user.getEmail(),user.getUsername(),user.getPassword(),user.getDateOfBirth(),user.getStatus());
         return admin;
     }
     public SubAdmin asSubAdmin(User user)
     {
-        SubAdmin subAdmin=new SubAdmin(user.getId(),user.getEmail(),user.getPassword(),user.getUsername(),user.getDateOfBirth(),user.getStatus());
+        SubAdmin subAdmin=new SubAdmin(user.getId(),user.getEmail(),user.getUsername(),user.getPassword(),user.getDateOfBirth(),user.getStatus());
         return subAdmin;
     }
 }
