@@ -41,4 +41,47 @@
   "name" : "youra",
   "description" : "youra's group",
   "groupPhotoPath" : "C:\\Users\\omars\\Pictures\\Screenshots\\Screenshot (16).png"
+}, {
+  "groupId" : "G9",
+  "admin" : {
+    "id" : "user1",
+    "email" : "m@",
+    "username" : "m",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : null,
+    "friendRequests" : null,
+    "sentFriendRequests" : null,
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null,
+    "groupId" : null
+  },
+  "subAdmins" : [ ],
+  "members" : [ {
+    "id" : "user1",
+    "email" : "m@",
+    "username" : "m",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : null,
+    "friendRequests" : null,
+    "sentFriendRequests" : null,
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null
+  } ],
+  "requestedMembers" : [ ],
+  "posts" : [ ],
+  "name" : "family",
+  "description" : "hii",
+  "groupPhotoPath" : "C:\\Users\\mirol\\Documents\\GitHub\\Connect-Hub\\Connect_Hub\\Pictures\\WhatsApp Image 2024-12-09 at 14.05.51_528df11a.jpg"
 } ]

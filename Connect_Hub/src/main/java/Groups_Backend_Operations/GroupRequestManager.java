@@ -15,24 +15,88 @@ import userdatabasemanagement.User;
  */
 public class GroupRequestManager {
 
-    private GroupManager manager;
+//    private GroupManager manager;
+//    private ArrayList<GroupRequest> requests;
+//    private ArrayList<User> members;
+//
+//    public GroupRequestManager() {
+//        requests = new ArrayList<>();
+//        members = new ArrayList<>();
+//        manager=new GroupManager();
+//    }
+//    
+//
+//    public ArrayList<GroupRequest> getRequests() {
+//        return requests;
+//    }
+//
+//    public boolean isRequest(User user, ArrayList<GroupRequest> requests) {
+//        for (GroupRequest request : requests) {
+//            if (request.getSender().equals(user.getId())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public void acceptRequest(GroupRequest groupRequest) {
+//
+//        if (!manager.isMember(groupRequest.getSender(), groupRequest.getGroup())) {
+//            groupRequest.getGroup().getRequestedMembers().remove(groupRequest.getSender());
+//            groupRequest.getGroup().getMembers().add(groupRequest.getSender());
+//            manager.save();
+//            manager.load();
+//
+//        }
+//    }
+//
+//    public void declineRequest(GroupRequest groupRequest) {
+//        groupRequest.getGroup().getRequestedMembers().remove(groupRequest.getSender());
+//        manager.save();
+//        manager.load();
+//    }
+//
+//    public void sendRequest(User user, Group group) {
+//         members = group.getMembers();
+//        if (members != null) {
+//            // Add all users as potential suggestions
+//            for (Group g : manager.getGroups()) {
+//                if (!manager.isMember(user, group) && !isRequest(user, requests)) {
+//                    GroupRequest groupRequest = new GroupRequest(group, user);
+//                    group.getRequestedMembers().add(user);
+//                    requests.add(groupRequest);
+//                    manager.save();
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    public GroupRequest getRequest(User user, String groupId) {
+//        for (GroupRequest request : getRequests()) {
+//            if (user.getId().equals(request.getSender().getId())) {
+//                return request;
+//            }
+//        }
+//
+//        return null;
+//
+//    }
+     private GroupManager manager;
     private ArrayList<GroupRequest> requests;
-    private ArrayList<User> members;
 
     public GroupRequestManager() {
         requests = new ArrayList<>();
-        members = new ArrayList<>();
-        manager=new GroupManager();
+        manager = new GroupManager();
     }
-    
 
     public ArrayList<GroupRequest> getRequests() {
         return requests;
     }
 
-    public boolean isRequest(User user, ArrayList<GroupRequest> requests) {
+    public boolean isRequest(User user, Group group) {
         for (GroupRequest request : requests) {
-            if (request.getSender().equals(user.getId())) {
+            if (request.getSender().equals(user) && request.getGroup().equals(group)) {
                 return true;
             }
         }
@@ -46,20 +110,16 @@ public boolean requestInGroup(User user,Group group){
     
 
     public void acceptRequest(GroupRequest groupRequest) {
-
         if (!manager.isMember(groupRequest.getSender(), groupRequest.getGroup())) {
             groupRequest.getGroup().getRequestedMembers().remove(groupRequest.getSender());
-            groupRequest.getGroup().getMembers().add(groupRequest.getSender());
+             groupRequest.getGroup().getMembers().add(groupRequest.getSender());
             manager.save();
-            manager.load();
-
         }
     }
 
     public void declineRequest(GroupRequest groupRequest) {
         groupRequest.getGroup().getRequestedMembers().remove(groupRequest.getSender());
         manager.save();
-        manager.load();
     }
 
     public void sendRequest(User user, Group group) {
@@ -82,12 +142,9 @@ public boolean requestInGroup(User user,Group group){
 
     public GroupRequest getRequest(User user, String groupId) {
         for (GroupRequest request : getRequests()) {
-            if (user.getId().equals(request.getSender().getId())) {
-                return request;
-            }
+            if (user.equals(request.getSender()) && groupId.equals(request.getGroup().getGroupId())) {
+                return request;  }
         }
-
         return null;
-
     }
 }
