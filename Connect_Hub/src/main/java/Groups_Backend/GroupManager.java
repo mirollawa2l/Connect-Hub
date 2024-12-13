@@ -145,6 +145,7 @@ public class GroupManager implements GroupManagerInterface {
     public void addMember(Member member,Group g)
     {
         g.getMembers().add(member);
+        g.notifyAllMembers(member.getUsername()+" is added to a group you belong to");
         save();
         load();
     }

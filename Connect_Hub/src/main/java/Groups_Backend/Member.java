@@ -6,6 +6,7 @@ package Groups_Backend;
 
 
 import Groups_Backend_Operations.GroupRequestManager;
+import Notifications.NotificationManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import userdatabasemanagement.User;
@@ -37,7 +38,7 @@ public class Member extends User {
        manager.getGroup(group.getGroupId()).getMembers().remove(user);
        if(manager.isSubAdmin(user, group))
            manager.getGroup(group.getGroupId()).getSubAdmins().remove(user);
-       
+       //   NotificationManager.getInstance().addNotification(user.getUsername()+" leave group", , user, type, true);
             
        }
           
