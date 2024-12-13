@@ -142,16 +142,46 @@ public class GroupDetails extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+   
+    
+    
+      
     public void DisplayPhoto() {
+        jPanel1Photo2.removeAll(); // Clear existing components
+
+        if (thisGroup != null && thisGroup.getGroupPhotoPath() != null && !thisGroup.getGroupPhotoPath().isEmpty()) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath()); // Load image from path
+                JLabel imageLabel = new JLabel(imageIcon);
+                jPanel1Photo2.add(imageLabel, BorderLayout.CENTER); // Center image in panel
+            } catch (Exception e) {
+                System.err.println("Error loading group photo: " + e.getMessage());
+                JLabel errorLabel = new JLabel("Photo could not be loaded.");
+                jPanel1Photo2.add(errorLabel, BorderLayout.CENTER);
+            }
+        } else {
+            JLabel noPhotoLabel = new JLabel("No photo available.");
+            jPanel1Photo2.add(noPhotoLabel, BorderLayout.CENTER);
+        }
+
+        jPanel1Photo2.revalidate();
+        jPanel1Photo2.repaint();
+    }
+    
+    
+    public void DisplayPhotos() {
         
         
            // Display image if available
         if (thisGroup.getGroupPhotoPath()!= null && !thisGroup.getGroupPhotoPath().isEmpty()) {
             try {
                 ImageIcon imageIcon = new ImageIcon(thisGroup.getGroupPhotoPath()); // Load image from path
+                System.out.println(thisGroup.getGroupPhotoPath());
                 JLabel imageLabel = new JLabel();
                 imageLabel.setIcon(imageIcon);
                 jPanel1Photo2.add(imageLabel, BorderLayout.SOUTH);
+                 jPanel1Photo2.revalidate();
+        jPanel1Photo2.repaint();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -181,6 +211,17 @@ public class GroupDetails extends javax.swing.JFrame {
 
 
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
