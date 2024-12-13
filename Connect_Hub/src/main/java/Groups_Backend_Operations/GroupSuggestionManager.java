@@ -34,7 +34,7 @@ public class GroupSuggestionManager {
             ArrayList<GroupRequest> requests = requestManager.getRequests();
             for (Group g : manager.getGroups()) {
                   System.out.println(g.getName()+" is Member: "+!manager.isMember(user, g));
-                    System.out.println(g.getName()+" is Request: "+requestManager.isRequest(user, g));
+          //          System.out.println(g.getName()+" is Request: "+requestManager.isRequest(user, g));
 
                 if (!manager.isMember(user, g) && (!requestManager.isRequest(user, g) || requests == null)) {
                     System.out.println("1st true");
