@@ -15,6 +15,7 @@ import userdatabasemanagement.User;
 public class Admin extends SubAdmin {
 
     public Admin() {
+        manager=new GroupManager();
     }
 
     public Admin(String id, String email, String username, String password, String dateOfBirth, String status) {
@@ -25,11 +26,6 @@ public class Admin extends SubAdmin {
         super(id, email, username, password, profilePhotoPath, coverPhotoPath, bio, dateOfBirth, status, friends, friendRequests, sentFriendRequests, blockList, deletedGroups, groups);
     }
     
-    
-    
-    
-    
-
     public void promoteMember(User user) {
         boolean flag = false;
         for (User u : manager.getGroup(groupId).getMembers()) {

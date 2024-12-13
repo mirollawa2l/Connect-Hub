@@ -9,6 +9,7 @@ import Groups_Backend_Operations.GroupRequestManager;
 import Groups_Backend_Operations.GroupSuggestion;
 import Groups_Backend_Operations.GroupSuggestionManager;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
@@ -29,6 +30,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
      */
     public GroupSuggestionWindow() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         requestManager = new GroupRequestManager();
         suggestionManager = new GroupSuggestionManager();
         thisUser = CurrentUser.getInstance().getCurrentUser();
@@ -39,9 +41,12 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
         suggestionManager.generateSuggestions( thisUser);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
-            listModel.addElement(suggestion.getSuggested().getGroupId());}
+            listModel.addElement(suggestion.getSuggested().getName());}
             suggestionList.setModel(listModel);
-}
+            suggestionList.revalidate();
+            suggestionList.repaint();}
+            
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +65,7 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(suggestionList);
 
-        jLabel1.setText("Groop Suggestions");
+        jLabel1.setText("Group Suggestions");
 
         AcceptSuggestion.setText("Send Friend Request");
         AcceptSuggestion.addActionListener(new java.awt.event.ActionListener() {
