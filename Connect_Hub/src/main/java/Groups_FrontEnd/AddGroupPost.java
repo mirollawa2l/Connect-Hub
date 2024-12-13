@@ -4,7 +4,6 @@
  */
 package Groups_FrontEnd;
 
-
 import Groups_Backend.GroupManager;
 import Content_Creation.Backend.Post;
 import Groups_Backend.CurrentGroup;
@@ -15,6 +14,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -22,18 +22,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 
-
 /**
  *
  * @author mirol
  */
 public class AddGroupPost extends javax.swing.JDialog {
-  private JLabel imageLabel;
+
+    private JLabel imageLabel;
     private String selectedImagePath;
     private Post p;
-    User user;
-   private GroupManager manager;
-   private Group thisGroup;
+    private User user;
+    private GroupManager manager;
+    private Group thisGroup;
+
     /**
      * Creates new form AddGroupPost
      */
@@ -41,12 +42,14 @@ public class AddGroupPost extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocation(250, 300);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         setTitle("Create Post");
         imageLabel = new JLabel("No Image Selected", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(400, 300));
         user = CurrentUser.getInstance().getCurrentUser();
-        manager =new GroupManager();
-         thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+        manager = new GroupManager();
+        thisGroup = CurrentGroup.getInstance().getCurrentGroup();
 
     }
 
@@ -139,12 +142,12 @@ public class AddGroupPost extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "No image or text added!");
         } else {
             p = new Post();
-            System.out.println("new post added");
+            System.out.println("New post added");
             p.setContent(inputText.getText());
             p.setTimestamp(LocalDateTime.now());
             p.setImagePath(selectedImagePath);
             p.setAuthorId(user.getId());
-            manager.addPost(p,thisGroup);
+            manager.addPost(p, thisGroup);
             manager.save();
             manager.load();
             JOptionPane.showMessageDialog(this, "Post created Successfully");

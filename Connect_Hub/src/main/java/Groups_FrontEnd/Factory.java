@@ -7,6 +7,7 @@ package Groups_FrontEnd;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import userdatabasemanagement.User;
 
 /**
@@ -28,8 +29,8 @@ private GroupManager manager;
          else  if(manager.isMember(user, group))
              return new MemberWindow();
      else {
-            throw new IllegalArgumentException("User role not recognized in this group.");
-        }
+            return null;
+         }
      }
 
   

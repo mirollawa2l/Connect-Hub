@@ -8,6 +8,7 @@ import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 
@@ -16,29 +17,36 @@ import userdatabasemanagement.User;
  * @author sherrygirguis
  */
 public class MemberWindow extends javax.swing.JFrame {
-private GroupManager manager;
-private User thisUser= CurrentUser.getInstance().getCurrentUser();
-private Group thisGroup=CurrentGroup.getInstance().getCurrentGroup();
+
+    private GroupManager manager;
+    private User thisUser;
+    private Group thisGroup;
+
     /**
      * Creates new form MemberwINDOW
      */
     public MemberWindow() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        manager = new GroupManager();
+        thisUser = CurrentUser.getInstance().getCurrentUser();
+        thisGroup = CurrentGroup.getInstance().getCurrentGroup();
         update();
-        
+
     }
- 
-public void update(){
-        
+
+    public void update() {
+
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (User user: thisGroup.getMembers()) {
-            listModel.addElement(user.getUsername());}
-            membersList.setModel(listModel);
-}
+        for (User user : thisGroup.getMembers()) {
+            listModel.addElement(user.getUsername());
+        }
+        membersList.setModel(listModel);
+    }
+
     /**
      * Action for adding a post.
      */
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -134,13 +142,13 @@ public void update(){
 
     private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
-           AddGroupPost w=new AddGroupPost(this,true);
-           w.setVisible(true);
+        AddGroupPost w = new AddGroupPost(this, true);
+        w.setVisible(true);
     }//GEN-LAST:event_CreatePostActionPerformed
 
     private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_LeaveGroupActionPerformed
 
     /**

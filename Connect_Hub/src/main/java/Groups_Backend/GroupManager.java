@@ -44,7 +44,9 @@ public class GroupManager implements GroupManagerInterface {
     @Override
     public void addPost (Post p,Group g){
         g.addPost(p);
-    } 
+        save();
+        load();
+                } 
     @Override
     public ArrayList<Group> getGroups() {
         return groups;

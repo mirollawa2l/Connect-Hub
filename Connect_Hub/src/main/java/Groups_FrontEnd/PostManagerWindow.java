@@ -4,6 +4,8 @@
  */
 package Groups_FrontEnd;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author sherrygirguis
@@ -15,6 +17,8 @@ public class PostManagerWindow extends javax.swing.JFrame {
      */
     public PostManagerWindow() {
         initComponents();
+                this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
 
     /**

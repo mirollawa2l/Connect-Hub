@@ -4,10 +4,8 @@
  */
 package Groups_FrontEnd;
 
-import Groups_Backend.Admin;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
-import Groups_Backend.Member;
 import Roles.RolesAssigner;
 import java.awt.Dimension;
 import java.awt.Image;
