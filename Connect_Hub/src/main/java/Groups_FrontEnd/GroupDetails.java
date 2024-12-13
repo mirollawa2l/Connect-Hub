@@ -212,9 +212,6 @@ public class GroupDetails extends javax.swing.JFrame {
             System.err.println("Error displaying photo: " + e.getMessage());
         }
     }
-
-    
-
     /**
      * @param args the command line arguments
      */

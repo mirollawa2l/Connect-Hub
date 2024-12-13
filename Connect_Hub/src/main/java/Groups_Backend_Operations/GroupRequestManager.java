@@ -17,7 +17,12 @@ public class GroupRequestManager {
 
     private GroupRequestManager requestManager;
     private GroupManager manager;
-    private ArrayList<GroupRequest> requests = new ArrayList<>();
+    private ArrayList<GroupRequest> requests;
+
+    public GroupRequestManager() {
+        requests = new ArrayList<>();
+    }
+    
 
     public ArrayList<GroupRequest> getRequests() {
         return requests;

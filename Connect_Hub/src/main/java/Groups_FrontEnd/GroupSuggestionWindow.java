@@ -20,19 +20,22 @@ import userdatabasemanagement.User;
  */
 public class GroupSuggestionWindow extends javax.swing.JFrame {
 
-    private GroupRequestManager requestManager = new GroupRequestManager();
-    private GroupSuggestionManager suggestionManager = new GroupSuggestionManager();
-    private User thisUser = CurrentUser.getInstance().getCurrentUser();
+    private GroupRequestManager requestManager;
+    private GroupSuggestionManager suggestionManager;
+    private User thisUser;
 
     /**
      * Creates new form GroupSuggestionWindow
      */
     public GroupSuggestionWindow() {
         initComponents();
+        requestManager = new GroupRequestManager();
+        suggestionManager = new GroupSuggestionManager();
+        thisUser = CurrentUser.getInstance().getCurrentUser();
         update();
 
         }
-public void update(){
+          public void update(){
         suggestionManager.generateSuggestions( thisUser);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
