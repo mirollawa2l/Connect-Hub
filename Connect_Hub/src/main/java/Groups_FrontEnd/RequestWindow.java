@@ -11,6 +11,7 @@ import Groups_Backend_Operations.GroupRequest;
 import Groups_Backend_Operations.GroupRequestManager;
 import friendManagment.Backend.FriendRequest;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
@@ -20,22 +21,31 @@ import userdatabasemanagement.User;
  * @author sherrygirguis
  */
 public class RequestWindow extends javax.swing.JFrame {
-    private GroupRequestManager requestManager = new GroupRequestManager();
-    private User thisUser = CurrentUser.getInstance().getCurrentUser();
-    private GroupManager manager=new GroupManager();
+
+    private GroupRequestManager requestManager;
+    private User thisUser;
+    private GroupManager manager;
+
     /**
      * Creates new form RequestWindow
      */
     public RequestWindow() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        requestManager = new GroupRequestManager();
+        thisUser = CurrentUser.getInstance().getCurrentUser();
+        manager = new GroupManager();
         update();
     }
-public void update(){
-DefaultListModel<String> listModel = new DefaultListModel<>();
+
+    public void update() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupRequest request : requestManager.getRequests()) {
-            listModel.addElement(request.getSender().getUsername());}
-             requestsList.setModel(listModel);
-}
+            listModel.addElement(request.getSender().getUsername());
+        }
+        requestsList.setModel(listModel);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,55 +131,63 @@ DefaultListModel<String> listModel = new DefaultListModel<>();
 
     private void DeclineRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeclineRequestActionPerformed
         // TODO add your handling code here:
-                boolean found=false;
+        boolean found = false;
         String username = JOptionPane.showInputDialog("Choose");
 
         if (username == null || username.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a group");
-            return;}
-        else{
-            if(requestManager.getRequest(thisUser,username)!=null){
-            GroupRequest requestToDecline=requestManager.getRequest(thisUser,username);
-            requestManager.declineRequest(requestToDecline);
-            update();}
-            //notificationWindow.loadNotifications();
-            
-            else JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE); } 
+            return;
+        } else {
+            if (requestManager.getRequest(thisUser, username) != null) {
+                GroupRequest requestToDecline = requestManager.getRequest(thisUser, username);
+                requestManager.declineRequest(requestToDecline);
+                update();
+            } //notificationWindow.loadNotifications();
+            else {
+                JOptionPane.showMessageDialog(null, "No user found!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_DeclineRequestActionPerformed
 
     private void AcceptRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptRequestActionPerformed
         // TODO add your handling code here:
-                 boolean found=false;
+        boolean found = false;
         String username = JOptionPane.showInputDialog("Choose");
 
         if (username == null || username.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a group");
-            return;}
-        else{
-            if(requestManager.getRequest(thisUser,username)!=null){
-            GroupRequest requestToAccept=requestManager.getRequest(thisUser,username);
-            requestManager.acceptRequest(requestToAccept);
-            update();}
-            //notificationWindow.loadNotifications();
-            
-            else JOptionPane.showMessageDialog(null,"No user found!","Error",JOptionPane.INFORMATION_MESSAGE); } 
+            return;
+        } else {
+            if (requestManager.getRequest(thisUser, username) != null) {
+                GroupRequest requestToAccept = requestManager.getRequest(thisUser, username);
+                requestManager.acceptRequest(requestToAccept);
+                update();
+            } //notificationWindow.loadNotifications();
+            else {
+                JOptionPane.showMessageDialog(null, "No user found!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_AcceptRequestActionPerformed
 
     private void SelectedGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectedGroupActionPerformed
         // TODO add your handling code here:
-         String selectedGroupId = requestsList.getSelectedValue();
+        String selectedGroupId = requestsList.getSelectedValue();
         if (selectedGroupId == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
-        else{
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             Group selectedGroup = getGroupById(selectedGroupId);
-            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);}
+            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
+        }
     }//GEN-LAST:event_SelectedGroupActionPerformed
-public Group getGroupById(String Id){
-        for(Group g:manager.getGroups())
-           if(Id.equals(g.getGroupId()))
-               return g;
-        return null;}
-    
+    public Group getGroupById(String Id) {
+        for (Group g : manager.getGroups()) {
+            if (Id.equals(g.getGroupId())) {
+                return g;
+            }
+        }
+        return null;
+    }
+
     /**
      * @param args the command line arguments
      */

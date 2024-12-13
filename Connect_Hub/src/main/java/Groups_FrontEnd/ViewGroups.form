@@ -29,7 +29,6 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="open" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="SelectedGroup" alignment="0" max="32767" attributes="0"/>
                       <Component id="GroupDetails" alignment="0" pref="131" max="32767" attributes="0"/>
                       <Component id="SendRequest" max="32767" attributes="0"/>
                   </Group>
@@ -48,15 +47,13 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" pref="32" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Component id="SelectedGroup" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="open" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="GroupDetails" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="SendRequest" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                       <Component id="createGroup" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" min="-2" pref="291" max="-2" attributes="0"/>
@@ -115,14 +112,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createGroupActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="SelectedGroup">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Select Group"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SelectedGroupActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="GroupDetails">

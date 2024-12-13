@@ -70,7 +70,6 @@ public class ViewGroups extends javax.swing.JFrame {
         groupList = new javax.swing.JList<>();
         open = new javax.swing.JButton();
         createGroup = new javax.swing.JButton();
-        SelectedGroup = new javax.swing.JButton();
         GroupDetails = new javax.swing.JButton();
         SendRequest = new javax.swing.JButton();
 
@@ -101,13 +100,6 @@ public class ViewGroups extends javax.swing.JFrame {
             }
         });
 
-        SelectedGroup.setText("Select Group");
-        SelectedGroup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelectedGroupActionPerformed(evt);
-            }
-        });
-
         GroupDetails.setText("Group Details");
         GroupDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +124,6 @@ public class ViewGroups extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(open, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SelectedGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(GroupDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
                         .addComponent(SendRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(createGroup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,15 +138,13 @@ public class ViewGroups extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)
-                        .addComponent(SelectedGroup)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(open)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(GroupDetails)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(SendRequest)
-                        .addGap(112, 112, 112)
+                        .addGap(137, 137, 137)
                         .addComponent(createGroup))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -181,8 +170,17 @@ public class ViewGroups extends javax.swing.JFrame {
                     getGroupByName(selectedGroupId);
             
             Factory factory = new Factory(manager);
+            
             JFrame window = factory.createWindow(thisUser, selectedGroup);
-            window.setVisible(true);
+            if(window==null)
+            {
+              JOptionPane.showMessageDialog(this, "You aren't a member of this group");
+            }
+            else
+            {
+               window.setVisible(true); 
+            }
+            
         }
         //        GroupDetails groupDetails=new GroupDetails ();
         //        groupDetails.setVisible(true);
@@ -194,18 +192,6 @@ public class ViewGroups extends javax.swing.JFrame {
         createGroupWindow.setVisible(true);
         //Change it to dialog to return group and save it 
     }//GEN-LAST:event_createGroupActionPerformed
-
-    private void SelectedGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectedGroupActionPerformed
-        // TODO add your handling code here:
-        String selectedGroupId = groupList.getSelectedValue();
-        if (selectedGroupId == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            Group selectedGroup = getGroupByName(selectedGroupId);
-            CurrentGroup.getInstance().setCurrentGroup(selectedGroup);
-        }
-       
-    }//GEN-LAST:event_SelectedGroupActionPerformed
 
     private void GroupDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupDetailsActionPerformed
         // TODO add your handling code here:
@@ -283,7 +269,6 @@ public class ViewGroups extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GroupDetails;
-    private javax.swing.JButton SelectedGroup;
     private javax.swing.JButton SendRequest;
     private javax.swing.JButton createGroup;
     private javax.swing.JList<String> groupList;

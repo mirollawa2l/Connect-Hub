@@ -9,6 +9,7 @@ import Groups_Backend_Operations.GroupRequestManager;
 import Groups_Backend_Operations.GroupSuggestion;
 import Groups_Backend_Operations.GroupSuggestionManager;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
@@ -29,19 +30,24 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
      */
     public GroupSuggestionWindow() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         requestManager = new GroupRequestManager();
         suggestionManager = new GroupSuggestionManager();
         thisUser = CurrentUser.getInstance().getCurrentUser();
         update();
 
-        }
-          public void update(){
-        suggestionManager.generateSuggestions( thisUser);
+    }
+
+    public void update() {
+        suggestionManager.generateSuggestions(thisUser);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
-            listModel.addElement(suggestion.getSuggested().getGroupId());}
-            suggestionList.setModel(listModel);
-}
+            listModel.addElement(suggestion.getSuggested().getGroupId());
+        }
+        suggestionList.setModel(listModel);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,25 +109,26 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AcceptSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptSuggestionActionPerformed
-     boolean found=false;
+        boolean found = false;
         String username = JOptionPane.showInputDialog("Choose");
 
         if (username == null || username.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a group");
-            return;}
-        for(GroupSuggestion suggestion:suggestionManager.getSuggestions()){
+            return;
+        }
+        for (GroupSuggestion suggestion : suggestionManager.getSuggestions()) {
 
-            if(username.equals(suggestion.getSuggested())){
-                suggestionManager.acceptGroupSuggestion(suggestion,thisUser);
-                found=true;
+            if (username.equals(suggestion.getSuggested())) {
+                suggestionManager.acceptGroupSuggestion(suggestion, thisUser);
+                found = true;
                 update();
-                System.out. print("found");
+                System.out.print("found");
                 break;
             }
         }
 
-        if(!found)
-        JOptionPane.showMessageDialog(null,"No Group found!","Error",JOptionPane.INFORMATION_MESSAGE);
+        if (!found)
+            JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_AcceptSuggestionActionPerformed
 
     /**

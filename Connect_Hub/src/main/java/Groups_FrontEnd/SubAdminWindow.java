@@ -4,13 +4,13 @@
  */
 package Groups_FrontEnd;
 
-
 import Groups_Backend.Admin;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import Groups_Backend.SubAdmin;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
@@ -21,31 +21,41 @@ import userdatabasemanagement.UserDatabaseManagement;
  * @author sherrygirguis
  */
 public class SubAdminWindow extends javax.swing.JFrame {
-    private GroupManager manager=new GroupManager();
-    private User thisUser= CurrentUser.getInstance().getCurrentUser();
-    private Group thisGroup=CurrentGroup.getInstance().getCurrentGroup();
-    private UserDatabaseManagement accountManager=new UserDatabaseManagement();
+
+    private GroupManager manager;
+    private User thisUser;
+    private Group thisGroup;
+    private UserDatabaseManagement accountManager;
     private SubAdmin subAdmin;
+
     /**
      * Creates new form SubAdminWindow
      */
     public SubAdminWindow() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        manager = new GroupManager();
+        thisUser = CurrentUser.getInstance().getCurrentUser();
+        thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+        accountManager = new UserDatabaseManagement();
         update();
-        if(manager.isSAdmin(thisUser,thisGroup)){
-            thisUser=new Admin();
+        if (manager.isSAdmin(thisUser, thisGroup)) {
+            thisUser = new SubAdmin();
             if (thisUser instanceof Admin) {
-            // If the user is now an Admin, they have permission to remove users
-               subAdmin = (SubAdmin) thisUser;}}
+                // If the user is now an Admin, they have permission to remove users
+                subAdmin = (SubAdmin) thisUser;
+            }
+        }
 
     }
-    public void update(){
-    DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (User user: thisGroup.getMembers()) {
-            listModel.addElement(user.getUsername());}
-            membersList.setModel(listModel);
-}
 
+    public void update() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (User user : thisGroup.getMembers()) {
+            listModel.addElement(user.getUsername());
+        }
+        membersList.setModel(listModel);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -205,49 +215,52 @@ public class SubAdminWindow extends javax.swing.JFrame {
 
     private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_CreatePostActionPerformed
 
     private void GroupRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupRequestsActionPerformed
         // TODO add your handling code here:
-        RequestWindow RequestWindow=new RequestWindow();
+        RequestWindow RequestWindow = new RequestWindow();
         RequestWindow.setVisible(true);
     }//GEN-LAST:event_GroupRequestsActionPerformed
 
     private void RemoveMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveMemberActionPerformed
-           boolean found=false;
+        boolean found = false;
         String userName = JOptionPane.showInputDialog("Choose");
 
         if (userName == null || userName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a group");
+        } else {
+            if (manager.isMember(accountManager.getUserByUsername(userName), thisGroup)) {
+                subAdmin.removeUser(accountManager.getUserByUsername(userName));
+                found = true;
+                update();
+                System.out.print("found");
             }
-        else{
-                if(manager.isMember(accountManager.getUserByUsername(userName),thisGroup)){
-                     subAdmin.removeUser(accountManager.getUserByUsername(userName));
-                     found=true;
-                     update();
-                     System.out. print("found");}
-            
-        if(!found)
-        JOptionPane.showMessageDialog(null,"No Group found!","Error",JOptionPane.INFORMATION_MESSAGE);}
-       
-        
+
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "No Group found!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+
     }//GEN-LAST:event_RemoveMemberActionPerformed
 
     private void PostManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PostManagerActionPerformed
         // TODO add your handling code here:
-         PostManagerWindow postManagerWindow = new PostManagerWindow();
+        PostManagerWindow postManagerWindow = new PostManagerWindow();
         postManagerWindow.setVisible(true);
         //mirolla
     }//GEN-LAST:event_PostManagerActionPerformed
 
     private void SelectMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectMemberActionPerformed
         // TODO add your handling code here:
-                String selectedMemberUsername =membersList.getSelectedValue();
+        String selectedMemberUsername = membersList.getSelectedValue();
         if (selectedMemberUsername == null) {
-            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);}
-        else{
-           User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);}
+            JOptionPane.showMessageDialog(this, "Select a group first", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            User selectedMember = accountManager.getUserByUsername(selectedMemberUsername);
+        }
     }//GEN-LAST:event_SelectMemberActionPerformed
 
     private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed
