@@ -103,6 +103,8 @@ public class PostManagerWindow extends javax.swing.JFrame {
 
     private void DeletePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletePostActionPerformed
         // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_DeletePostActionPerformed
 
     private void EditPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditPostActionPerformed

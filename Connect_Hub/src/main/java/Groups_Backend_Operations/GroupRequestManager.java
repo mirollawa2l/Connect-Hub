@@ -15,15 +15,16 @@ import userdatabasemanagement.User;
  */
 public class GroupRequestManager {
 
-//    private GroupManager manager;
-//    private ArrayList<GroupRequest> requests;
-//    private ArrayList<User> members;
-//
-//    public GroupRequestManager() {
-//        requests = new ArrayList<>();
-//        members = new ArrayList<>();
-//        manager=new GroupManager();
-//    }
+    private GroupManager manager;
+    private ArrayList<GroupRequest> requests;
+    private ArrayList<User> members;
+      
+
+    public GroupRequestManager() {
+        requests = new ArrayList<>();
+        members = new ArrayList<>();
+        manager=new GroupManager();
+    }
 //    
 //
 //    public ArrayList<GroupRequest> getRequests() {
@@ -82,13 +83,8 @@ public class GroupRequestManager {
 //        return null;
 //
 //    }
-     private GroupManager manager;
-    private ArrayList<GroupRequest> requests;
-
-    public GroupRequestManager() {
-        requests = new ArrayList<>();
-        manager = new GroupManager();
-    }
+   
+ 
 
     public ArrayList<GroupRequest> getRequests() {
         return requests;
