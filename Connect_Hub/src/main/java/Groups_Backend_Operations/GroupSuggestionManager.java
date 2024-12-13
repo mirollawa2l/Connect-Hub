@@ -35,7 +35,7 @@ public class GroupSuggestionManager {
          ArrayList<GroupRequest> requests = requestManager.getRequests();
    
         for (Group g:manager.getGroups()){
-             if (!manager.isMember(user,g)&&(!requestManager.isRequest(user,requests)||requests==null)) {
+             if (!manager.isMember(user,g)&&!requestManager.isRequest(user,requests)) {
            GroupSuggestion suggestion=new GroupSuggestion(g);
             suggestions.add(suggestion);}}}
         else if(requestManager.getRequests()==null){for (Group g:manager.getGroups()){

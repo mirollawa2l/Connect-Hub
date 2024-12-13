@@ -38,6 +38,12 @@ public class GroupRequestManager {
         }
         return false;
     }
+public boolean requestInGroup(User user,Group group){
+   for(User member:group.getRequestedMembers())
+       if(user.getId().equals(member.getId()))
+           return true;
+       return false;}
+    
 
     public void acceptRequest(GroupRequest groupRequest) {
 
@@ -61,16 +67,18 @@ public class GroupRequestManager {
         if (members != null) {
             // Add all users as potential suggestions
             for (Group g : manager.getGroups()) {
-                if (!manager.isMember(user, group) && !isRequest(user, requests)) {
+                if (!manager.isMember(user, group) &&!requestInGroup(user,group) ) {
                     GroupRequest groupRequest = new GroupRequest(group, user);
                     group.getRequestedMembers().add(user);
                     requests.add(groupRequest);
                     manager.save();
                 }
             }
-        }
+        }}
 
-    }
+    
+        
+        
 
     public GroupRequest getRequest(User user, String groupId) {
         for (GroupRequest request : getRequests()) {
