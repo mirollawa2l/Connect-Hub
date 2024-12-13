@@ -184,7 +184,7 @@ public class SearchUserWindow extends javax.swing.JFrame {
             // Populate the JComboBox with matching usernames
             usersComboBox.removeAllItems(); // Clear previous results
             for (User user : matchingUsers) {
-                usersComboBox.addItem(user.getUsername()+","+user.getId()); // Add User object to JComboBox
+                usersComboBox.addItem(user.getUsername()); // Add User object to JComboBox
             }
         }
     } else {
@@ -214,7 +214,7 @@ public class SearchUserWindow extends javax.swing.JFrame {
         User reciever= accountManagement.getUserByUsername(selectedFriendusername);
         if(reciever!=null){
             System.out.println("reciever username: "+ reciever.getUsername());
-        manageFriendRequest.sendRequest(reciever, CurrentUser.getInstance().getCurrentUser());
+        manageFriendRequest.sendRequest( CurrentUser.getInstance().getCurrentUser(),reciever);
         }
         else{
            JOptionPane.showMessageDialog(this, "Please Select a User to be added", "Error", JOptionPane.ERROR_MESSAGE);

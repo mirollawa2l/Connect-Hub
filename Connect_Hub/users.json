@@ -1,5 +1,33 @@
-<<<<<<< HEAD
-[{"id":"user1","email":"m@","username":"m","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-01","status":"online","friends":null,"friendRequests":["user3"],"sentFriendRequests":null,"blockList":null,"deletedGroups":null,"groups":null},{"id":"user2","email":"a@","username":"a","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-01","status":"online","friends":null,"friendRequests":["user3"],"sentFriendRequests":null,"blockList":null,"deletedGroups":null,"groups":null},{"id":"user3","email":"shh@","username":"shahddd","password":"698d51a19d8a121ce581499d7b701668","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-12","status":"online","friends":null,"friendRequests":null,"sentFriendRequests":["user1","user2"],"blockList":null,"deletedGroups":null,"groups":null}]
-=======
-[{"id":"user1","email":"m@","username":"m","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-01","status":"online","friends":null,"friendRequests":null,"sentFriendRequests":null,"blockList":null,"deletedGroups":null,"groups":null},{"id":"user2","email":"a@","username":"a","password":"81dc9bdb52d04dc20036dbd8313ed055","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-01","status":"offline","friends":null,"friendRequests":null,"sentFriendRequests":null,"blockList":null,"deletedGroups":null,"groups":null},{"id":"user3","email":"shh@","username":"shahddd","password":"698d51a19d8a121ce581499d7b701668","profilePhotoPath":null,"coverPhotoPath":null,"bio":null,"dateOfBirth":"2024-12-12","status":"online","friends":null,"friendRequests":null,"sentFriendRequests":null,"blockList":null,"deletedGroups":null,"groups":null}]
->>>>>>> 915123f079b2de28f33c353d5c2675f049174fb5
+[ {
+  "id" : "user1",
+  "email" : "yy@",
+  "username" : "yy",
+  "password" : "698d51a19d8a121ce581499d7b701668",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : null,
+  "bio" : null,
+  "dateOfBirth" : "2024-12-01",
+  "status" : "online",
+  "friends" : [ ],
+  "friendRequests" : [ ],
+  "sentFriendRequests" : null,
+  "blockList" : null,
+  "deletedGroups" : null,
+  "groups" : null
+}, {
+  "id" : "user2",
+  "email" : "jj@",
+  "username" : "jj",
+  "password" : "bcbe3365e6ac95ea2c0343a2395834dd",
+  "profilePhotoPath" : null,
+  "coverPhotoPath" : null,
+  "bio" : null,
+  "dateOfBirth" : "2024-12-09",
+  "status" : "online",
+  "friends" : [ ],
+  "friendRequests" : null,
+  "sentFriendRequests" : [ ],
+  "blockList" : null,
+  "deletedGroups" : null,
+  "groups" : null
+} ]

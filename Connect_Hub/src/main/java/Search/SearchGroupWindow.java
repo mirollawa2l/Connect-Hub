@@ -148,7 +148,8 @@ public class SearchGroupWindow extends javax.swing.JFrame {
         String selectedGroup = (String) groupsComboBox.getSelectedItem();
         if(selectedGroup!=null){
         Group g = groupManager.getGroupByName(selectedGroup);
-        member.requestToJoinGroup(g, currentUser);
+        groupRequestManager.sendRequest( currentUser,g);
+         JOptionPane.showMessageDialog(this, "Request sent succesfully", "sucsess", JOptionPane.OK_OPTION);
         }
         else
             JOptionPane.showMessageDialog(this, "Please select a group to join", "Error", JOptionPane.ERROR_MESSAGE);
