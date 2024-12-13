@@ -53,8 +53,9 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
             listModel.addElement(suggestion.getSuggested().getName());}
             suggestionList.setModel(listModel);
-            suggestionList.revalidate();
-            suggestionList.repaint();}
+//            suggestionList.revalidate();
+//            suggestionList.repaint();
+    }
             
 
 

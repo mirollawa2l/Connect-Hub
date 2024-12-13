@@ -13,9 +13,7 @@ public class CurrentGroup {
     private static CurrentGroup instance;
     private static Group currentGroup;
          private CurrentGroup(){
-                     currentGroup = new Group();
-
-    
+             currentGroup = new Group();    
 }
  public static synchronized CurrentGroup getInstance() {
         if (instance == null) {

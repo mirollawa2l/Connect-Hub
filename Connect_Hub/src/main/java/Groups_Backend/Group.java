@@ -144,6 +144,7 @@ public class Group implements GroupInterface {
 
     @Override
    public boolean isMember(User user) {
+       
         for (User member : getMembers()) {
             if (user.getId().equals(member.getId())) {
                 return true;

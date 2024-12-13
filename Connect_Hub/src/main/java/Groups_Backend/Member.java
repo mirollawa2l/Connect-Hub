@@ -9,6 +9,7 @@ import Groups_Backend_Operations.GroupRequestManager;
 import Notifications.NotificationManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
 
 /**
@@ -19,9 +20,18 @@ public class Member extends User {
     
     private GroupManager manager;
     private GroupRequestManager requestManager;
+    private Group thisGroup;
+    private User thisUser;
+   
 
     public Member() {
-    }
+        manager=new GroupManager();
+        requestManager= new GroupRequestManager();
+        thisUser = CurrentUser.getInstance().getCurrentUser();
+        thisGroup = CurrentGroup.getInstance().getCurrentGroup();
+                
+            }
+        
     
 
     public Member(String id, String email, String username, String password, String dateOfBirth, String status) {

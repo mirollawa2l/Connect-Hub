@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class ViewGroup {
 
-    private Group group;
+private Group group;
     private User selectedUser;
 
     public ViewGroup(User selectedUser, Group group) {
@@ -51,8 +51,21 @@ public class ViewGroup {
         detailsPanel.setBorder(BorderFactory.createTitledBorder("Group Details"));
         detailsPanel.add(new JLabel("Name: " + group.getName()));
         detailsPanel.add(new JLabel("Description: " + group.getDescription()));
-       
         detailsPanel.add(new JLabel("Posts: " + group.getPosts().size()));
+        // Members Panel
+        JPanel membersPanel = new JPanel();
+        membersPanel.setLayout(new BoxLayout(membersPanel, BoxLayout.Y_AXIS));
+        membersPanel.setBorder(BorderFactory.createTitledBorder("Members"));
+        JScrollPane membersScrollPane = new JScrollPane(membersPanel);
+
+        ArrayList<User> members = group.getMembers();
+        if (members.isEmpty()) {
+            membersPanel.add(new JLabel("No members in this group."));
+        } else {
+            for (User member : members) {
+                membersPanel.add(new JLabel(member.getUsername()));
+            }
+        }
 
         // Group Photo Panel
         JPanel photoPanel = new JPanel();
@@ -63,8 +76,7 @@ public class ViewGroup {
             ImageIcon photoIcon = new ImageIcon(photoPath);
             Image scaledImage = photoIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             photoLabel.setIcon(new ImageIcon(scaledImage));
-        } else {
-            photoLabel.setText("No photo available.");
+        } else { photoLabel.setText("No photo available.");
         }
         photoPanel.add(photoLabel);
 
@@ -92,7 +104,7 @@ public class ViewGroup {
             public void actionPerformed(ActionEvent e) {
                 addPostAction();
             }
-        });
+            });
 
         JButton leaveGroupButton = new JButton("Leave Group");
         leaveGroupButton.addActionListener(new ActionListener() {
@@ -119,7 +131,8 @@ public class ViewGroup {
         // Adding panels to the main frame
         mainPanel.add(detailsPanel, BorderLayout.NORTH);
         mainPanel.add(photoPanel, BorderLayout.WEST);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+         mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(membersScrollPane, BorderLayout.EAST);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.add(mainPanel);
@@ -130,25 +143,24 @@ public class ViewGroup {
      * Action for adding a post.
      */
     private void addPostAction() {
-    if (isUserMember()) {
-        String postContent = JOptionPane.showInputDialog(null, "Enter your post content:", "Add Post", JOptionPane.PLAIN_MESSAGE);
-        if (postContent != null && !postContent.trim().isEmpty()) {
-            String imagePath = JOptionPane.showInputDialog(null, "Enter the image path (or leave blank for no image):", "Add Post", JOptionPane.PLAIN_MESSAGE);
-            if (imagePath != null && imagePath.trim().isEmpty()) {
-                imagePath = null;
+        if (isUserMember()) {
+            String postContent = JOptionPane.showInputDialog(null, "Enter your post content:", "Add Post", JOptionPane.PLAIN_MESSAGE);
+            if (postContent != null && !postContent.trim().isEmpty()) {
+                String imagePath = JOptionPane.showInputDialog(null, "Enter the image path (or leave blank for no image):", "Add Post", JOptionPane.PLAIN_MESSAGE);
+                if (imagePath != null && imagePath.trim().isEmpty()) {
+                    imagePath = null;
+                }
+                LocalDateTime timestamp = LocalDateTime.now(); // Get the current timestamp
+                Post newPost = new Post(selectedUser.getId(), postContent, imagePath, timestamp);
+                group.addPost(newPost);
+                JOptionPane.showMessageDialog(null, "Post added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Post content cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            LocalDateTime timestamp = LocalDateTime.now(); // Get the current timestamp
-            Post newPost = new Post(selectedUser.getId(), postContent, imagePath, timestamp);
-            group.addPost(newPost);
-            JOptionPane.showMessageDialog(null, "Post added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Post content cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null, "You must be a member of the group to add posts.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(null, "You must be a member of the group to add posts.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
-
 
     /**
      * Action for leaving the group.
@@ -173,7 +185,7 @@ public class ViewGroup {
             JOptionPane.showMessageDialog(null, "You have already requested to join this group.", "Info", JOptionPane.INFORMATION_MESSAGE);
         } else {
             group.getRequestedMembers().add(selectedUser);
-            JOptionPane.showMessageDialog(null, "Request to join the group has been sent.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Request to join the group has been sent.", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -185,4 +197,5 @@ public class ViewGroup {
     public boolean isUserMember() {
         return group.getMembers().contains(selectedUser);
     }
+
 }

@@ -7,6 +7,7 @@ package Groups_FrontEnd;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
+import Groups_Backend.Member;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import userdatabasemanagement.CurrentUser;
@@ -21,6 +22,7 @@ public class MemberWindow extends javax.swing.JFrame {
     private GroupManager manager;
     private User thisUser;
     private Group thisGroup;
+     private Member member;
 
     /**
      * Creates new form MemberwINDOW
@@ -32,8 +34,13 @@ public class MemberWindow extends javax.swing.JFrame {
         thisUser = CurrentUser.getInstance().getCurrentUser();
         thisGroup = CurrentGroup.getInstance().getCurrentGroup();
         update();
+        if (manager.isSAdmin(thisUser, thisGroup)) {
+            thisUser = new Member();
+            if (thisUser instanceof Member) {
+                // If the user is now an Admin, they have permission to remove users
+                member = (Member) thisUser;}
 
-    }
+    }}
 
     public void update() {
 
@@ -148,6 +155,7 @@ public class MemberWindow extends javax.swing.JFrame {
 
     private void LeaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveGroupActionPerformed
         // TODO add your handling code here:
+        member.leaveGroup(thisGroup,thisUser);
 
     }//GEN-LAST:event_LeaveGroupActionPerformed
 
