@@ -17,19 +17,22 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class NotificationWindow extends JFrame {
+
     private DefaultListModel<Notification> notificationListModel;
     private JList<Notification> notificationList;
     private NotificationManager notificationManager;
     private User currentUser;
+    private boolean running = true; // Flag to stop the thread when the window is closed
 
     public NotificationWindow(NotificationManager notificationManager, User currentUser) {
         this.notificationManager = notificationManager;
         this.currentUser = currentUser;
-        setTitle("Notifications for"+currentUser.getUsername());
+        setTitle("Notifications for" + currentUser.getUsername());
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initComponents();
-        
+        startNotificationThread(); // Start the background thread
+
     }
 
     private void initComponents() {
@@ -56,6 +59,12 @@ public class NotificationWindow extends JFrame {
     }
 
     private void refreshNotifications(ActionEvent evt) {
+             loadNotifications();
+
+    }
+    
+    private void loadNotifications()
+    {
         notificationListModel.clear();
         ArrayList<Notification> notifications = NotificationManager.getInstance().getNotificationsForUser(currentUser);
         for (Notification notification : notifications) {
@@ -73,25 +82,55 @@ public class NotificationWindow extends JFrame {
         if ("friendRequest".equals(selectedNotification.getType())) {
             String[] options = {"Accept", "Decline"};
             int choice = JOptionPane.showOptionDialog(
-                this, "Action for: " + selectedNotification.getMessage(),
-                "Friend Request", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
+                    this, "Action for: " + selectedNotification.getMessage(),
+                    "Friend Request", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
             );
 
             if (choice == 0) { // Accept
                 new ManageFriendRequests().acceptRequest(
-                    new FriendRequest(currentUser, selectedNotification.getSender(), "accepted")
+                        new FriendRequest(currentUser, selectedNotification.getSender(), "accepted")
                 );
-                NotificationManager.getInstance().addNotification("Your Friend request was accepted by"+selectedNotification.getReciever().getUsername(),selectedNotification.getSender(), currentUser, "response", false);
-                NotificationManager.getInstance().addNotification("You accept "+selectedNotification.getSender().getUsername()+"Request !", selectedNotification.getReciever(), selectedNotification.getSender(), "response", false);
+                NotificationManager.getInstance().addNotification("Your Friend request was accepted by" + selectedNotification.getReciever().getUsername(), selectedNotification.getSender(), currentUser, "response", false);
+                NotificationManager.getInstance().addNotification("You accept " + selectedNotification.getSender().getUsername() + "Request !", selectedNotification.getReciever(), selectedNotification.getSender(), "response", false);
             } else if (choice == 1) { // Decline
                 new ManageFriendRequests().declineRequest(
-                    new FriendRequest(currentUser, selectedNotification.getSender(), "declined")
+                        new FriendRequest(currentUser, selectedNotification.getSender(), "declined")
                 );
-                NotificationManager.getInstance().addNotification("Your Friend Request was declined by "+selectedNotification.getReciever().getUsername(),selectedNotification.getSender(), currentUser, "response", false);
-                NotificationManager.getInstance().addNotification("You declined "+selectedNotification.getSender().getUsername()+"Request !", selectedNotification.getReciever(), selectedNotification.getSender(), "response", false);
+                NotificationManager.getInstance().addNotification("Your Friend Request was declined by " + selectedNotification.getReciever().getUsername(), selectedNotification.getSender(), currentUser, "response", false);
+                NotificationManager.getInstance().addNotification("You declined " + selectedNotification.getSender().getUsername() + "Request !", selectedNotification.getReciever(), selectedNotification.getSender(), "response", false);
             }
             NotificationManager.getInstance().removeNotification(selectedNotification);
             refreshNotifications(null); // Refresh list
         }
     }
+    
+    
+
+    private void startNotificationThread() {
+        Thread notificationThread = new Thread(() -> {
+            while (running) {
+                try {
+                    // Update notifications every 2 seconds
+                    Thread.sleep(2000);
+
+                    // Update the UI on the Event Dispatch Thread (EDT)
+                    SwingUtilities.invokeLater(this::loadNotifications);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Notification thread interrupted: " + e.getMessage());
+                }
+            }
+        });
+        notificationThread.setDaemon(true); // Ensures thread stops when the application exits
+        notificationThread.start();
+    }
+
+    @Override
+    public void dispose() {
+        running = false; // Stop the thread when the window is closed
+        super.dispose();
+    }
 }
+
+    
+

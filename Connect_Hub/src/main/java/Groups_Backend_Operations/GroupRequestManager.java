@@ -139,7 +139,8 @@ public boolean requestInGroup(User user,Group group){
     public GroupRequest getRequest(User user, String groupId) {
         for (GroupRequest request : getRequests()) {
             if (user.equals(request.getSender()) && groupId.equals(request.getGroup().getGroupId())) {
-                return request;  }
+                return request;  
+            }
         }
         return null;
     }

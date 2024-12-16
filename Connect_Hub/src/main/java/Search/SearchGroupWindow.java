@@ -10,6 +10,7 @@ import Groups_Backend.Member;
 import Groups_Backend_Operations.GroupRequestManager;
 import Groups_FrontEnd.ViewGroup;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
@@ -32,6 +33,8 @@ public class SearchGroupWindow extends javax.swing.JFrame {
     
     public SearchGroupWindow() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         groupRequestManager = new GroupRequestManager();
         
         
