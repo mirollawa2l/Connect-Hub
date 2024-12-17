@@ -52,8 +52,15 @@ public abstract class Content implements ContentCreation {
     }
 
     public void addComment(Comment comment) {
-        comments.add(comment);
-    }
+    comments.add(comment);
+    saveUpdatedContent();  // Save content after adding a comment
+}
+
+private void saveUpdatedContent() {
+    ContentManagement contentManagement = new ContentManagement();
+    contentManagement.save();  // Save the content (including comments) to file
+}
+
 
     // Other existing getters and setters...
     @Override
