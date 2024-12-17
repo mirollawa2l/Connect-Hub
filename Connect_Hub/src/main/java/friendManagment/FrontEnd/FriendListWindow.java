@@ -2,8 +2,11 @@ package friendManagment.FrontEnd;
 
 
 
+import Chats.ChatManager;
+import Chats.ChatWindow;
 import friendManagment.Backend.ManageFriends;
 import java.util.ArrayList;
+import java.util.Set;
 import userdatabasemanagement.UserDatabaseManagement;
 import userdatabasemanagement.User;
 import javax.swing.DefaultComboBoxModel;
@@ -55,7 +58,14 @@ private DefaultComboBoxModel<String> model;
             }
 
         }
+        Set <String> chattedUsers = ChatManager.getInstance().getChattedUsers();
+        for(String user : chattedUsers){
+            listModel.addElement(user);
+        }
     }
+    public String getSelectedFriend(){
+    return friendList.getSelectedValue();
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -68,6 +78,7 @@ private DefaultComboBoxModel<String> model;
         Remove = new javax.swing.JButton();
         SelectFriend = new javax.swing.JComboBox<>();
         addFriend = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,6 +115,13 @@ private DefaultComboBoxModel<String> model;
             }
         });
 
+        jButton1.setText("open chat");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,8 +143,13 @@ private DefaultComboBoxModel<String> model;
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Block))))))
                 .addGap(18, 18, 18)
-                .addComponent(SelectFriend, 0, 108, Short.MAX_VALUE)
-                .addGap(37, 37, 37))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(SelectFriend, 0, 108, Short.MAX_VALUE)
+                        .addGap(37, 37, 37))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +163,8 @@ private DefaultComboBoxModel<String> model;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Remove)
-                            .addComponent(Block))
+                            .addComponent(Block)
+                            .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addComponent(addFriend))
                     .addGroup(layout.createSequentialGroup()
@@ -231,6 +255,31 @@ private DefaultComboBoxModel<String> model;
 
     }//GEN-LAST:event_addFriendActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+  String selectedFriendId = null;
+  User selectedUser = null;
+String selectedFriendUsername = (String)SelectFriend.getSelectedItem().toString();
+        if (!selectedFriendUsername.equals("Search")) {
+            
+            // Open a ChatWindow for the selected friend
+            for(User friend : friendManager.getFriends()){
+                if (selectedFriendUsername.equals(friend.getUsername())){
+                selectedFriendId= friend.getId();
+                selectedUser=friend;
+            }}
+            //ChatManager.getInstance().getChatHistory(user.getId(), selectedFriendId);
+            System.out.print(selectedFriendId);
+            ChatWindow chatWindow = new ChatWindow(user, selectedUser);
+            ChatManager.getInstance().getChatHistory(user.getId(), selectedFriendId);
+            chatWindow.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a valid friend.");
+        }
+    
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -270,6 +319,7 @@ private DefaultComboBoxModel<String> model;
     private javax.swing.JComboBox<String> SelectFriend;
     private javax.swing.JButton addFriend;
     private javax.swing.JList<String> friendList;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
