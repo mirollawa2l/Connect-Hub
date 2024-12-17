@@ -1,12 +1,15 @@
 
 package userdatabasemanagement;
 
+import Chats.Chat;
+import Chats.ChatManager;
 import NewsFeed.NewsFeedWindow;
 import Notifications.Notification;
 import Notifications.NotificationManager;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -198,7 +201,7 @@ private UserDatabaseManagement userData;
                 
                 System.out.println("usier id in login: "+ x.getId());
                 CurrentUser.getInstance().setCurrentUser(x);
-
+                List<Chat> messageList=ChatManager.getInstance().loadChats();
                 ArrayList<Notification>notification = NotificationManager.getInstance().loadNotifications();
 
                 try {
