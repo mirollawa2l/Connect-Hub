@@ -4,6 +4,7 @@
   "content" : "storyy1",
   "imagePath" : null,
   "timestamp" : [ 2024, 12, 13, 1, 46, 49, 408499800 ],
-  "story" : true,
-  "expired" : false
+  "comments" : [ ],
+  "expired" : true,
+  "story" : true
 } ]

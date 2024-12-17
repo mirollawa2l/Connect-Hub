@@ -1,5 +1,6 @@
 package Content_Creation.Backend;
 
+import PostInteraction.Comment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,22 +15,29 @@ import java.util.List;
  * Represents a Post that extends Content. Each post is assigned a unique ID
  * with a prefix "P".
  */
-@JsonIgnoreProperties(ignoreUnknown = true) // Ignores unknown fields like 'story'
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Post extends Content {
 
     private static int postCount = 0; // Shared across all instances
     private final static String filename = "postsDatabase.json";
 
-    // Default constructor to initialize a post with a unique ID
+    private List<String> likes; // List of user IDs who liked the post
+    private List<Comment> comments; // List of comments on the post
+
+    // Default constructor
     public Post() {
         super(); // Call the default constructor of Content
         this.contentId = "P" + (++postCount); // Increment static counter and assign unique ID
+        this.likes = new ArrayList<>(); // Initialize likes list
+        this.comments = new ArrayList<>(); // Initialize comments list
     }
 
     // Constructor with parameters
     public Post(String authorId, String content, String imagePath, LocalDateTime timestamp) {
         super(authorId, content, imagePath, timestamp); // Call Content constructor
         this.contentId = "P" + (++postCount); // Increment and assign contentId
+        this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     // Static method to set the post count to a specific value (useful for persistence)
@@ -41,26 +49,57 @@ public class Post extends Content {
     public static int getPostCount() {
         return postCount;
     }
-public void saveToFile(ArrayList<Post> posts) {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
-    objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty printing JSON
 
-    File file = new File(filename);
-
-    try {
-        // Ensure the file exists or create a new one
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
-        // Overwrite the file with the new list of posts
-        objectMapper.writeValue(file, posts);
-        System.out.println("Posts successfully saved to: " + filename);
-    } catch (IOException e) {
-        e.printStackTrace();
+    // Getters and Setters
+    public List<String> getLikes() {
+        return likes;
     }
-}
+
+    public void setLikes(List<String> likes) {
+        this.likes = likes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    // Add a like to the post
+    public void addLike(String userId) {
+        if (!likes.contains(userId)) {
+            likes.add(userId);
+        }
+    }
+
+    // Add a comment to the post
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
+    // Save to file
+    public void saveToFile(List<Post> posts) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty printing JSON
+
+        File file = new File(filename);
+
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            objectMapper.writeValue(file, posts);
+            System.out.println("Posts successfully saved to: " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Load from file
     public List<Post> loadFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());

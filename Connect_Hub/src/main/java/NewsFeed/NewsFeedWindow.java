@@ -46,6 +46,9 @@ import userdatabasemanagement.User;
 import userdatabasemanagement.UserDatabaseManagement;
 import Groups_FrontEnd.ViewGroups;
 import Notifications.NotificationWindow;
+import PostInteraction.AddCommentDialog;
+import PostInteraction.CommentsWindow;
+import java.awt.FlowLayout;
 
 /**
  *
@@ -82,7 +85,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
         userRepository = new UserRepository();
         postRepository = new PostRepository();
         profileManager = new ProfileManager(userRepository, postRepository);
-
+        System.out.println("");
         // Initialize components
         postsPanel = new JPanel();
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
@@ -131,8 +134,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     }
 
 void displayContents() throws IOException {
-    
-     contentManager.load();
+    contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty
 
@@ -151,15 +153,6 @@ void displayContents() throws IOException {
 
     System.out.println("friendsContent size: " + friendsContent.size());
 
-    // Create separate panels for stories and posts
-    JPanel storiesPanel = new JPanel();
-    storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
-    storiesPanel.setBorder(BorderFactory.createTitledBorder("Stories"));
-
-    JPanel postsDisplayPanel = new JPanel();
-    postsDisplayPanel.setLayout(new BoxLayout(postsDisplayPanel, BoxLayout.Y_AXIS));
-    postsDisplayPanel.setBorder(BorderFactory.createTitledBorder("Posts"));
-
     for (Content content : friendsContent) {
         if (content == null) {
             System.out.println("Null content found, skipping...");
@@ -174,13 +167,17 @@ void displayContents() throws IOException {
 
         System.out.println("Displaying content: " + content);
 
+        // Main panel for the post
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         contentPanel.setBackground(Color.LIGHT_GRAY);
-        JLabel authorLabel = new JLabel("Author: " + accountManagement.getUser(content.getAuthorId()).getUsername() + " Time: " + content.getTimestamp());
+
+        // Header: Author and Timestamp
+        JLabel authorLabel = new JLabel("Author: " + accountManagement.getUser(content.getAuthorId()).getUsername() +
+                " Time: " + content.getTimestamp());
         contentPanel.add(authorLabel, BorderLayout.NORTH);
 
-        // Display text content if available
+        // Content: Text area for post content
         if (content.getContent() != null && !content.getContent().isEmpty()) {
             JTextArea contentArea = new JTextArea(content.getContent());
             contentArea.setLineWrap(true);
@@ -189,38 +186,66 @@ void displayContents() throws IOException {
             contentPanel.add(new JScrollPane(contentArea), BorderLayout.CENTER);
         }
 
-        // Display image if available
+        // Image: Display if available
         if (content.getImagePath() != null && !content.getImagePath().isEmpty()) {
             try {
                 ImageIcon imageIcon = new ImageIcon(content.getImagePath()); // Load image from path
                 JLabel imageLabel = new JLabel();
                 imageLabel.setIcon(imageIcon);
-                contentPanel.add(imageLabel, BorderLayout.SOUTH);
+                contentPanel.add(imageLabel, BorderLayout.CENTER);
             } catch (Exception e) {
                 System.err.println("Error loading image for content: " + content.getContentId());
                 e.printStackTrace();
             }
         }
 
-        // Add content to the appropriate panel
-        if (content.isStory()) {
-            storiesPanel.add(contentPanel);
-        } else {
-            postsDisplayPanel.add(contentPanel);
-        }
+        // Buttons Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JButton likeButton = new JButton("Like");
+        JButton showCommentsButton = new JButton("Show Comments");
+        JButton addCommentButton = new JButton("Add Comment");
+
+        // Add action listeners
+        likeButton.addActionListener(e -> handleLike(content));
+        showCommentsButton.addActionListener(e -> showComments(content));
+        addCommentButton.addActionListener(e -> addComment(content));
+
+        // Add buttons to the button panel
+        buttonPanel.add(likeButton);
+        buttonPanel.add(showCommentsButton);
+        buttonPanel.add(addCommentButton);
+
+        // Add the button panel to the content panel
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Add the content panel to the postsPanel
+        postsPanel.add(contentPanel);
     }
 
-    // Combine stories and posts panels
-    JPanel combinedPanel = new JPanel(new BorderLayout());
-    combinedPanel.add(storiesPanel, BorderLayout.NORTH);
-    combinedPanel.add(postsDisplayPanel, BorderLayout.CENTER);
-
-    // Add combined panel to the main postsPanel
-    postsPanel.setLayout(new BorderLayout());
-    postsPanel.add(combinedPanel, BorderLayout.CENTER);
-
+    // Refresh the UI
     postsPanel.revalidate();
     postsPanel.repaint();
+}
+private void handleLike(Content content) {
+    System.out.println("Liked content: " + content.getContentId());
+    // Update the like count in the database or file
+    // Refresh the UI to show updated like count
+}
+
+private void showComments(Content content) {
+    System.out.println("Showing comments for content: " + content.getContentId());
+    // Open a new window to display comments for this post
+    CommentsWindow commentsWindow = new CommentsWindow(content);
+    commentsWindow.setVisible(true);
+}
+private void addComment(Content content) {
+    System.out.println("Adding comment to content: " + content.getContentId());
+    // Open a new dialog to allow the user to add a comment
+    AddCommentDialog addCommentDialog = new AddCommentDialog(this, true, content);
+    addCommentDialog.setVisible(true);
+    System.out.println("comment added");
 }
 
     /**
