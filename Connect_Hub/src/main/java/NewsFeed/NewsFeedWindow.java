@@ -230,6 +230,8 @@ void displayContents() throws IOException {
 }
 private void handleLike(Content content) {
     System.out.println("Liked content: " + content.getContentId());
+    NotificationManager.getInstance().addNotification(user+" liked your post !", accountManagement.getUser(content.getAuthorId() ) , user ,"like" ,true);
+    System.out.println("notification for reciever added "+accountManagement.getUser(content.getAuthorId()).getUsername());
     // Update the like count in the database or file
     // Refresh the UI to show updated like count
 }
@@ -246,6 +248,8 @@ private void addComment(Content content) {
     AddCommentDialog addCommentDialog = new AddCommentDialog(this, true, content);
     addCommentDialog.setVisible(true);
     System.out.println("comment added");
+    NotificationManager.getInstance().addNotification(user+" added a comment on your post in !", accountManagement.getUser(content.getAuthorId() ) , user ,"comment" ,true);
+    System.out.println("notification for reciever added "+accountManagement.getUser(content.getAuthorId()).getUsername());
 }
 
     /**

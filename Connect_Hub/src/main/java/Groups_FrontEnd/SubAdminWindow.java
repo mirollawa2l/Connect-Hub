@@ -4,20 +4,26 @@
  */
 package Groups_FrontEnd;
 
+import Content_Creation.Backend.Content;
 import Content_Creation.Backend.Post;
 import Groups_Backend.Admin;
 import Groups_Backend.CurrentGroup;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import Groups_Backend.SubAdmin;
+import Notifications.NotificationManager;
+import PostInteraction.AddCommentDialog;
+import PostInteraction.CommentsWindow;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -179,20 +185,59 @@ public void displayContents() {
                 e.printStackTrace();
             }
         }
+        
+JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        // Add the content panel to the display panel
-        postsDisplayPanel.add(contentPanel);
+        JButton likeButton = new JButton("Like");
+        JButton showCommentsButton = new JButton("Show Comments");
+        JButton addCommentButton = new JButton("Add Comment");
+
+        // Add action listeners
+        likeButton.addActionListener(e -> handleLike(p));
+        showCommentsButton.addActionListener(e -> showComments(p));
+        addCommentButton.addActionListener(e -> addComment(p));
+
+        // Add buttons to the button panel
+        buttonPanel.add(likeButton);
+        buttonPanel.add(showCommentsButton);
+        buttonPanel.add(addCommentButton);
+
+        // Add the button panel to the content panel
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Add the content panel to the postsPanel
+        postsPanel.add(contentPanel);
     }
 
-    // Add the posts display panel to the main posts panel
-    postsPanel.setLayout(new BorderLayout());
-    postsPanel.add(postsDisplayPanel, BorderLayout.CENTER);
-
+    // Refresh the UI
     postsPanel.revalidate();
     postsPanel.repaint();
 }
 
-    
+    private void handleLike(Content content) {
+    System.out.println("Liked content: " + content.getContentId());
+    NotificationManager.getInstance().addNotification(thisUser+" liked your post !", accountManager.getUser(content.getAuthorId() ) , thisUser ,"like" ,true);
+    System.out.println("notification for reciever added "+accountManager.getUser(content.getAuthorId()).getUsername());
+    // Update the like count in the database or file
+    // Refresh the UI to show updated like count
+}
+
+private void showComments(Content content) {
+    System.out.println("Showing comments for content: " + content.getContentId());
+    // Open a new window to display comments for this post
+    CommentsWindow commentsWindow = new CommentsWindow(content);
+    commentsWindow.setVisible(true);
+}
+private void addComment(Content content) {
+    System.out.println("Adding comment to content: " + content.getContentId());
+    // Open a new dialog to allow the user to add a comment
+    AddCommentDialog addCommentDialog = new AddCommentDialog(this, true, content);
+    addCommentDialog.setVisible(true);
+    System.out.println("comment added");
+    NotificationManager.getInstance().addNotification(thisUser+" added a comment on your post in !", accountManager.getUser(content.getAuthorId() ) , thisUser ,"comment" ,true);
+    System.out.println("notification for reciever added "+accountManager.getUser(content.getAuthorId()).getUsername());
+}
     
     
 

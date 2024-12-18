@@ -8,6 +8,9 @@ package Notifications;
  *
  * @author HP
  */
+import Content_Creation.Backend.ContentManagement;
+import Content_Creation.Frontend.ViewPost;
+import PostInteraction.CommentsWindow;
 import friendManagment.Backend.FriendRequest;
 import friendManagment.Backend.ManageFriendRequests;
 import java.awt.BorderLayout;
@@ -15,6 +18,7 @@ import javax.swing.*;
 import userdatabasemanagement.User;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import userdatabasemanagement.UserDatabaseManagement;
 
 public class NotificationWindow extends JFrame {
 
@@ -22,11 +26,16 @@ public class NotificationWindow extends JFrame {
     private JList<Notification> notificationList;
     private NotificationManager notificationManager;
     private User currentUser;
+    private ContentManagement contentManager;
+    private UserDatabaseManagement accountManager;
+    private ViewPost viewPost;
     private boolean running = true; // Flag to stop the thread when the window is closed
 
     public NotificationWindow(NotificationManager notificationManager, User currentUser) {
         this.notificationManager = notificationManager;
         this.currentUser = currentUser;
+         viewPost=new ViewPost();
+         contentManager=new ContentManagement();
         setTitle("Notifications for" + currentUser.getUsername());
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -102,6 +111,12 @@ public class NotificationWindow extends JFrame {
             NotificationManager.getInstance().removeNotification(selectedNotification);
             refreshNotifications(null); // Refresh list
         }
+        if ("comment".equals(selectedNotification.getType())){
+          viewPost.showPost();
+        }
+        
+            
+            
     }
     
     
