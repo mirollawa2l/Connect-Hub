@@ -1,0 +1,17 @@
+[ {
+  "senderId" : "user4",
+  "receiverId" : "user6",
+  "messageContent" : "babee hey"
+}, {
+  "senderId" : "user6",
+  "receiverId" : "user4",
+  "messageContent" : "hey cutie"
+}, {
+  "senderId" : "user4",
+  "receiverId" : "user6",
+  "messageContent" : "how areu shoshie"
+}, {
+  "senderId" : "user6",
+  "receiverId" : "user4",
+  "messageContent" : "good"
+} ]
