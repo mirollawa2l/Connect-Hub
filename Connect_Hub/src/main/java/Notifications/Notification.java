@@ -8,10 +8,9 @@ package Notifications;
  *
  * @author HP
  */
-import java.time.LocalDateTime;
 import userdatabasemanagement.User;
 
-public class Notification {
+public class Notification implements NotificationsInt{
     private String message;
     private User reciever;
     private User sender;

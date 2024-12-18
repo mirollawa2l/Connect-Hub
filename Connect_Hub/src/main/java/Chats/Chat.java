@@ -11,7 +11,7 @@ package Chats;
 import java.time.LocalDateTime;
 import userdatabasemanagement.UserDatabaseManagement;
 
-public class Chat {
+public class Chat implements ChatInt{
     private String senderId;
     private String receiverId;
     private String messageContent;

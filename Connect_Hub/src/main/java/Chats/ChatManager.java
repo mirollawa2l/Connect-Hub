@@ -8,40 +8,22 @@ package Chats;
  *
  * @author HP
  */
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static Constants.FileNames.CHAT_FILE;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-
-import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import userdatabasemanagement.User;
-
-
-import java.io.*;
 import java.nio.file.Files;
-import java.util.*;
-import java.text.SimpleDateFormat;
 
-public class ChatManager {
+
+public class ChatManager implements ChatManagerInt{
     private static ChatManager instance;
     private List<Chat> messageList;  // Stores messages in memory
-    private String CHAT_FILE="chats.json";  // Path to the JSON file
      private ObjectMapper objectMapper;
      private Set<String> chattedUsers;
     // Private constructor to prevent instantiation
