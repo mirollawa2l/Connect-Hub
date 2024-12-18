@@ -222,6 +222,7 @@ public class SignUp extends javax.swing.JFrame {
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
 
         String id= "user"+Integer.toString(++idCount);
+        System.out.println(id);
 
         String email= emailField.getText();
         String username= usernameField.getText();
@@ -232,7 +233,7 @@ public class SignUp extends javax.swing.JFrame {
           if(jDateChooser1.getDate()!=null)
                date= jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()) .toLocalDate();;
 
-        if(id.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()||date == null){
+        if(email.isEmpty() || username.isEmpty() || password.isEmpty()||date == null){
 
             JOptionPane.showMessageDialog(this, "Some fields are Empty!");
         }
@@ -248,6 +249,7 @@ public class SignUp extends javax.swing.JFrame {
             try {
                 User newUser= new User(id,email,username,encryptedPassword.encryptPassword(password),date,"offline");
                 accountManagment.saveUser(newUser);
+                saveIdCount();
                 
             } catch (NoSuchAlgorithmException ex) {
                 java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

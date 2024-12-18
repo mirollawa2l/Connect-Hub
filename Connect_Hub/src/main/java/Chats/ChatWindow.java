@@ -79,7 +79,7 @@ private ChatManager chatManager;
         ChatManager.getInstance().writeMessage(currentUser.getId(), chatWithUser.getId(), message);
 
         // Update chat area with the new message
-        chatArea.append(currentUser + ": " + message + "\n");
+        chatArea.append(currentUser.getUsername() + ": " + message + "\n");
         messageField.setText(""); // Clear the message input field
     }
 }
