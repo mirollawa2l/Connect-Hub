@@ -1,0 +1,39 @@
+[ {
+  "message" : "You have a new message",
+  "reciever" : {
+    "id" : "user1",
+    "email" : "m@",
+    "username" : "m",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : [ "user2" ],
+    "friendRequests" : null,
+    "sentFriendRequests" : [ "user3" ],
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null
+  },
+  "sender" : {
+    "id" : "user2",
+    "email" : "a@",
+    "username" : "a",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : [ "user1" ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : null,
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null
+  },
+  "type" : "chat",
+  "actionable" : true
+} ]
