@@ -6,6 +6,7 @@ package NewsFeed;
 
 import Content_Creation.Backend.Content;
 import Content_Creation.Backend.ContentManagement;
+import Content_Creation.Backend.Post;
 import Content_Creation.Frontend.AddPostWindow;
 import Content_Creation.Frontend.AddStoryWindow;
 import Groups_FrontEnd.GroupSuggestionWindow;
@@ -230,11 +231,26 @@ void displayContents() throws IOException {
 }
 private void handleLike(Content content) {
     System.out.println("Liked content: " + content.getContentId());
-    NotificationManager.getInstance().addNotification(user+" liked your post !", accountManagement.getUser(content.getAuthorId() ) , user ,"like" ,true);
+<
+    
+    // Add the current user's ID to the likes list if not already present
+    String userId = user.getId();  // Assuming 'user' is the current user
+    if (content instanceof Post) {
+        Post post = (Post) content;
+        post.addLike(userId);  // Add like for the post
+    }
+
+    // Save the updated content (likes and comments)
+    contentManager.save();  // Make sure save method in ContentManagement persists changes
+    System.out.println("Like added and content saved.");
+     NotificationManager.getInstance().addNotification(user+" liked your post !", accountManagement.getUser(content.getAuthorId() ) , user ,"like" ,true);
     System.out.println("notification for reciever added "+accountManagement.getUser(content.getAuthorId()).getUsername());
-    // Update the like count in the database or file
+
     // Refresh the UI to show updated like count
+    postsPanel.revalidate();
+    postsPanel.repaint();
 }
+
 
 private void showComments(Content content) {
     System.out.println("Showing comments for content: " + content.getContentId());
@@ -244,13 +260,26 @@ private void showComments(Content content) {
 }
 private void addComment(Content content) {
     System.out.println("Adding comment to content: " + content.getContentId());
-    // Open a new dialog to allow the user to add a comment
+    
+    // Open a dialog to add the comment
     AddCommentDialog addCommentDialog = new AddCommentDialog(this, true, content);
     addCommentDialog.setVisible(true);
     System.out.println("comment added");
     NotificationManager.getInstance().addNotification(user+" added a comment on your post in !", accountManagement.getUser(content.getAuthorId() ) , user ,"comment" ,true);
     System.out.println("notification for reciever added "+accountManagement.getUser(content.getAuthorId()).getUsername());
+    
+    // After the comment is added, save the updated content
+    if (content instanceof Post) {
+        Post post = (Post) content;
+        contentManager.save();  // Save the updated content (including the new comment)
+    }
+
+    System.out.println("Comment added and content saved.");
+    // Refresh the UI to reflect the new comment
+    postsPanel.revalidate();
+    postsPanel.repaint();
 }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

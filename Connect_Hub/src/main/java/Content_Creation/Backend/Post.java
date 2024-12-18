@@ -67,16 +67,26 @@ public class Post extends Content {
         this.comments = comments;
     }
 
-    // Add a like to the post
+    // Add a like to the post and save it to the file
     public void addLike(String userId) {
         if (!likes.contains(userId)) {
             likes.add(userId);
+            // After adding the like, save the updated posts list
+            saveUpdatedPosts(); // Save updated posts to file
         }
     }
 
-    // Add a comment to the post
+// Add a comment to the post and save it to the file
     public void addComment(Comment comment) {
         comments.add(comment);
+        // After adding the comment, save the updated posts list
+        saveUpdatedPosts(); // Save updated posts to file
+    }
+
+// Method to save updated posts list to the file
+    private void saveUpdatedPosts() {
+        ContentManagement contentManagement = new ContentManagement();
+        contentManagement.save();  // Save the posts to the file
     }
 
     // Save to file
