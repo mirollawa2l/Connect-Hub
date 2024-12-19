@@ -8,6 +8,9 @@ package Notifications;
  *
  * @author HP
  */
+import Content_Creation.Backend.ContentManagement;
+import Content_Creation.Frontend.ViewPost;
+import PostInteraction.CommentsWindow;
 import Chats.ChatManager;
 import Chats.ChatWindow;
 import friendManagment.Backend.FriendRequest;
@@ -24,16 +27,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import userdatabasemanagement.UserDatabaseManagement;
 
 public class NotificationWindow extends JFrame {
     private DefaultListModel<Notification> notificationListModel;
     private JList<Notification> notificationList;
     private NotificationManager notificationManager;
     private User currentUser;
+    private ContentManagement contentManager;
+    private UserDatabaseManagement accountManager;
+    private ViewPost viewPost;
+    private boolean running = true; // Flag to stop the thread when the window is closed
+
 
     public NotificationWindow(NotificationManager notificationManager, User currentUser) {
         this.notificationManager = notificationManager;
         this.currentUser = currentUser;
+         viewPost=new ViewPost();
+         contentManager=new ContentManagement();
+
         setTitle("Notifications for"+currentUser.getUsername());
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -102,6 +114,41 @@ public class NotificationWindow extends JFrame {
             NotificationManager.getInstance().removeNotification(selectedNotification);
             refreshNotifications(null); // Refresh list
         }
+
+        if ("comment".equals(selectedNotification.getType())){
+          viewPost.showPost();
+        }
+        
+            
+            
+    }
+    
+    
+
+    private void startNotificationThread() {
+        Thread notificationThread = new Thread(() -> {
+            while (running) {
+                try {
+                    // Update notifications every 2 seconds
+                    Thread.sleep(2000);
+
+                    // Update the UI on the Event Dispatch Thread (EDT)
+                    SwingUtilities.invokeLater(this::loadNotifications);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Notification thread interrupted: " + e.getMessage());
+                }
+            }
+        });
+        notificationThread.setDaemon(true); // Ensures thread stops when the application exits
+        notificationThread.start();
+    }
+
+    @Override
+    public void dispose() {
+        running = false; // Stop the thread when the window is closed
+        super.dispose();
+
          else if ("chat".equals(selectedNotification.getType())) {
         String[] options = {"Reply", "Decline"};
         int choice = JOptionPane.showOptionDialog(
@@ -128,6 +175,7 @@ public class NotificationWindow extends JFrame {
             NotificationManager.getInstance().removeNotification(selectedNotification);
             refreshNotifications(null); // Refresh list
         }
+
     }
 }
 }

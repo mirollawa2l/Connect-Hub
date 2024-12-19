@@ -29,15 +29,16 @@ public class ContentManagement {
     }
 
     public void save() {
-        try {
-            System.out.println("Saving contents: " + posts);
-            p.saveToFile(posts);
-            System.out.println("Saving contents: " + stories);
-            s.saveToFile(stories);
-        } catch (Exception e) {
-            System.out.println("Error saving contents: " + e.getMessage());
-        }
+    try {
+        System.out.println("Saving contents: " + posts);
+        p.saveToFile(posts);  // Save the posts with updated likes/comments
+        System.out.println("Saving contents: " + stories);
+        s.saveToFile(stories);  // Save stories if needed
+    } catch (Exception e) {
+        System.out.println("Error saving contents: " + e.getMessage());
     }
+}
+
 
     public void load() {
         try {
