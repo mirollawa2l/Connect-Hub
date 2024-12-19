@@ -231,10 +231,9 @@ void displayContents() throws IOException {
 }
 private void handleLike(Content content) {
     System.out.println("Liked content: " + content.getContentId());
-<
     
     // Add the current user's ID to the likes list if not already present
-    String userId = user.getId();  // Assuming 'user' is the current user
+    String userId= user.getId();  // Assuming 'user' is the current user
     if (content instanceof Post) {
         Post post = (Post) content;
         post.addLike(userId);  // Add like for the post

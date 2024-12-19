@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package Notifications;
+
 package Notifications;
 
 /**
  *
- * @author HP
+ * @author mirol
  */
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.ViewPost;
@@ -22,15 +20,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import userdatabasemanagement.CurrentUser;
 import userdatabasemanagement.User;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import userdatabasemanagement.UserDatabaseManagement;
-
-public class NotificationWindow extends JFrame {
-    private DefaultListModel<Notification> notificationListModel;
+public class Notificationsw extends JFrame {
+    
+     private DefaultListModel<Notification> notificationListModel;
     private JList<Notification> notificationList;
     private NotificationManager notificationManager;
     private User currentUser;
@@ -77,12 +74,18 @@ public class NotificationWindow extends JFrame {
     }
 
     private void refreshNotifications(ActionEvent evt) {
-        notificationListModel.clear();
+   
+        }
+    }
+
+private void loadNotifications()
+{
+ notificationListModel.clear();
         ArrayList<Notification> notifications = NotificationManager.getInstance().getNotificationsForUser(currentUser);
         for (Notification notification : notifications) {
             notificationListModel.addElement(notification);
-        }
-    }
+}
+
 
     private void takeAction(ActionEvent evt) {
         Notification selectedNotification = notificationList.getSelectedValue();
@@ -148,34 +151,34 @@ public class NotificationWindow extends JFrame {
     public void dispose() {
         running = false; // Stop the thread when the window is closed
         super.dispose();
-
-         else if ("chat".equals(selectedNotification.getType())) {
-        String[] options = {"Reply", "Decline"};
-        int choice = JOptionPane.showOptionDialog(
-            this, "Action for: " + selectedNotification.getMessage(),
-            "Chat", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
-        );
-
-        if (choice == 0) { // Reply
-            // Open the chat window with the sender of the message
-            String senderId = selectedNotification.getSender().getId();
-            String receiverId = selectedNotification.getReciever().getId();
-            
-            // Open the chat window for the current user and the sender of the message
-            
-            ChatWindow chatWindow = new ChatWindow(selectedNotification.getReciever(),selectedNotification.getSender() );
-            ChatManager.getInstance().getChatHistory(selectedNotification.getSender().getId(), selectedNotification.getReciever().getId());
-            chatWindow.setVisible(true);
-
-            // Remove notification after taking action
-            NotificationManager.getInstance().removeNotification(selectedNotification);
-            refreshNotifications(null); // Refresh list
-        } else if (choice == 1) { // Decline
-            // You can handle "Decline" as ignoring or simply removing the notification
-            NotificationManager.getInstance().removeNotification(selectedNotification);
-            refreshNotifications(null); // Refresh list
-        }
-
-    }
+}
+//
+//         else if ("chat".equals(selectedNotification.getType())) {
+//        String[] options = {"Reply", "Decline"};
+//        int choice = JOptionPane.showOptionDialog(
+//            this, "Action for: " + selectedNotification.getMessage(),
+//            "Chat", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
+//        );
+//
+//        if (choice == 0) { // Reply
+//            // Open the chat window with the sender of the message
+//            String senderId = selectedNotification.getSender().getId();
+//            String receiverId = selectedNotification.getReciever().getId();
+//            
+//            // Open the chat window for the current user and the sender of the message
+//            
+//            ChatWindow chatWindow = new ChatWindow(selectedNotification.getReciever(),selectedNotification.getSender() );
+//            ChatManager.getInstance().getChatHistory(selectedNotification.getSender().getId(), selectedNotification.getReciever().getId());
+//            chatWindow.setVisible(true);
+//
+//            // Remove notification after taking action
+//            NotificationManager.getInstance().removeNotification(selectedNotification);
+//            refreshNotifications(null); // Refresh list
+//        } else if (choice == 1) { // Decline
+//            // You can handle "Decline" as ignoring or simply removing the notification
+//            NotificationManager.getInstance().removeNotification(selectedNotification);
+//            refreshNotifications(null); // Refresh list
+//}
 }
 }
+
