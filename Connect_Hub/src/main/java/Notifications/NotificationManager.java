@@ -8,19 +8,15 @@ package Notifications;
  *
  * @author HP
  */
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import userdatabasemanagement.User;
 
-public class NotificationManager {
+public class NotificationManager implements NotificationsManagerInt{
     private static final String NOTIFICATION_FILE = "notifications.json";
     private final ObjectMapper objectMapper;
     private static NotificationManager instance;

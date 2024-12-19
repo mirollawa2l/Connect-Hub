@@ -35,18 +35,18 @@ public class UserDatabaseManagement {
     public ArrayList<User> loadUsers(){
         
       
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> userss = new ArrayList<>();
         File file = new File(USERS_FILE);
 
         if (file.exists()) {
             try {
                 //serialization
-                users = objectMapper.readValue(file, new TypeReference<ArrayList<User>>() {});
+                userss = objectMapper.readValue(file, new TypeReference<ArrayList<User>>() {});
             } catch (IOException e) {
                 System.out.println("Error reading users.json: " + e.getMessage());
             }
         }
-        return users;
+        return userss;
         
     }
     public boolean isUserIdFound(String id){
