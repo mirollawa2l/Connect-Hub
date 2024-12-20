@@ -12,15 +12,17 @@ import Content_Creation.Backend.Content;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import userdatabasemanagement.UserDatabaseManagement;
 
 public class CommentsWindow extends JFrame {
     private JPanel commentsPanel;
     private JScrollPane scrollPane;
     private Content content;
+    private UserDatabaseManagement accountManager;
 
     public CommentsWindow(Content content) {
         this.content = content;
-
+accountManager=new UserDatabaseManagement();
         // Set up window properties
         setTitle("Comments for Post: " + content.getContentId());
         setSize(400, 600);
@@ -52,7 +54,7 @@ public class CommentsWindow extends JFrame {
                 commentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 commentPanel.setBackground(Color.LIGHT_GRAY);
 
-                JLabel authorLabel = new JLabel("Author: " + comment.getAuthorId() + " | Time: " + comment.getTimestamp());
+                JLabel authorLabel = new JLabel("Author: " + accountManager.getUser(comment.getAuthorId()).getUsername() + " | Time: " + comment.getTimestamp());
                 JTextArea commentText = new JTextArea(comment.getText());
                 commentText.setLineWrap(true);
                 commentText.setWrapStyleWord(true);
