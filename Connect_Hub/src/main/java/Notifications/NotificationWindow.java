@@ -1,10 +1,12 @@
-package Notifications;
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Notifications;
 
 /**
  *
- * @author mirol
+ * @author sherrygirguis
  */
 import Content_Creation.Backend.ContentManagement;
 import Content_Creation.Frontend.ViewPost;
@@ -25,9 +27,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import userdatabasemanagement.UserDatabaseManagement;
-public class Notificationsw extends JFrame {
-    
-     private DefaultListModel<Notification> notificationListModel;
+public class NotificationWindow extends JFrame{
+      private DefaultListModel<Notification> notificationListModel;
     private JList<Notification> notificationList;
     private NotificationManager notificationManager;
     private User currentUser;
@@ -35,9 +36,8 @@ public class Notificationsw extends JFrame {
     private UserDatabaseManagement accountManager;
     private ViewPost viewPost;
     private boolean running = true; // Flag to stop the thread when the window is closed
-
-
-    public NotificationWindow(NotificationManager notificationManager, User currentUser) {
+    
+public NotificationWindow(NotificationManager notificationManager, User currentUser) {
         this.notificationManager = notificationManager;
         this.currentUser = currentUser;
          viewPost=new ViewPost();
@@ -46,11 +46,9 @@ public class Notificationsw extends JFrame {
         setTitle("Notifications for"+currentUser.getUsername());
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initComponents();
+        initComponents();}
         
-    }
-
-    private void initComponents() {
+         private void initComponents() {
         notificationListModel = new DefaultListModel<>();
         notificationList = new JList<>(notificationListModel);
         notificationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -72,19 +70,16 @@ public class Notificationsw extends JFrame {
 
         refreshNotifications(null); // Initial load
     }
-
     private void refreshNotifications(ActionEvent evt) {
    
         }
-    }
-
-private void loadNotifications()
+    private void loadNotifications()
 {
  notificationListModel.clear();
         ArrayList<Notification> notifications = NotificationManager.getInstance().getNotificationsForUser(currentUser);
         for (Notification notification : notifications) {
             notificationListModel.addElement(notification);
-}
+}}
 
 
     private void takeAction(ActionEvent evt) {
@@ -118,15 +113,17 @@ private void loadNotifications()
             refreshNotifications(null); // Refresh list
         }
 
-        if ("comment".equals(selectedNotification.getType())){
-          viewPost.showPost();
-        }
-        
+//        if ("comment".equals(selectedNotification.getType())){
+//          viewPost.showPost();
+//        }
+//        if ("like".equals(selectedNotification.getType())){
+//          viewPost.showPost();
+//        }
+//        
             
             
     }
-    
-    
+  
 
     private void startNotificationThread() {
         Thread notificationThread = new Thread(() -> {
@@ -147,12 +144,11 @@ private void loadNotifications()
         notificationThread.start();
     }
 
-    @Override
+      @Override
     public void dispose() {
         running = false; // Stop the thread when the window is closed
         super.dispose();
-}
-//
+
 //         else if ("chat".equals(selectedNotification.getType())) {
 //        String[] options = {"Reply", "Decline"};
 //        int choice = JOptionPane.showOptionDialog(
@@ -178,7 +174,11 @@ private void loadNotifications()
 //            // You can handle "Decline" as ignoring or simply removing the notification
 //            NotificationManager.getInstance().removeNotification(selectedNotification);
 //            refreshNotifications(null); // Refresh list
-//}
+//        }
+//
+//    }
 }
+
 }
+    
 
