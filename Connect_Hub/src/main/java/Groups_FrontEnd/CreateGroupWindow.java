@@ -6,7 +6,6 @@ package Groups_FrontEnd;
 
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
-import Notifications.NotificationManager;
 import Roles.RolesAssigner;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -182,7 +181,7 @@ public class CreateGroupWindow extends javax.swing.JFrame {
             manager.addGroup(group);
             manager.save();
             JOptionPane.showMessageDialog(this, "Group created successfully");
-            NotificationManager.getInstance().addNotification("A new group created", thisUser, null, "GroupActivity", true);
+            group.notifyAllMembers("A new group is created");
             this.setVisible(false);
         }
     }//GEN-LAST:event_CreateGroupActionPerformed
