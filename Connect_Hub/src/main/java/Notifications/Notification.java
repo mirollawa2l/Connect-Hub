@@ -8,13 +8,14 @@ package Notifications;
  *
  * @author HP
  */
+import java.time.LocalDateTime;
 import userdatabasemanagement.User;
 
-public class Notification implements NotificationsInt{
+public class Notification {
     private String message;
     private User reciever;
     private User sender;
-    private String type; // friend request , acception , new post from group,new comment , new like 
+    private String type; // friend request , acception , new post from group
     private boolean actionable ; // if the notification requires an action
 
     public Notification(String message, User reciever, User sender, String type, boolean actionable) {
