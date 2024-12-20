@@ -1,9 +1,5 @@
 [ {
-  "senderId" : "user2",
+  "senderId" : "user3",
   "receiverId" : "user1",
-  "messageContent" : "Hiii"
-}, {
-  "senderId" : "user1",
-  "receiverId" : "user2",
-  "messageContent" : "Hello"
+  "messageContent" : "hii"
 } ]

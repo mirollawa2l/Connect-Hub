@@ -90,7 +90,7 @@ public class NotificationWindow extends JFrame {
                 new ManageFriendRequests().acceptRequest(
                     new FriendRequest(currentUser, selectedNotification.getSender(), "accepted")
                 );
-               // NotificationManager.getInstance().addNotification("Your Friend request was accepted by"+selectedNotification.getReciever().getUsername(),selectedNotification.getSender(), currentUser, "response", false);
+                NotificationManager.getInstance().addNotification("Your Friend request was accepted by"+selectedNotification.getReciever().getUsername(),selectedNotification.getSender(), currentUser, "response", false);
                 NotificationManager.getInstance().addNotification("You accept "+selectedNotification.getSender().getUsername()+"Request !", selectedNotification.getReciever(), selectedNotification.getSender(), "response", false);
             } else if (choice == 1) { // Decline
                 new ManageFriendRequests().declineRequest(
@@ -103,7 +103,7 @@ public class NotificationWindow extends JFrame {
             refreshNotifications(null); // Refresh list
         }
          else if ("chat".equals(selectedNotification.getType())) {
-        String[] options = {"Reply", "Decline"};
+        String[] options = {"Reply", "Ignore"};
         int choice = JOptionPane.showOptionDialog(
             this, "Action for: " + selectedNotification.getMessage(),
             "Chat", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]

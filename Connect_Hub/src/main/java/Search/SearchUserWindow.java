@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import profilemanagement.ViewProfile;
 import userdatabasemanagement.CurrentUser;
@@ -35,6 +36,9 @@ public class SearchUserWindow extends javax.swing.JFrame {
     
     public SearchUserWindow() {
         initComponents();
+                this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        
         user = CurrentUser.getInstance().getCurrentUser();
 
         accountManagement = new UserDatabaseManagement();

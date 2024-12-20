@@ -12,7 +12,9 @@ import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import Notifications.NotificationManager;
 import PostInteraction.AddCommentDialog;
+import PostInteraction.CommentProvider;
 import PostInteraction.CommentsWindow;
+import PostInteraction.ContentAdapter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -211,7 +213,7 @@ public void displayContents() {
 }
 private void handleLike(Content content) {
     System.out.println("Liked content: " + content.getContentId());
-    NotificationManager.getInstance().addNotification(thisUser+" liked your post !", accountManagement.getUser(content.getAuthorId() ) , thisUser ,"like" ,true);
+    NotificationManager.getInstance().addNotification(thisUser.getUsername()+" liked your post !", accountManagement.getUser(content.getAuthorId() ) , thisUser ,"like" ,true);
     System.out.println("notification for reciever added "+accountManagement.getUser(content.getAuthorId()).getUsername());
     // Update the like count in the database or file
     // Refresh the UI to show updated like count
@@ -220,7 +222,7 @@ private void handleLike(Content content) {
 private void showComments(Content content) {
     System.out.println("Showing comments for content: " + content.getContentId());
     // Open a new window to display comments for this post
-    CommentsWindow commentsWindow = new CommentsWindow(content);
+CommentsWindow commentsWindow = new CommentsWindow(new ContentAdapter(content));
     commentsWindow.setVisible(true);
 }
 private void addComment(Content content) {
@@ -229,7 +231,7 @@ private void addComment(Content content) {
     AddCommentDialog addCommentDialog = new AddCommentDialog(this, true, content);
     addCommentDialog.setVisible(true);
     System.out.println("comment added");
-    NotificationManager.getInstance().addNotification(thisUser+" added a comment on your post in !", accountManagement.getUser(content.getAuthorId() ) , thisUser ,"comment" ,true);
+    NotificationManager.getInstance().addNotification(thisUser.getUsername()+" added a comment on your post in !", accountManagement.getUser(content.getAuthorId() ) , thisUser ,"comment" ,true);
     System.out.println("notification for reciever added "+accountManagement.getUser(content.getAuthorId()).getUsername());
 }
 
