@@ -135,6 +135,7 @@ public class NewsFeedWindow extends javax.swing.JFrame {
     }
 
 void displayContents() throws IOException {
+    updateFriendsContent();
     contentManager.load();
     postsPanel.removeAll(); // Clear previous content
     friendsContent.clear(); // Ensure the list starts empty

@@ -95,6 +95,7 @@ public NotificationWindow(NotificationManager notificationManager, User currentU
                 this, "Action for: " + selectedNotification.getMessage(),
                 "Friend Request", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
             );
+            
 
             if (choice == 0) { // Accept
                 new ManageFriendRequests().acceptRequest(
@@ -112,6 +113,34 @@ public NotificationWindow(NotificationManager notificationManager, User currentU
             NotificationManager.getInstance().removeNotification(selectedNotification);
             refreshNotifications(null); // Refresh list
         }
+                 else if ("chat".equals(selectedNotification.getType())) {
+        String[] options = {"Reply", "Decline"};
+        int choice = JOptionPane.showOptionDialog(
+            this, "Action for: " + selectedNotification.getMessage(),
+            "Chat", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
+        );
+
+        if (choice == 0) { // Reply
+            // Open the chat window with the sender of the message
+            String senderId = selectedNotification.getSender().getId();
+            String receiverId = selectedNotification.getReciever().getId();
+            
+            // Open the chat window for the current user and the sender of the message
+            
+            ChatWindow chatWindow = new ChatWindow(selectedNotification.getReciever(),selectedNotification.getSender() );
+            ChatManager.getInstance().getChatHistory(selectedNotification.getSender().getId(), selectedNotification.getReciever().getId());
+            chatWindow.setVisible(true);
+
+            // Remove notification after taking action
+            NotificationManager.getInstance().removeNotification(selectedNotification);
+            refreshNotifications(null); // Refresh list
+        } else if (choice == 1) { // Decline
+            // You can handle "Decline" as ignoring or simply removing the notification
+            NotificationManager.getInstance().removeNotification(selectedNotification);
+            refreshNotifications(null); // Refresh list
+        }
+
+    }
 
 //        if ("comment".equals(selectedNotification.getType())){
 //          viewPost.showPost();
@@ -149,34 +178,7 @@ public NotificationWindow(NotificationManager notificationManager, User currentU
         running = false; // Stop the thread when the window is closed
         super.dispose();
 
-//         else if ("chat".equals(selectedNotification.getType())) {
-//        String[] options = {"Reply", "Decline"};
-//        int choice = JOptionPane.showOptionDialog(
-//            this, "Action for: " + selectedNotification.getMessage(),
-//            "Chat", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]
-//        );
-//
-//        if (choice == 0) { // Reply
-//            // Open the chat window with the sender of the message
-//            String senderId = selectedNotification.getSender().getId();
-//            String receiverId = selectedNotification.getReciever().getId();
-//            
-//            // Open the chat window for the current user and the sender of the message
-//            
-//            ChatWindow chatWindow = new ChatWindow(selectedNotification.getReciever(),selectedNotification.getSender() );
-//            ChatManager.getInstance().getChatHistory(selectedNotification.getSender().getId(), selectedNotification.getReciever().getId());
-//            chatWindow.setVisible(true);
-//
-//            // Remove notification after taking action
-//            NotificationManager.getInstance().removeNotification(selectedNotification);
-//            refreshNotifications(null); // Refresh list
-//        } else if (choice == 1) { // Decline
-//            // You can handle "Decline" as ignoring or simply removing the notification
-//            NotificationManager.getInstance().removeNotification(selectedNotification);
-//            refreshNotifications(null); // Refresh list
-//        }
-//
-//    }
+
 }
 
 }
