@@ -15,18 +15,24 @@ import java.awt.event.*;
 import java.util.List;
 import userdatabasemanagement.User;
 
-public class ChatWindow extends JFrame {
+public class ChatWindow extends JFrame implements Observer{
+
     private User currentUser;
     private User chatWithUser;
     private JTextArea chatArea;
     private JTextField messageField;
     private JButton sendButton;
-private ChatManager chatManager;
+    private ChatManager chatManager;
+
     public ChatWindow(User currentUser, User chatWithUser) {
         this.currentUser = currentUser;
         this.chatWithUser = chatWithUser;
-        chatManager=new ChatManager();
-          chatManager = ChatManager.getInstance();
+        chatManager = new ChatManager();
+        chatManager = ChatManager.getInstance();
+        
+        // Register this window as an observer
+        chatManager.addObserver(this);
+        
         setTitle("Chat with " + chatWithUser.getUsername());
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -62,7 +68,7 @@ private ChatManager chatManager;
     private void loadChatHistory() {
         // Get previous chat messages from ChatManager
         List<Chat> messages = chatManager.getChatHistory(currentUser.getId(), chatWithUser.getId());
-        System.out.println("Messages: "+messages);
+        System.out.println("Messages: " + messages);
         // Display all previous messages in the chat area
         for (Chat message : messages) {
             chatArea.append(message + "\n");
@@ -80,7 +86,15 @@ private ChatManager chatManager;
         ChatManager.getInstance().writeMessage(currentUser.getId(), chatWithUser.getId(), message);
 
         // Update chat area with the new message
-        chatArea.append(currentUser.getUsername() + ": " + message + "\n");
         messageField.setText(""); // Clear the message input field
     }
+    
+        @Override
+    public void update(Chat chat) {
+        if (chat.getSenderId().equals(currentUser.getId()) || chat.getReceiverId().equals(currentUser.getId())) {
+            chatArea.append(chat + "\n");
+        }
+    }
+
+    
 }

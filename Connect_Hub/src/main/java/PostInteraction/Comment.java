@@ -10,7 +10,19 @@ import java.time.LocalDateTime;
  *
  * @author Yara
  */
+/*
+Decorator:
 
+Enhances the way comments are displayed (e.g., adding timestamps) without modifying the Comment class itself.
+Enables adding new display features in the future without altering existing code.
+
+
+Adapter:
+
+Standardizes how CommentsWindow interacts with Content, making the CommentsWindow independent of the Content class implementation.
+Allows easy replacement of the comment source with another implementation if needed.
+
+*/
 
 public class Comment {
     private String authorId; // The user who made the comment

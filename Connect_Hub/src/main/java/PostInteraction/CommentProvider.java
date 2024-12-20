@@ -2,6 +2,6 @@ package PostInteraction;
 
 import java.util.List;
 
-public interface CommentProvider {
+public interface CommentProvider {//Adapter
     List<Comment> getComments();
 }

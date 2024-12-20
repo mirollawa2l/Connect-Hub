@@ -26,11 +26,15 @@ public class ChatManager implements ChatManagerInt{
     private List<Chat> messageList;  // Stores messages in memory
      private ObjectMapper objectMapper;
      private Set<String> chattedUsers;
+         private List<Observer> observers;  // List of observers
+
     // Private constructor to prevent instantiation
     ChatManager() {
         messageList = new ArrayList<>();
         chattedUsers= new HashSet<>();
        objectMapper=new ObjectMapper();
+               observers = new ArrayList<>();
+
        objectMapper.registerModule(new JavaTimeModule());
         messageList=loadChats();
         System.out.println("Message List in constructor: "+messageList);
@@ -43,22 +47,27 @@ public class ChatManager implements ChatManagerInt{
         }
         return instance;
     }
-//
-//    // Load messages from the JSON file into memory
-//    public ArrayList<Chat> loadChats() {
-//        File file = new File(CHAT_FILE);
-//        if (file.exists()) {
-//            try {
-//                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Chat.class);
-//                return objectMapper.readValue(file, listType);
-//             //   notifications = objectMapper.readValue(file, new TypeReference<List<Notification>>() {});
-//            } catch (IOException e) {
-//               
-//                System.err.println("Error loading Chats: " + e.getMessage());
-//            }
-//        } return new ArrayList<>();
-//    }
+    
+    
+       // Remove an observer
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
 
+    // Notify all observers about the new chat
+    private void notifyObservers(Chat chat) {
+        for (Observer observer : observers) {
+            observer.update(chat);
+        }
+    }
+
+
+    
+    // Register an observer (ChatWindow, for instance)
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+    
     
     // Load messages from the JSON file into memory
 
@@ -115,7 +124,7 @@ public class ChatManager implements ChatManagerInt{
       //  String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         Chat newMessage = new Chat(sender, receiver, content);
         messageList.add(newMessage);
-        
+        notifyObservers(newMessage);
         saveChats();  // Save the updated list to the file
     }
     
@@ -157,5 +166,9 @@ public class ChatManager implements ChatManagerInt{
     public Set<String> getChattedUsers() {
         return chattedUsers;
     }
+    
+    
+    
+    
     
 }

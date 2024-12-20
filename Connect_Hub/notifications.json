@@ -1,5 +1,43 @@
 [ {
-  "message" : "User{id='user1', status='online'} added a comment on your post in !",
+  "message" : "You have a new message",
+  "reciever" : {
+    "id" : "user1",
+    "email" : "m@",
+    "username" : "m",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : [ "user4", "user2", "user5" ],
+    "friendRequests" : [ ],
+    "sentFriendRequests" : [ "user2" ],
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null
+  },
+  "sender" : {
+    "id" : "user2",
+    "email" : "a@",
+    "username" : "a",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "offline",
+    "friends" : [ "user1" ],
+    "friendRequests" : [ "user1", "user5" ],
+    "sentFriendRequests" : [ ],
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null
+  },
+  "type" : "chat",
+  "actionable" : true
+}, {
+  "message" : "You have a new message",
   "reciever" : {
     "id" : "user2",
     "email" : "a@",
@@ -26,7 +64,7 @@
     "coverPhotoPath" : null,
     "bio" : null,
     "dateOfBirth" : "2024-12-01",
-    "status" : "online",
+    "status" : "offline",
     "friends" : [ "user4", "user2", "user5" ],
     "friendRequests" : [ ],
     "sentFriendRequests" : [ "user2" ],
@@ -34,6 +72,6 @@
     "deletedGroups" : null,
     "groups" : null
   },
-  "type" : "comment",
+  "type" : "chat",
   "actionable" : true
 } ]
