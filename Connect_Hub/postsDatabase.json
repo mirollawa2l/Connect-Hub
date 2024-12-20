@@ -30,7 +30,15 @@
   "content" : "hello",
   "imagePath" : null,
   "timestamp" : [ 2024, 12, 20, 18, 43, 36, 947929200 ],
-  "comments" : [ ],
+  "comments" : [ {
+    "authorId" : "user1",
+    "text" : "test",
+    "timestamp" : [ 2024, 12, 20, 19, 18, 25, 739903000 ]
+  }, {
+    "authorId" : "user1",
+    "text" : "testtttttttttt",
+    "timestamp" : [ 2024, 12, 20, 19, 20, 38, 337782000 ]
+  } ],
   "likes" : [ ],
   "expired" : false,
   "story" : false

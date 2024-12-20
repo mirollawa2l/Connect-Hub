@@ -12,7 +12,9 @@ import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import Notifications.NotificationManager;
 import PostInteraction.AddCommentDialog;
+import PostInteraction.CommentProvider;
 import PostInteraction.CommentsWindow;
+import PostInteraction.ContentAdapter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -220,7 +222,7 @@ private void handleLike(Content content) {
 private void showComments(Content content) {
     System.out.println("Showing comments for content: " + content.getContentId());
     // Open a new window to display comments for this post
-    CommentsWindow commentsWindow = new CommentsWindow(content);
+CommentsWindow commentsWindow = new CommentsWindow(new ContentAdapter(content));
     commentsWindow.setVisible(true);
 }
 private void addComment(Content content) {
