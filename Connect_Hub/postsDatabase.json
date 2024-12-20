@@ -13,7 +13,7 @@
     "text" : "hello22",
     "timestamp" : [ 2024, 12, 17, 17, 53, 14, 453745200 ]
   } ],
-  "likes" : [ "user1" ],
-  "story" : false,
-  "expired" : false
+  "likes" : [ "user1", "user2" ],
+  "expired" : false,
+  "story" : false
 } ]
