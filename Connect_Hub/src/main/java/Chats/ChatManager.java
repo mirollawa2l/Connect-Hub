@@ -10,6 +10,7 @@ package Chats;
  */
 
 import static Constants.FileNames.CHAT_FILE;
+import Notifications.NotificationManager;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.List;
 import java.util.*;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.nio.file.Files;
+import userdatabasemanagement.User;
 
 
 public class ChatManager implements ChatManagerInt{
@@ -111,11 +113,11 @@ public class ChatManager implements ChatManagerInt{
         }
     }
     // Write a new message to the list and save to the JSON file
-    public void writeMessage(String sender, String receiver, String content) {
+    public void writeMessage(User sender, User receiver, String content) {
       //  String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        Chat newMessage = new Chat(sender, receiver, content);
+        Chat newMessage = new Chat(sender.getId(), receiver.getId(), content);
         messageList.add(newMessage);
-        
+        NotificationManager.getInstance().addNotification("You have a new message", receiver, sender, "chat", true);
         saveChats();  // Save the updated list to the file
     }
     

@@ -77,7 +77,7 @@ private ChatManager chatManager;
         }
 
         // Save the new message to chat history
-        ChatManager.getInstance().writeMessage(currentUser.getId(), chatWithUser.getId(), message);
+        ChatManager.getInstance().writeMessage(currentUser, chatWithUser, message);
 
         // Update chat area with the new message
         chatArea.append(currentUser.getUsername() + ": " + message + "\n");
