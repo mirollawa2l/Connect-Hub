@@ -7,7 +7,7 @@ package Groups_Backend_Operations;
 import Groups_Backend.Group;
 import Groups_Backend.GroupManager;
 import java.util.ArrayList;
-import javax.swing.JFrame;
+// FIX: Removed unused import javax.swing.JFrame;
 import userdatabasemanagement.User;
 
 /**
@@ -16,9 +16,9 @@ import userdatabasemanagement.User;
  */
 public class GroupSuggestionManager {
 
-    private GroupManager manager;
-    private GroupRequestManager requestManager;
-    private ArrayList<GroupSuggestion> suggestions;
+    private final GroupManager manager; // FIX: Made final - assigned once in constructor
+    private final GroupRequestManager requestManager; // FIX: Made final - assigned once in constructor
+    private final ArrayList<GroupSuggestion> suggestions; // FIX: Made final - assigned once in constructor
 
     public GroupSuggestionManager() {
 

@@ -13,23 +13,27 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import userdatabasemanagement.User; // FIX: Added missing import for User class
+import userdatabasemanagement.Encryptor; // FIX: Added missing import for Encryptor class
 
 /**
  *
  * @author Yara
  */
 public class Login extends javax.swing.JFrame {
-private User user;
-private UserDatabaseManagement userData;
-/**
+    private User user;
+    private UserDatabaseManagement userData;
+    private UserDatabaseManagement accountManagment; // FIX: Moved from field initializer to constructor for proper lifecycle
+    
+    /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        user=new User();
-        userData=new UserDatabaseManagement();
+        user = new User();
+        userData = new UserDatabaseManagement();
+        accountManagment = new UserDatabaseManagement(); // FIX: Initialize in constructor, not as class-level field
     }
-     UserDatabaseManagement accountManagment= new UserDatabaseManagement();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -229,30 +233,7 @@ private UserDatabaseManagement userData;
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        user=userData.getUserByEmail(email);
-        
-       
-//        else try {
-//            if(!(accountManagment.isUser(email, encryptedPassword.encryptPassword(password)))){
-//                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
-//            }
-//        } catch (NoSuchAlgorithmException ex) {
-//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        else{
-//                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
-//                }
-//        else try {
-//            if(!(accountManagment.isUser(email, encryptedPassword.encryptPassword(password)))){
-//                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
-//            }
-//        } catch (NoSuchAlgorithmException ex) {
-//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        else{
-//                JOptionPane.showMessageDialog(this, "Loggedin sucsessfuly, Welcome to Connect Hub");
-//                }
-        
+        // FIX: Removed unreachable code (user=userData.getUserByEmail(email)) and dead commented code blocks
     }//GEN-LAST:event_loginBtnActionPerformed
 
   public User sendUser()

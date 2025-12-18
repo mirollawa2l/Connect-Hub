@@ -1,5 +1,5 @@
 [ {
-  "message" : "Friend Request is sent to b",
+  "message" : "A new post is added",
   "reciever" : {
     "id" : "user1",
     "email" : "m@",
@@ -10,23 +10,6 @@
     "bio" : null,
     "dateOfBirth" : "2024-12-01",
     "status" : "online",
-    "friends" : [ "user2" ],
-    "friendRequests" : null,
-    "sentFriendRequests" : [ ],
-    "blockList" : null,
-    "deletedGroups" : null,
-    "groups" : null
-  },
-  "sender" : {
-    "id" : "user3",
-    "email" : "b@",
-    "username" : "b",
-    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
-    "profilePhotoPath" : null,
-    "coverPhotoPath" : null,
-    "bio" : null,
-    "dateOfBirth" : "2024-12-01",
-    "status" : "offline",
     "friends" : null,
     "friendRequests" : null,
     "sentFriendRequests" : null,
@@ -34,10 +17,11 @@
     "deletedGroups" : null,
     "groups" : null
   },
-  "type" : "friendRequest",
+  "sender" : null,
+  "type" : "Group activity",
   "actionable" : false
 }, {
-  "message" : "Your Friend request was accepted by b!",
+  "message" : "null liked your post !",
   "reciever" : {
     "id" : "user1",
     "email" : "m@",
@@ -48,7 +32,7 @@
     "bio" : null,
     "dateOfBirth" : "2024-12-01",
     "status" : "online",
-    "friends" : [ "user2" ],
+    "friends" : [ "user2", "user3" ],
     "friendRequests" : null,
     "sentFriendRequests" : [ ],
     "blockList" : null,
@@ -56,26 +40,27 @@
     "groups" : null
   },
   "sender" : {
-    "id" : "user3",
-    "email" : "b@",
-    "username" : "b",
-    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "id" : null,
+    "email" : null,
+    "username" : null,
+    "password" : null,
     "profilePhotoPath" : null,
     "coverPhotoPath" : null,
     "bio" : null,
-    "dateOfBirth" : "2024-12-01",
-    "status" : "offline",
+    "dateOfBirth" : null,
+    "status" : null,
     "friends" : null,
-    "friendRequests" : [ "user1" ],
+    "friendRequests" : null,
     "sentFriendRequests" : null,
     "blockList" : null,
     "deletedGroups" : null,
-    "groups" : null
+    "groups" : null,
+    "groupId" : null
   },
-  "type" : "response",
-  "actionable" : false
+  "type" : "like",
+  "actionable" : true
 }, {
-  "message" : "Your Friend request was accepted byb",
+  "message" : "null liked your post !",
   "reciever" : {
     "id" : "user1",
     "email" : "m@",
@@ -86,7 +71,7 @@
     "bio" : null,
     "dateOfBirth" : "2024-12-01",
     "status" : "online",
-    "friends" : [ "user2" ],
+    "friends" : [ "user2", "user3" ],
     "friendRequests" : null,
     "sentFriendRequests" : [ ],
     "blockList" : null,
@@ -94,44 +79,28 @@
     "groups" : null
   },
   "sender" : {
-    "id" : "user3",
-    "email" : "b@",
-    "username" : "b",
-    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "id" : null,
+    "email" : null,
+    "username" : null,
+    "password" : null,
     "profilePhotoPath" : null,
     "coverPhotoPath" : null,
     "bio" : null,
-    "dateOfBirth" : "2024-12-01",
-    "status" : "offline",
+    "dateOfBirth" : null,
+    "status" : null,
     "friends" : null,
-    "friendRequests" : [ "user1" ],
+    "friendRequests" : null,
     "sentFriendRequests" : null,
     "blockList" : null,
     "deletedGroups" : null,
-    "groups" : null
+    "groups" : null,
+    "groupId" : null
   },
-  "type" : "response",
-  "actionable" : false
+  "type" : "like",
+  "actionable" : true
 }, {
-  "message" : "You accept mRequest !",
+  "message" : "null added a comment on your post in !",
   "reciever" : {
-    "id" : "user3",
-    "email" : "b@",
-    "username" : "b",
-    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
-    "profilePhotoPath" : null,
-    "coverPhotoPath" : null,
-    "bio" : null,
-    "dateOfBirth" : "2024-12-01",
-    "status" : "offline",
-    "friends" : null,
-    "friendRequests" : null,
-    "sentFriendRequests" : null,
-    "blockList" : null,
-    "deletedGroups" : null,
-    "groups" : null
-  },
-  "sender" : {
     "id" : "user1",
     "email" : "m@",
     "username" : "m",
@@ -141,13 +110,31 @@
     "bio" : null,
     "dateOfBirth" : "2024-12-01",
     "status" : "online",
-    "friends" : [ "user2" ],
+    "friends" : [ "user2", "user3" ],
     "friendRequests" : null,
     "sentFriendRequests" : [ ],
     "blockList" : null,
     "deletedGroups" : null,
     "groups" : null
   },
-  "type" : "response",
-  "actionable" : false
+  "sender" : {
+    "id" : null,
+    "email" : null,
+    "username" : null,
+    "password" : null,
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : null,
+    "status" : null,
+    "friends" : null,
+    "friendRequests" : null,
+    "sentFriendRequests" : null,
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null,
+    "groupId" : null
+  },
+  "type" : "comment",
+  "actionable" : true
 } ]

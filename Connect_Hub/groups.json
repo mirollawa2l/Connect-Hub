@@ -16,7 +16,7 @@
     "blockList" : null,
     "deletedGroups" : null,
     "groups" : null,
-    "groupId" : null
+    "groupId" : "G3"
   },
   "subAdmins" : [ ],
   "members" : [ {
@@ -41,4 +41,57 @@
   "name" : "family",
   "description" : "hii",
   "groupPhotoPath" : "C:\\Users\\mirol\\Documents\\GitHub\\Connect-Hub\\Connect_Hub\\Pictures\\WhatsApp Image 2024-12-09 at 14.05.51_6241ac03.jpg"
+}, {
+  "groupId" : "G9",
+  "admin" : {
+    "id" : "user1",
+    "email" : "m@",
+    "username" : "m",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : null,
+    "friendRequests" : null,
+    "sentFriendRequests" : null,
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null,
+    "groupId" : "G9"
+  },
+  "subAdmins" : [ ],
+  "members" : [ {
+    "id" : "user1",
+    "email" : "m@",
+    "username" : "m",
+    "password" : "81dc9bdb52d04dc20036dbd8313ed055",
+    "profilePhotoPath" : null,
+    "coverPhotoPath" : null,
+    "bio" : null,
+    "dateOfBirth" : "2024-12-01",
+    "status" : "online",
+    "friends" : null,
+    "friendRequests" : null,
+    "sentFriendRequests" : null,
+    "blockList" : null,
+    "deletedGroups" : null,
+    "groups" : null
+  } ],
+  "requestedMembers" : [ ],
+  "posts" : [ {
+    "contentId" : "P28",
+    "authorId" : "user1",
+    "content" : "hii",
+    "imagePath" : null,
+    "timestamp" : [ 2025, 12, 18, 19, 13, 55, 225056000 ],
+    "comments" : [ ],
+    "likes" : [ ],
+    "story" : false,
+    "expired" : false
+  } ],
+  "name" : "try",
+  "description" : "test",
+  "groupPhotoPath" : "C:\\Users\\mirol\\Pictures\\Screenshots\\Screenshot (257).png"
 } ]

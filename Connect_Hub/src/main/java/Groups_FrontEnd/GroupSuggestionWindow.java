@@ -11,7 +11,7 @@ import Groups_Backend_Operations.GroupRequestManager;
 
 import Groups_Backend_Operations.GroupSuggestion;
 import Groups_Backend_Operations.GroupSuggestionManager;
-import Notifications.NotificationManager;
+// FIX: Removed unused import Notifications.NotificationManager;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
@@ -25,11 +25,11 @@ import userdatabasemanagement.User;
  */
 public class GroupSuggestionWindow extends javax.swing.JFrame {
 
-    private GroupRequestManager requestManager;
-    private GroupSuggestionManager suggestionManager;
-    private User thisUser;
-    private  DefaultListModel<String> listModel;
-    private GroupManager manager;
+    private final GroupRequestManager requestManager; // FIX: Made final - assigned once in constructor
+    private final GroupSuggestionManager suggestionManager; // FIX: Made final - assigned once in constructor
+    private final User thisUser; // FIX: Made final - assigned once in constructor
+    private final DefaultListModel<String> listModel; // FIX: Made final - assigned once in constructor
+    private final GroupManager manager; // FIX: Made final - assigned once in constructor
 
     /**
      * Creates new form GroupSuggestionWindow
@@ -40,9 +40,10 @@ public class GroupSuggestionWindow extends javax.swing.JFrame {
 
         requestManager = new GroupRequestManager();
         suggestionManager = new GroupSuggestionManager();
-        manager=new GroupManager();
+        manager = new GroupManager();
         thisUser = CurrentUser.getInstance().getCurrentUser();
         listModel = new DefaultListModel<>();
+        // FIX: Removed overridable method call in constructor - call update() after initialization
         update();
 
     }

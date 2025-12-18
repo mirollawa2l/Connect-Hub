@@ -8,14 +8,13 @@ package Chats;
  *
  * @author HP
  */
-import java.time.LocalDateTime;
-import userdatabasemanagement.UserDatabaseManagement;
+import userdatabasemanagement.UserDatabaseManagement; // FIX: Removed unused import java.time.LocalDateTime
 
 public class Chat implements ChatInt{
     private String senderId;
     private String receiverId;
     private String messageContent;
-    private UserDatabaseManagement accountManager;
+    private final UserDatabaseManagement accountManager; // FIX: Made final - assigned once in constructor
    // private LocalDateTime timestamp;
 
     public Chat()
@@ -32,14 +31,17 @@ public class Chat implements ChatInt{
        // this.timestamp = timestamp;
     }
 
+    @Override // FIX: Added missing @Override annotation
     public String getSenderId() {
         return senderId;
     }
 
+    @Override // FIX: Added missing @Override annotation
     public String getReceiverId() {
         return receiverId;
     }
 
+    @Override // FIX: Added missing @Override annotation
     public String getMessageContent() {
         return messageContent;
     }

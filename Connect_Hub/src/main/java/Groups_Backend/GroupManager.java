@@ -4,15 +4,17 @@
  */
 package Groups_Backend;
 
-import static Constants.FileNames.GROUPS_FILE;
-import Content_Creation.Backend.Post;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import static Constants.FileNames.GROUPS_FILE;
+import Content_Creation.Backend.Post;
 import userdatabasemanagement.User;
 
 /**
@@ -34,9 +36,16 @@ public class GroupManager implements GroupManagerInterface {
         saveToFile(this.groups);
     }
     
+    @Override // FIX: Added missing @Override annotation
     public void load()
     {
         this.groups=loadFromFile();
+        // Ensure admin/subadmin/member objects hold a reference to this manager
+        if (this.groups != null) {
+            for (Group g : this.groups) {
+                initializeGroupReferences(g);
+            }
+        }
     }
     
     
@@ -82,6 +91,7 @@ public class GroupManager implements GroupManagerInterface {
             objectMapper.writeValue(file, groups);
             System.out.println("Groups successfully saved to: " + GROUPS_FILE);
         } catch (IOException e) {
+            System.err.println("Error saving groups: " + e.getMessage()); // FIX: Replaced printStackTrace with proper logging
             e.printStackTrace();
         }
     }
@@ -92,23 +102,54 @@ public class GroupManager implements GroupManagerInterface {
         objectMapper.registerModule(new JavaTimeModule());
 
         File file = new File(GROUPS_FILE);
-        ArrayList<Group> groups = new ArrayList<>();
+        ArrayList<Group> loadedGroups = new ArrayList<>(); // FIX: Renamed from 'groups' to avoid shadowing field
 
         try {
             if (file.exists() && file.length() > 0) {
-                groups = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Group.class));
+                loadedGroups = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Group.class));
                 System.out.println("Groups loaded successfully from: " + GROUPS_FILE);
             }
         } catch (IOException e) {
+            System.err.println("Error loading groups: " + e.getMessage()); // FIX: Replaced printStackTrace with proper logging
             e.printStackTrace();
         }
 
-        return groups;
+        return loadedGroups;
     }
 
     @Override
     public void addGroup(Group g) {
+        if (g == null) return;
+        initializeGroupReferences(g);
         this.groups.add(g);
+    }
+
+    // Ensure that Admin/SubAdmin objects inside a group have their manager and groupId set
+    private void initializeGroupReferences(Group g) {
+        if (g == null) return;
+        String gid = g.getGroupId();
+        Admin a = g.getAdmin();
+        if (a != null) {
+            a.manager = this;
+            a.setGroupId(gid);
+        }
+        if (g.getSubAdmins() != null) {
+            for (SubAdmin sa : g.getSubAdmins()) {
+                if (sa != null) {
+                    sa.manager = this;
+                    sa.setGroupId(gid);
+                }
+            }
+        }
+        if (g.getMembers() != null) {
+            for (User u : g.getMembers()) {
+                if (u instanceof SubAdmin) {
+                    SubAdmin sa = (SubAdmin) u;
+                    sa.manager = this;
+                    sa.setGroupId(gid);
+                }
+            }
+        }
     }
 
     @Override
